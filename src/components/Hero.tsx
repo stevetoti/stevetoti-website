@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, Play, Sparkles } from "lucide-react";
 
 export default function Hero() {
@@ -25,7 +26,10 @@ export default function Hero() {
         />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Text Content */}
+          <div className="text-center lg:text-left">
         {/* Badge */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -42,7 +46,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
+          className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight"
         >
           <span className="text-white">Transform Your Business</span>
           <br />
@@ -54,7 +58,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto mb-10"
+          className="text-lg md:text-xl text-gray-400 max-w-xl mx-auto lg:mx-0 mb-10"
         >
           I help businesses leverage cutting-edge AI automation, modern web development, 
           and innovative digital solutions to scale globally. From Vanuatu to the world.
@@ -65,7 +69,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
+          className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-8 lg:mb-0"
         >
           <Link href="/contact" className="btn-primary inline-flex items-center gap-2">
             Start Your Project
@@ -80,13 +84,59 @@ export default function Hero() {
             Watch My Content
           </Link>
         </motion.div>
+          </div>
+
+          {/* Hero Image */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="relative hidden lg:block"
+          >
+            <div className="relative">
+              {/* Glow effect behind image */}
+              <div className="absolute inset-0 bg-gradient-to-r from-vibrantorange/30 to-deepblue/30 rounded-3xl blur-3xl transform scale-95" />
+              
+              {/* Image container */}
+              <div className="relative rounded-3xl overflow-hidden border-2 border-white/10 shadow-2xl">
+                <Image
+                  src="/images/steve-headshot.jpg"
+                  alt="Stephen Totimeh - CEO & Digital Solutions Expert"
+                  width={500}
+                  height={600}
+                  className="object-cover"
+                  priority
+                />
+                {/* Overlay gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-950/50 via-transparent to-transparent" />
+              </div>
+
+              {/* Floating badge */}
+              <motion.div
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 3, repeat: Infinity }}
+                className="absolute -right-4 top-1/4 glass-card px-4 py-2 shadow-xl"
+              >
+                <span className="text-vibrantorange font-semibold">7+ Years</span>
+              </motion.div>
+              
+              <motion.div
+                animate={{ y: [0, 10, 0] }}
+                transition={{ duration: 4, repeat: Infinity }}
+                className="absolute -left-4 bottom-1/4 glass-card px-4 py-2 shadow-xl"
+              >
+                <span className="text-vibrantorange font-semibold">100+ Projects</span>
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
 
         {/* Stats */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto"
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-4xl mx-auto mt-16"
         >
           {[
             { number: "7+", label: "Years Experience" },
@@ -99,12 +149,12 @@ export default function Hero() {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
-              className="glass-card p-6 text-center hover-lift"
+              className="glass-card p-4 md:p-6 text-center hover-lift"
             >
-              <div className="text-3xl md:text-4xl font-bold gradient-text mb-2">
+              <div className="text-2xl md:text-4xl font-bold gradient-text mb-2">
                 {stat.number}
               </div>
-              <div className="text-sm text-gray-400">{stat.label}</div>
+              <div className="text-xs md:text-sm text-gray-400">{stat.label}</div>
             </motion.div>
           ))}
         </motion.div>

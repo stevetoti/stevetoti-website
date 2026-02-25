@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { 
   ArrowRight, 
   MapPin, 
@@ -106,18 +107,25 @@ export default function AboutPage() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="relative"
             >
-              <div className="relative aspect-square max-w-md mx-auto">
+              <div className="relative max-w-md mx-auto">
+                {/* Background glow */}
+                <div className="absolute inset-0 bg-gradient-to-br from-vibrantorange/30 to-deepblue/30 
+                              rounded-3xl blur-2xl transform scale-95" />
+                {/* Rotated background */}
                 <div className="absolute inset-0 bg-gradient-to-br from-vibrantorange/20 to-deepblue/20 
                               rounded-3xl transform rotate-6" />
-                <div className="absolute inset-0 bg-gradient-to-br from-deepblue to-gray-900 
-                              rounded-3xl border border-white/10 overflow-hidden flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-40 h-40 rounded-full bg-gradient-to-br from-vibrantorange to-deepblue 
-                                  mx-auto mb-4 flex items-center justify-center">
-                      <span className="text-6xl font-bold text-white">ST</span>
-                    </div>
-                    <p className="text-gray-400">Professional photo coming soon</p>
-                  </div>
+                {/* Image container */}
+                <div className="relative rounded-3xl border-2 border-white/10 overflow-hidden shadow-2xl">
+                  <Image
+                    src="/images/steve-headshot.jpg"
+                    alt="Stephen Totimeh - CEO & Digital Solutions Expert"
+                    width={450}
+                    height={550}
+                    className="object-cover"
+                    priority
+                  />
+                  {/* Subtle overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-950/30 via-transparent to-transparent" />
                 </div>
               </div>
             </motion.div>

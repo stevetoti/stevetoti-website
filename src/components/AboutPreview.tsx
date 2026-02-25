@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, MapPin, Building2 } from "lucide-react";
 
 const companies = [
@@ -35,37 +36,38 @@ export default function AboutPreview() {
             transition={{ duration: 0.6 }}
             className="relative"
           >
-            {/* Placeholder for Stephen's image */}
-            <div className="relative aspect-square max-w-md mx-auto">
+            <div className="relative max-w-md mx-auto">
+              {/* Background glow */}
+              <div className="absolute inset-0 bg-gradient-to-br from-vibrantorange/20 to-deepblue/20 
+                            rounded-3xl blur-2xl transform scale-95" />
               {/* Background shapes */}
               <div className="absolute inset-0 bg-gradient-to-br from-vibrantorange/20 to-deepblue/20 
                             rounded-3xl transform rotate-6" />
-              <div className="absolute inset-0 bg-gradient-to-br from-deepblue to-gray-900 
-                            rounded-3xl border border-white/10 overflow-hidden">
-                {/* Avatar placeholder */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-32 h-32 rounded-full bg-gradient-to-br from-vibrantorange to-deepblue 
-                                  mx-auto mb-4 flex items-center justify-center">
-                      <span className="text-5xl font-bold text-white">ST</span>
-                    </div>
-                    <p className="text-gray-400 text-sm">Photo coming soon</p>
-                  </div>
-                </div>
+              {/* Image container */}
+              <div className="relative rounded-3xl border-2 border-white/10 overflow-hidden shadow-2xl">
+                <Image
+                  src="/images/steve-headshot.jpg"
+                  alt="Stephen Totimeh - CEO & Digital Solutions Expert"
+                  width={400}
+                  height={500}
+                  className="object-cover"
+                />
+                {/* Subtle overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-950/30 via-transparent to-transparent" />
               </div>
 
               {/* Floating elements */}
               <motion.div
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 3, repeat: Infinity }}
-                className="absolute -right-4 top-1/4 glass-card px-4 py-2"
+                className="absolute -right-4 top-1/4 glass-card px-4 py-2 shadow-xl"
               >
                 <span className="text-vibrantorange font-semibold">7+ Years</span>
               </motion.div>
               <motion.div
                 animate={{ y: [0, 10, 0] }}
                 transition={{ duration: 4, repeat: Infinity }}
-                className="absolute -left-4 bottom-1/4 glass-card px-4 py-2"
+                className="absolute -left-4 bottom-1/4 glass-card px-4 py-2 shadow-xl"
               >
                 <span className="text-vibrantorange font-semibold">100+ Projects</span>
               </motion.div>
