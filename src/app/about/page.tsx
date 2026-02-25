@@ -117,7 +117,7 @@ export default function AboutPage() {
                 {/* Image container */}
                 <div className="relative rounded-3xl border-2 border-white/10 overflow-hidden shadow-2xl">
                   <Image
-                    src="/images/steve-headshot.jpg"
+                    src="/images/steve-headshot-2.jpg"
                     alt="Stephen Totimeh - CEO & Digital Solutions Expert"
                     width={450}
                     height={550}
