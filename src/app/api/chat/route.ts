@@ -32,7 +32,18 @@ You help website visitors learn about Stephen's services and determine if they'd
 
 ## BOOKING INFO
 Discovery calls are FREE 30-minute sessions to discuss potential projects.
-Booking link: https://cal.com/stevetotibooking/discovery-call-toti
+Self-booking link: https://cal.com/stevetotibooking/discovery-call-toti
+
+## ASSISTED BOOKING (When customers ask you to book FOR them)
+If a visitor says things like "can you book for me", "book it for me", "schedule it for me", or prefers not to book themselves:
+1. Say "I'd be happy to book that for you! Let me collect a few details:"
+2. Ask for their **Full Name**
+3. Ask for their **Email Address** 
+4. Ask for their **Phone Number**
+5. Ask for their **Preferred Date/Time** (give options like "Tomorrow morning", "Next week", "ASAP")
+6. Once you have all 4 pieces of info, say: "Perfect! I've captured your details. Stephen or his team will confirm your booking within 24 hours via email. Is there anything specific you'd like to discuss on the call?"
+
+IMPORTANT: Collect info one question at a time, not all at once. Be conversational.
 
 ## PERSONALITY
 - Friendly and approachable, not corporate
@@ -145,9 +156,13 @@ function getFallbackResponse(userMessage: string): string {
     "discovery": "Great choice! You can book a free 30-minute discovery call with Steve at https://cal.com/stevetotibooking/discovery-call-toti\n\nOr upgrade to a video call right here to chat face-to-face!",
     "portfolio": "Stephen has delivered 100+ projects across 15+ countries! Some highlights:\n\n• Trade Farm - AI agricultural platform ($2M+ transactions)\n• Pacific Resort Group - 40% booking increase\n• Healthcare Simulation - 2,000+ medical students\n\nWant to discuss a similar project?",
     "projects": "Stephen has delivered 100+ projects across 15+ countries! Some highlights:\n\n• Trade Farm - AI agricultural platform ($2M+ transactions)\n• Pacific Resort Group - 40% booking increase\n• Healthcare Simulation - 2,000+ medical students\n\nWant to discuss a similar project?",
-    "book": "You can book a free discovery call at https://cal.com/stevetotibooking/discovery-call-toti\n\nOr tap 'Upgrade to Video Call' above for an instant face-to-face chat!",
-    "schedule": "You can book a free discovery call at https://cal.com/stevetotibooking/discovery-call-toti\n\nOr tap 'Upgrade to Video Call' above for an instant face-to-face chat!",
-    "call": "You can book a free discovery call at https://cal.com/stevetotibooking/discovery-call-toti\n\nOr tap 'Upgrade to Video Call' above for an instant face-to-face chat!",
+    "book for me": "I'd be happy to book that for you! Let me collect a few details.\n\nFirst, what's your **full name**?",
+    "book it for me": "I'd be happy to book that for you! Let me collect a few details.\n\nFirst, what's your **full name**?",
+    "can you book": "Absolutely! I can book a discovery call for you. Let me get a few details.\n\nWhat's your **full name**?",
+    "schedule for me": "I'd be happy to schedule that for you! Let me collect some info.\n\nWhat's your **full name**?",
+    "book": "You have two options:\n\n1️⃣ **Self-book**: https://cal.com/stevetotibooking/discovery-call-toti\n\n2️⃣ **I book for you**: Just say 'book for me' and I'll collect your details!\n\nWhich do you prefer?",
+    "schedule": "You have two options:\n\n1️⃣ **Self-book**: https://cal.com/stevetotibooking/discovery-call-toti\n\n2️⃣ **I book for you**: Just say 'book for me' and I'll collect your details!\n\nWhich do you prefer?",
+    "call": "You have two options:\n\n1️⃣ **Self-book**: https://cal.com/stevetotibooking/discovery-call-toti\n\n2️⃣ **I book for you**: Just say 'book for me' and I'll collect your details!\n\nWhich do you prefer?",
     "video": "Great idea! Tap the 'Upgrade to Video Call' button to start a face-to-face conversation. I'll just need a few quick details first.",
     "hello": "👋 Hi there! I'm Toti, Steve's AI assistant. I can help you learn about AI automation, web development, and other services. What brings you here today?",
     "hi": "👋 Hello! I'm Toti. I can help you explore Stephen's services or book a discovery call. What would you like to know?",
