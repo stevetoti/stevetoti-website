@@ -75,26 +75,34 @@ export default function ContactPage() {
     e.preventDefault();
     setIsLoading(true);
     
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    // Open email client with form data
-    const subject = `New Project Inquiry: ${formData.service || 'General'}`;
-    const body = `
-Name: ${formData.name}
-Email: ${formData.email}
-Company: ${formData.company || 'Not specified'}
-Service: ${formData.service || 'Not specified'}
-Budget: ${formData.budget || 'Not specified'}
-
-Message:
-${formData.message}
-    `.trim();
-    
-    window.location.href = `mailto:totinarh24@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    
-    setIsLoading(false);
-    setSubmitted(true);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to send message");
+      }
+      
+      setSubmitted(true);
+      setFormData({
+        name: "",
+        email: "",
+        company: "",
+        service: "",
+        budget: "",
+        message: "",
+      });
+    } catch (error) {
+      console.error("Form submission error:", error);
+      alert("Failed to send message. Please try again or email directly at totinarh24@gmail.com");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (
