@@ -9,7 +9,7 @@ import {
   Calendar,
   Users,
   Clock,
-  FileText,
+  
   Search
 } from "lucide-react";
 
@@ -133,7 +133,7 @@ export default function AdminDashboard() {
           Quick Actions
         </h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <a
             href="/admin/contacts"
             className="flex items-center gap-4 p-4 bg-gray-800 rounded-xl hover:bg-gray-750 transition-colors"
@@ -170,6 +170,45 @@ export default function AdminDashboard() {
             <div>
               <div className="font-medium text-white">Video Call Logs</div>
               <div className="text-sm text-gray-500">View call history</div>
+            </div>
+          </a>
+
+          <a
+            href="/admin/newsletter"
+            className="flex items-center gap-4 p-4 bg-gray-800 rounded-xl hover:bg-gray-750 transition-colors"
+          >
+            <div className="p-3 rounded-lg bg-purple-500/20">
+              <Users className="w-5 h-5 text-purple-400" />
+            </div>
+            <div>
+              <div className="font-medium text-white">Newsletter</div>
+              <div className="text-sm text-gray-500">Manage subscribers</div>
+            </div>
+          </a>
+
+          <a
+            href="/admin/blog"
+            className="flex items-center gap-4 p-4 bg-gray-800 rounded-xl hover:bg-gray-750 transition-colors"
+          >
+            <div className="p-3 rounded-lg bg-cyan-500/20">
+              <FileText className="w-5 h-5 text-cyan-400" />
+            </div>
+            <div>
+              <div className="font-medium text-white">Blog Management</div>
+              <div className="text-sm text-gray-500">Create and edit posts</div>
+            </div>
+          </a>
+
+          <a
+            href="/admin/seo"
+            className="flex items-center gap-4 p-4 bg-gray-800 rounded-xl hover:bg-gray-750 transition-colors"
+          >
+            <div className="p-3 rounded-lg bg-yellow-500/20">
+              <Search className="w-5 h-5 text-yellow-400" />
+            </div>
+            <div>
+              <div className="font-medium text-white">SEO Hub</div>
+              <div className="text-sm text-gray-500">Manage SEO settings</div>
             </div>
           </a>
         </div>
