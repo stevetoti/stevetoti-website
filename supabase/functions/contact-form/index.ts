@@ -6,30 +6,18 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-interface ContactFormData {
-  name: string;
-  email: string;
-  company?: string;
-  service?: string;
-  budget?: string;
-  message: string;
-}
+const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
+const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
+const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
 serve(async (req) => {
-  // Handle CORS preflight
+  // Handle CORS
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
   }
 
   try {
-    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-    const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const resendApiKey = Deno.env.get("RESEND_API_KEY")!;
-
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
-    
-    const body: ContactFormData = await req.json();
-    const { name, email, company, service, budget, message } = body;
+    const { name, email, company, service, budget, message } = await req.json();
 
     // Validate required fields
     if (!name || !email || !message) {
@@ -39,7 +27,10 @@ serve(async (req) => {
       );
     }
 
-    // 1. Save to Supabase
+    // Initialize Supabase client
+    const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+
+    // Save to database
     const { data: submission, error: dbError } = await supabase
       .from("contact_submissions")
       .insert({
@@ -62,68 +53,56 @@ serve(async (req) => {
       );
     }
 
-    // 2. Send email notification via Resend
-    const emailHtml = `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #1a1a2e; color: #fff; padding: 30px; border-radius: 12px;">
-        <h1 style="color: #EF5E33; margin-bottom: 20px;">🚀 New Contact Form Submission</h1>
-        
-        <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-          <h2 style="color: #EF5E33; font-size: 18px; margin-bottom: 15px;">Contact Details</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> <a href="mailto:${email}" style="color: #EF5E33;">${email}</a></p>
-          ${company ? `<p><strong>Company:</strong> ${company}</p>` : ""}
-          ${service ? `<p><strong>Service Interested:</strong> ${service}</p>` : ""}
-          ${budget ? `<p><strong>Budget Range:</strong> ${budget}</p>` : ""}
-        </div>
-        
-        <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px;">
-          <h2 style="color: #EF5E33; font-size: 18px; margin-bottom: 15px;">Message</h2>
-          <p style="white-space: pre-wrap; line-height: 1.6;">${message}</p>
-        </div>
-        
-        <div style="margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2); text-align: center;">
-          <p style="color: #888; font-size: 12px;">
-            Submitted at: ${new Date().toLocaleString("en-US", { timeZone: "Pacific/Efate" })} (Vanuatu Time)
-          </p>
-          <a href="https://stevetoti.com/admin" style="display: inline-block; background: #EF5E33; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; margin-top: 10px;">
-            View in Admin Dashboard
-          </a>
-        </div>
-      </div>
-    `;
+    // Send email notification via Resend
+    if (RESEND_API_KEY) {
+      const emailHtml = `
+        <h2>New Contact Form Submission</h2>
+        <p><strong>From:</strong> ${name} (${email})</p>
+        ${company ? `<p><strong>Company:</strong> ${company}</p>` : ""}
+        ${service ? `<p><strong>Service Interest:</strong> ${service}</p>` : ""}
+        ${budget ? `<p><strong>Budget:</strong> ${budget}</p>` : ""}
+        <p><strong>Message:</strong></p>
+        <p style="white-space: pre-wrap; background: #f5f5f5; padding: 16px; border-radius: 8px;">${message}</p>
+        <hr />
+        <p style="color: #666; font-size: 12px;">Submitted via stevetoti.com contact form</p>
+      `;
 
-    const emailResponse = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${resendApiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: "Steve Toti Website <notifications@totiroom.pacificwavedigital.com>",
-        to: ["toti@pacificwavedigital.com", "steve@pacificwavedigital.com"],
-        subject: `New Inquiry: ${service || "General"} - ${name}`,
-        html: emailHtml,
-        reply_to: email,
-      }),
-    });
+      try {
+        const emailResponse = await fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${RESEND_API_KEY}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            from: "Steve Toti <noreply@totiroom.pacificwavedigital.com>",
+            to: ["toti@pacificwavedigital.com", "steve@pacificwavedigital.com"],
+            subject: `New Contact: ${name} - ${service || "General Inquiry"}`,
+            html: emailHtml,
+            reply_to: email,
+          }),
+        });
 
-    if (!emailResponse.ok) {
-      const emailError = await emailResponse.text();
-      console.error("Email error:", emailError);
-      // Don't fail the request if email fails - the data is saved
+        if (!emailResponse.ok) {
+          const errorText = await emailResponse.text();
+          console.error("Email send error:", errorText);
+        } else {
+          console.log("Email sent successfully");
+        }
+      } catch (emailError) {
+        console.error("Email error:", emailError);
+        // Don't fail the request if email fails
+      }
+    } else {
+      console.warn("RESEND_API_KEY not configured, skipping email");
     }
 
     return new Response(
-      JSON.stringify({ 
-        success: true, 
-        id: submission.id,
-        message: "Thank you! Your message has been sent successfully." 
-      }),
-      { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      JSON.stringify({ success: true, id: submission.id }),
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
-
   } catch (error) {
-    console.error("Contact form error:", error);
+    console.error("Error:", error);
     return new Response(
       JSON.stringify({ error: "Internal server error" }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }

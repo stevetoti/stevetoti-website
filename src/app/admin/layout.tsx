@@ -11,7 +11,10 @@ import {
   LogOut,
   Menu,
   X,
-  Lock
+  Lock,
+  Users,
+  Search,
+  FileText
 } from "lucide-react";
 
 const navItems = [
@@ -19,6 +22,9 @@ const navItems = [
   { href: "/admin/contacts", label: "Contact Submissions", icon: Mail },
   { href: "/admin/chats", label: "Chat Transcripts", icon: MessageSquare },
   { href: "/admin/calls", label: "Video Calls", icon: Video },
+  { href: "/admin/newsletter", label: "Newsletter", icon: Users },
+  { href: "/admin/blog", label: "Blog Management", icon: FileText },
+  { href: "/admin/seo", label: "SEO Hub", icon: Search },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

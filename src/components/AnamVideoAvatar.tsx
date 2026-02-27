@@ -583,7 +583,7 @@ export default function AnamVideoAvatar() {
                 </div>
 
                 {/* Messages */}
-                <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                <div className="flex-1 overflow-y-auto p-3 space-y-2">
                   {messages.map((message) => (
                     <motion.div
                       key={message.id}
@@ -594,18 +594,18 @@ export default function AnamVideoAvatar() {
                       }`}
                     >
                       <div
-                        className={`max-w-[85%] p-4 rounded-2xl shadow-lg ${
+                        className={`max-w-[85%] px-3 py-2 rounded-2xl ${
                           message.role === "user"
                             ? "bg-vibrantorange text-white rounded-br-md"
                             : "bg-[#233C6F] text-white rounded-bl-md border border-white/10"
                         }`}
                       >
-                        <div className="text-[15px] leading-relaxed whitespace-pre-wrap break-words prose prose-invert prose-sm max-w-none
+                        <div className="text-[13px] leading-snug whitespace-pre-wrap break-words prose prose-invert prose-xs max-w-none
                                       [&_strong]:text-vibrantorange [&_strong]:font-semibold
-                                      [&_h1]:text-lg [&_h1]:font-bold [&_h1]:text-vibrantorange [&_h1]:mb-2 [&_h1]:mt-1
-                                      [&_h2]:text-base [&_h2]:font-semibold [&_h2]:text-white [&_h2]:mb-1.5
-                                      [&_ul]:list-disc [&_ul]:ml-4 [&_ul]:my-2
-                                      [&_li]:my-1">
+                                      [&_h1]:text-sm [&_h1]:font-bold [&_h1]:text-vibrantorange [&_h1]:mb-1 [&_h1]:mt-0.5
+                                      [&_h2]:text-[13px] [&_h2]:font-semibold [&_h2]:text-white [&_h2]:mb-1
+                                      [&_ul]:list-disc [&_ul]:ml-3 [&_ul]:my-1
+                                      [&_li]:my-0.5">
                           {message.role === "assistant" ? (
                             <span dangerouslySetInnerHTML={{ 
                               __html: message.content

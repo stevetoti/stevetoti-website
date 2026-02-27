@@ -8,13 +8,16 @@ import {
   TrendingUp,
   Calendar,
   Users,
-  Clock
+  Clock,
+  FileText,
+  Search
 } from "lucide-react";
 
 interface Stats {
   contacts: { total: number; today: number; week: number; month: number };
   chats: { total: number; today: number; week: number; month: number };
   calls: { total: number; today: number; week: number; month: number };
+  newsletter: { total: number; today: number; week: number; month: number };
 }
 
 export default function AdminDashboard() {
@@ -63,6 +66,13 @@ export default function AdminDashboard() {
       color: "from-green-500 to-green-600",
       bgColor: "bg-green-500/10",
       data: stats?.calls,
+    },
+    {
+      title: "Newsletter Subscribers",
+      icon: Users,
+      color: "from-purple-500 to-purple-600",
+      bgColor: "bg-purple-500/10",
+      data: stats?.newsletter,
     },
   ];
 
