@@ -40,16 +40,16 @@ interface Message {
 // Fallback text chat responses
 const fallbackResponses: Record<string, string> = {
   "ai automation":
-    "Stephen specializes in AI automation that saves businesses 20+ hours per week! This includes custom chatbots, workflow automation, and AI-powered content generation. Would you like to book a free consultation to discuss your needs?",
+    "Steve specializes in AI automation that saves businesses 20+ hours per week! This includes custom chatbots, workflow automation, and AI-powered content generation. Would you like to book a free consultation to discuss your needs?",
   services:
     "Stephen offers 5 core services:\n\n🤖 AI Automation\n💻 Web Development\n📊 Business Systems\n🎯 Consulting\n🎓 Training\n\nEach is tailored to help businesses scale efficiently. Which interests you most?",
   consultation:
-    "Great choice! You can book a free 30-minute discovery call with Stephen. Click here to schedule: https://cal.com/stevetotibooking\n\nOr send a message via the contact form!",
+    "Great choice! You can book a free 30-minute discovery call with Steve. Click here to schedule: https://cal.com/stevetotibooking/discovery-call-toti/discovery-call-toti\n\nOr send a message via the contact form!",
   portfolio:
     "Stephen has delivered 100+ projects across 15+ countries! Some highlights:\n\n• Trade Farm - AI agricultural platform ($2M+ transactions)\n• Pacific Resort Group - 40% booking increase\n• Healthcare Simulation - 2,000+ medical students\n\nVisit /portfolio for the full showcase!",
-  book: "You can book a free discovery call with Stephen right now! Visit: https://cal.com/stevetotibooking",
+  book: "You can book a free discovery call with Steve right now! Visit: https://cal.com/stevetotibooking/discovery-call-toti/discovery-call-toti",
   hello:
-    "👋 Hi there! I'm Toti AI, Stephen's virtual assistant. How can I help you today?",
+    "👋 Hi there! I'm Toti AI, Steve's virtual assistant. How can I help you today?",
   hi: "👋 Hello! I'm Toti AI. I can help you learn about Stephen's services, book a consultation, or answer questions about AI automation and web development.",
 };
 
@@ -247,7 +247,7 @@ export default function AnamVideoAvatar() {
         {
           id: "greeting-1",
           role: "persona",
-          content: "👋 Hi there! I'm Toti AI, Stephen's virtual assistant.",
+          content: "👋 Hi there! I'm Toti AI, Steve's virtual assistant.",
           timestamp: new Date(),
         },
         {
@@ -288,7 +288,7 @@ export default function AnamVideoAvatar() {
     setTimeout(() => {
       const lowerText = text.toLowerCase();
       let response =
-        "Thanks for your message! Stephen typically responds within 24 hours. For immediate assistance, you can:\n\n• Book a call at cal.com/stevetotibooking\n• Email totinarh24@gmail.com\n• Check the FAQ on the contact page";
+        "Thanks for your message! Steve typically responds within 24 hours. For immediate assistance, you can:\n\n• Book a call at cal.com/stevetotibooking/discovery-call-toti\n• Email totinarh24@gmail.com\n• Check the FAQ on the contact page";
 
       for (const [key, value] of Object.entries(fallbackResponses)) {
         if (lowerText.includes(key)) {
@@ -387,7 +387,7 @@ export default function AnamVideoAvatar() {
                     ? "Connecting..."
                     : isConnected
                       ? "Video Chat Active"
-                      : "Stephen's Virtual Assistant"}
+                      : "Steve's Virtual Assistant"}
                 </p>
               </div>
               <button
@@ -483,7 +483,7 @@ export default function AnamVideoAvatar() {
 
                   {/* Book Call Button */}
                   <a
-                    href="https://cal.com/stevetotibooking"
+                    href="https://cal.com/stevetotibooking/discovery-call-toti/discovery-call-toti"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-4 w-full flex items-center justify-center gap-2 px-4 py-3 
@@ -580,7 +580,7 @@ export default function AnamVideoAvatar() {
                 {/* Book Call CTA */}
                 <div className="px-4 pb-2">
                   <a
-                    href="https://cal.com/stevetotibooking"
+                    href="https://cal.com/stevetotibooking/discovery-call-toti/discovery-call-toti"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full flex items-center justify-center gap-2 px-4 py-2 

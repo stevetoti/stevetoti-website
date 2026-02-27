@@ -124,7 +124,7 @@ export default function MeetToti() {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
               <motion.a
-                href="https://cal.com/stevetotibooking"
+                href="https://cal.com/stevetotibooking/discovery-call-toti"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.02 }}
