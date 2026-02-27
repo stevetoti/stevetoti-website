@@ -3,7 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AnimatedBackground from "@/components/AnimatedBackground";
-import AnamChatWidget from "@/components/AnamChatWidget";
+import AnamVideoAvatar from "@/components/AnamVideoAvatar";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://stevetoti.com"),
@@ -199,7 +199,7 @@ export default function RootLayout({
         <Navbar />
         <main className="min-h-screen">{children}</main>
         <Footer />
-        <AnamChatWidget />
+        <AnamVideoAvatar />
       </body>
     </html>
   );
