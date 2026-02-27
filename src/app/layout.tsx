@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import AnimatedBackground from "@/components/AnimatedBackground";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://stevetoti.com"),
   title: "Stephen Totimeh | AI Automation & Digital Solutions Expert",
   description:
     "Transform your business with AI automation, modern web development, and innovative digital solutions. Stephen Totimeh helps businesses scale globally from Vanuatu.",
@@ -17,6 +18,8 @@ export const metadata: Metadata = {
     "Vanuatu",
     "Stephen Totimeh",
     "Pacific Wave Digital",
+    "Global Digital Prime",
+    "Rapid Entrepreneurs",
   ],
   authors: [{ name: "Stephen Totimeh" }],
   creator: "Stephen Totimeh",

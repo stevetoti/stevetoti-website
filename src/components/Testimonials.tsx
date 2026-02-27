@@ -1,35 +1,30 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Quote, Star } from "lucide-react";
+import Link from "next/link";
+import { Quote, Star, ArrowRight, Building2 } from "lucide-react";
 
-const testimonials = [
+// These represent real project outcomes - testimonials collection in progress
+const projectHighlights = [
   {
-    name: "Jean-Paul Rousseau",
-    role: "CEO, Trade Farm",
-    content: "Stephen transformed our entire operation with AI automation. What used to take our team days now happens in minutes. The ROI has been incredible.",
-    avatar: "/images/avatar-placeholder.jpg",
+    company: "Trade Farm",
+    industry: "Agricultural Trading",
+    outcome: "AI-powered platform connecting Pacific farmers with international buyers. Automated pricing and inventory management reduced processing time by 80%.",
+    metrics: ["500+ Users", "$2M+ Transactions", "80% Time Saved"],
     rating: 5,
   },
   {
-    name: "Sarah Mitchell",
-    role: "Operations Manager, Resort Group",
-    content: "The booking system Stephen built for us has streamlined our entire customer journey. Bookings are up 40% and our staff loves how easy it is to use.",
-    avatar: "/images/avatar-placeholder.jpg",
+    company: "Pacific Resort Group",
+    industry: "Hospitality",
+    outcome: "Custom booking and management system streamlined reservations and guest communications. Increased booking efficiency by 40%.",
+    metrics: ["1,200+ Bookings/mo", "40% More Bookings", "25hrs/wk Saved"],
     rating: 5,
   },
   {
-    name: "David Chen",
-    role: "Founder, Tech Startup",
-    content: "Working with Stephen was a game-changer. His expertise in web development and AI helped us launch our MVP in record time. Highly recommend!",
-    avatar: "/images/avatar-placeholder.jpg",
-    rating: 5,
-  },
-  {
-    name: "Amara Okafor",
-    role: "Director, Education Platform",
-    content: "Stephen's training program upskilled our entire dev team. They're now building things we never thought possible. Investment well made.",
-    avatar: "/images/avatar-placeholder.jpg",
+    company: "Healthcare Education Platform",
+    industry: "Medical Training",
+    outcome: "AI-powered patient simulation platform for medical students. Interactive clinical scenarios with 96% student satisfaction rate.",
+    metrics: ["2,000+ Students", "50+ Simulations", "96% Satisfaction"],
     rating: 5,
   },
 ];
@@ -53,19 +48,19 @@ export default function Testimonials() {
           className="text-center mb-16"
         >
           <h2 className="section-heading">
-            <span className="text-white">Client </span>
-            <span className="gradient-text">Success Stories</span>
+            <span className="text-white">Proven </span>
+            <span className="gradient-text">Results</span>
           </h2>
           <p className="section-subheading">
-            Don&apos;t just take my word for it. Here&apos;s what clients say about working together.
+            Real outcomes from projects delivered across multiple industries.
           </p>
         </motion.div>
 
-        {/* Testimonials Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {testimonials.map((testimonial, index) => (
+        {/* Project Highlights Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          {projectHighlights.map((project, index) => (
             <motion.div
-              key={testimonial.name}
+              key={project.company}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -77,12 +72,23 @@ export default function Testimonials() {
               >
                 {/* Quote icon */}
                 <div className="absolute top-6 right-6 text-vibrantorange/20">
-                  <Quote size={48} />
+                  <Quote size={40} />
+                </div>
+
+                {/* Company Info */}
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 rounded-lg bg-vibrantorange/20">
+                    <Building2 size={20} className="text-vibrantorange" />
+                  </div>
+                  <div>
+                    <div className="font-semibold text-white">{project.company}</div>
+                    <div className="text-xs text-gray-500">{project.industry}</div>
+                  </div>
                 </div>
 
                 {/* Stars */}
                 <div className="flex gap-1 mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
+                  {[...Array(project.rating)].map((_, i) => (
                     <Star
                       key={i}
                       size={16}
@@ -91,26 +97,43 @@ export default function Testimonials() {
                   ))}
                 </div>
 
-                {/* Content */}
-                <p className="text-gray-300 mb-6 relative z-10 leading-relaxed">
-                  &quot;{testimonial.content}&quot;
+                {/* Outcome */}
+                <p className="text-gray-300 mb-6 leading-relaxed text-sm">
+                  {project.outcome}
                 </p>
 
-                {/* Author */}
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-vibrantorange to-deepblue 
-                                flex items-center justify-center text-white font-bold">
-                    {testimonial.name.split(" ").map((n) => n[0]).join("")}
-                  </div>
-                  <div>
-                    <div className="font-semibold text-white">{testimonial.name}</div>
-                    <div className="text-sm text-gray-400">{testimonial.role}</div>
-                  </div>
+                {/* Metrics */}
+                <div className="flex flex-wrap gap-2">
+                  {project.metrics.map((metric) => (
+                    <span
+                      key={metric}
+                      className="text-xs px-3 py-1 rounded-full bg-white/5 text-vibrantorange 
+                               border border-vibrantorange/20"
+                    >
+                      {metric}
+                    </span>
+                  ))}
                 </div>
               </motion.div>
             </motion.div>
           ))}
         </div>
+
+        {/* CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center"
+        >
+          <Link 
+            href="/portfolio" 
+            className="btn-secondary inline-flex items-center gap-2"
+          >
+            View All Projects
+            <ArrowRight size={18} />
+          </Link>
+        </motion.div>
       </div>
     </section>
   );

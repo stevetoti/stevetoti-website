@@ -2,30 +2,30 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Youtube, ExternalLink, Play } from "lucide-react";
+import { Youtube, ExternalLink, Play, Sparkles } from "lucide-react";
 
-// Placeholder videos - these would be populated from YouTube API
-const placeholderVideos = [
+// Featured video topics - these represent the content Stephen creates
+const videoTopics = [
   {
     id: "1",
-    title: "How to Build AI Automation for Your Business",
-    thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-    duration: "12:34",
-    views: "15K",
+    title: "AI Automation for Business: Getting Started Guide",
+    description: "Learn how to leverage AI tools to automate repetitive tasks and scale your business",
+    category: "AI Automation",
+    icon: "🤖",
   },
   {
-    id: "2",
-    title: "Next.js 14 Tutorial for Beginners",
-    thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-    duration: "24:15",
-    views: "8.2K",
+    id: "2", 
+    title: "Building Modern Web Apps with Next.js",
+    description: "Step-by-step tutorials on creating fast, scalable web applications",
+    category: "Web Development",
+    icon: "💻",
   },
   {
     id: "3",
-    title: "Building SaaS Products That Scale",
-    thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-    duration: "18:42",
-    views: "12K",
+    title: "From Vanuatu to Global: Scaling Tech Businesses",
+    description: "Insights on building international tech companies from the Pacific",
+    category: "Entrepreneurship",
+    icon: "🌏",
   },
 ];
 
@@ -57,11 +57,65 @@ export default function YouTubeFeed() {
           </p>
         </motion.div>
 
-        {/* Video Grid */}
+        {/* Featured Channel Banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="glass-card p-8 mb-12 relative overflow-hidden"
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-red-600/10 to-transparent" />
+          <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
+            {/* Channel Avatar */}
+            <div className="relative">
+              <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center shadow-xl">
+                <Youtube size={48} className="text-white" />
+              </div>
+              <motion.div
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="absolute -top-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-gray-950"
+              />
+            </div>
+
+            {/* Channel Info */}
+            <div className="flex-1 text-center md:text-left">
+              <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">@stevetoti</h3>
+              <p className="text-gray-400 mb-4 max-w-xl">
+                AI automation tutorials, web development guides, and insights on building 
+                global tech businesses from the Pacific Islands. New content coming soon!
+              </p>
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
+                <div className="flex items-center gap-2 text-sm text-gray-300">
+                  <Sparkles size={16} className="text-vibrantorange" />
+                  <span>Tech & Business Content</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-gray-300">
+                  <Play size={16} className="text-vibrantorange" />
+                  <span>Practical Tutorials</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Subscribe Button */}
+            <Link
+              href="https://www.youtube.com/@stevetoti"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-8 py-4 bg-red-600 hover:bg-red-700 
+                       text-white font-semibold rounded-xl transition-all hover:scale-105"
+            >
+              <Youtube size={20} />
+              Subscribe
+            </Link>
+          </div>
+        </motion.div>
+
+        {/* Content Topics */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          {placeholderVideos.map((video, index) => (
+          {videoTopics.map((topic, index) => (
             <motion.div
-              key={video.id}
+              key={topic.id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -69,47 +123,28 @@ export default function YouTubeFeed() {
             >
               <motion.div
                 whileHover={{ y: -5 }}
-                className="glass-card overflow-hidden group cursor-pointer"
+                className="glass-card p-6 h-full group"
               >
-                {/* Thumbnail */}
-                <div className="relative aspect-video bg-gray-800">
-                  {/* Placeholder thumbnail */}
-                  <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-deepblue to-gray-900">
-                    <div className="text-center">
-                      <Play size={48} className="text-white/50 mx-auto mb-2" />
-                      <span className="text-gray-500 text-sm">Video thumbnail</span>
-                    </div>
-                  </div>
-                  
-                  {/* Play button overlay */}
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 
-                                transition-opacity flex items-center justify-center">
-                    <div className="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center 
-                                  transform scale-90 group-hover:scale-100 transition-transform">
-                      <Play size={28} className="text-white ml-1" />
-                    </div>
-                  </div>
-
-                  {/* Duration */}
-                  <div className="absolute bottom-2 right-2 px-2 py-1 bg-black/80 rounded text-xs text-white">
-                    {video.duration}
-                  </div>
+                {/* Icon & Category */}
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-4xl">{topic.icon}</span>
+                  <span className="text-xs px-3 py-1 rounded-full bg-red-500/20 text-red-400 font-medium">
+                    {topic.category}
+                  </span>
                 </div>
 
-                {/* Info */}
-                <div className="p-4">
-                  <h3 className="font-semibold text-white group-hover:text-vibrantorange 
-                               transition-colors line-clamp-2 mb-2">
-                    {video.title}
-                  </h3>
-                  <p className="text-sm text-gray-400">{video.views} views</p>
-                </div>
+                {/* Content */}
+                <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-vibrantorange 
+                             transition-colors">
+                  {topic.title}
+                </h3>
+                <p className="text-sm text-gray-400">{topic.description}</p>
               </motion.div>
             </motion.div>
           ))}
         </div>
 
-        {/* Subscribe CTA */}
+        {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -117,6 +152,9 @@ export default function YouTubeFeed() {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="text-center"
         >
+          <p className="text-gray-400 mb-6">
+            Stay tuned for upcoming videos and tutorials!
+          </p>
           <Link
             href="https://www.youtube.com/@stevetoti"
             target="_blank"
@@ -125,7 +163,7 @@ export default function YouTubeFeed() {
                      text-white font-semibold rounded-xl transition-colors"
           >
             <Youtube size={20} />
-            Subscribe on YouTube
+            Visit Channel
             <ExternalLink size={16} />
           </Link>
         </motion.div>

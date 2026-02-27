@@ -18,8 +18,8 @@ const contactInfo = [
   {
     icon: Mail,
     label: "Email",
-    value: "steve@stevetoti.com",
-    href: "mailto:steve@stevetoti.com",
+    value: "totinarh24@gmail.com",
+    href: "mailto:totinarh24@gmail.com",
   },
   {
     icon: MapPin,
