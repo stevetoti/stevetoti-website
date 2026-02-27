@@ -111,7 +111,17 @@ export default function AnamVideoAvatar() {
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [hasGreeted, setHasGreeted] = useState(false);
-  const [sessionId] = useState(() => `visitor-${Date.now()}`);
+  const [sessionId] = useState(() => {
+    // Use persistent session ID from localStorage
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("toti-chat-session-id");
+      if (stored) return stored;
+      const newId = `visitor-${Date.now()}`;
+      localStorage.setItem("toti-chat-session-id", newId);
+      return newId;
+    }
+    return `visitor-${Date.now()}`;
+  });
 
   // Lead form state
   const [leadForm, setLeadForm] = useState<LeadFormData>({
@@ -132,6 +142,47 @@ export default function AnamVideoAvatar() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
 
+  // Load messages from Supabase on mount
+  useEffect(() => {
+    const loadMessages = async () => {
+      try {
+        const response = await fetch(`/api/chat-session?sessionId=${sessionId}`);
+        const data = await response.json();
+        if (data.messages && data.messages.length > 0) {
+          setMessages(data.messages.map((m: { id: string; role: "user" | "assistant"; content: string; timestamp: string }) => ({
+            ...m,
+            timestamp: new Date(m.timestamp),
+          })));
+          setHasGreeted(true);
+        }
+      } catch (error) {
+        console.error("Failed to load messages:", error);
+      }
+    };
+    loadMessages();
+  }, [sessionId]);
+
+  // Save message to Supabase
+  const saveMessage = useCallback(async (message: Message) => {
+    try {
+      await fetch("/api/chat-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sessionId,
+          visitorId: sessionId,
+          message: {
+            role: message.role,
+            content: message.content,
+            timestamp: message.timestamp.toISOString(),
+          },
+        }),
+      });
+    } catch (error) {
+      console.error("Failed to save message:", error);
+    }
+  }, [sessionId]);
+
   // Cleanup on unmount
   useEffect(() => {
     return () => {
@@ -149,19 +200,21 @@ export default function AnamVideoAvatar() {
     if (hasGreeted) return;
     setIsTyping(true);
     const timer = setTimeout(() => {
-      setMessages(
-        greetings.map((content, i) => ({
-          id: `greeting-${i}`,
-          role: "assistant" as const,
-          content,
-          timestamp: new Date(),
-        }))
-      );
+      const greetingMessages = greetings.map((content, i) => ({
+        id: `greeting-${i}`,
+        role: "assistant" as const,
+        content,
+        timestamp: new Date(),
+      }));
+      setMessages(greetingMessages);
       setIsTyping(false);
       setHasGreeted(true);
+      
+      // Save greeting messages to Supabase
+      greetingMessages.forEach(msg => saveMessage(msg));
     }, 800);
     return () => clearTimeout(timer);
-  }, [hasGreeted]);
+  }, [hasGreeted, saveMessage]);
 
   // Get session token from API
   const getSessionToken = async (): Promise<string | null> => {
@@ -341,6 +394,9 @@ export default function AnamVideoAvatar() {
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsTyping(true);
+    
+    // Save user message to Supabase
+    saveMessage(userMessage);
 
     try {
       const response = await fetch("/api/chat", {
@@ -357,17 +413,18 @@ export default function AnamVideoAvatar() {
 
       const data = await response.json();
 
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: `assistant-${Date.now()}`,
-          role: "assistant",
-          content:
-            data.message ||
-            "Sorry, I couldn't process that. Please try again.",
-          timestamp: new Date(),
-        },
-      ]);
+      const assistantMessage: Message = {
+        id: `assistant-${Date.now()}`,
+        role: "assistant",
+        content:
+          data.message ||
+          "Sorry, I couldn't process that. Please try again.",
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, assistantMessage]);
+      
+      // Save assistant message to Supabase
+      saveMessage(assistantMessage);
     } catch (err) {
       console.error("Chat error:", err);
       setMessages((prev) => [
