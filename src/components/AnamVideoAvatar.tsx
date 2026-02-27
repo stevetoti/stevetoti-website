@@ -473,7 +473,7 @@ export default function AnamVideoAvatar() {
             style={{ height: viewState === "video" ? "650px" : "600px" }}
           >
             {/* Header */}
-            <div className="bg-gradient-to-r from-vibrantorange to-orange-500 p-4 flex items-center gap-3">
+            <div className="bg-gradient-to-r from-[#233C6F] to-[#1a2d52] p-4 flex items-center gap-3 border-b border-white/10">
               <div className="relative">
                 <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center overflow-hidden">
                   {viewState === "video" && isConnected ? (
@@ -537,15 +537,33 @@ export default function AnamVideoAvatar() {
                       }`}
                     >
                       <div
-                        className={`max-w-[85%] p-3 rounded-2xl ${
+                        className={`max-w-[85%] p-4 rounded-2xl shadow-lg ${
                           message.role === "user"
                             ? "bg-vibrantorange text-white rounded-br-md"
-                            : "bg-white/10 text-white rounded-bl-md"
+                            : "bg-[#233C6F] text-white rounded-bl-md border border-white/10"
                         }`}
                       >
-                        <p className="text-sm whitespace-pre-wrap">
-                          {parseLinks(message.content)}
-                        </p>
+                        <div className="text-[15px] leading-relaxed whitespace-pre-wrap break-words prose prose-invert prose-sm max-w-none
+                                      [&_strong]:text-vibrantorange [&_strong]:font-semibold
+                                      [&_h1]:text-lg [&_h1]:font-bold [&_h1]:text-vibrantorange [&_h1]:mb-2 [&_h1]:mt-1
+                                      [&_h2]:text-base [&_h2]:font-semibold [&_h2]:text-white [&_h2]:mb-1.5
+                                      [&_ul]:list-disc [&_ul]:ml-4 [&_ul]:my-2
+                                      [&_li]:my-1">
+                          {message.role === "assistant" ? (
+                            <span dangerouslySetInnerHTML={{ 
+                              __html: message.content
+                                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                                .replace(/^### (.*$)/gm, '<h2>$1</h2>')
+                                .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+                                .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+                                .replace(/^- (.*$)/gm, '<li>$1</li>')
+                                .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
+                                .replace(/\n/g, '<br/>')
+                            }} />
+                          ) : (
+                            parseLinks(message.content)
+                          )}
+                        </div>
                       </div>
                     </motion.div>
                   ))}
@@ -617,13 +635,26 @@ export default function AnamVideoAvatar() {
                     }}
                     className="flex gap-2"
                   >
-                    <input
-                      type="text"
+                    <textarea
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                          e.preventDefault();
+                          handleSend(input);
+                        }
+                      }}
                       placeholder="Type your message..."
+                      rows={1}
                       className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white 
-                               placeholder-gray-500 focus:outline-none focus:border-vibrantorange transition-colors"
+                               placeholder-gray-500 focus:outline-none focus:border-vibrantorange transition-colors
+                               resize-none overflow-hidden min-h-[48px] max-h-[120px]"
+                      style={{ height: 'auto' }}
+                      onInput={(e) => {
+                        const target = e.target as HTMLTextAreaElement;
+                        target.style.height = 'auto';
+                        target.style.height = Math.min(target.scrollHeight, 120) + 'px';
+                      }}
                     />
                     <button
                       type="submit"
