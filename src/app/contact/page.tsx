@@ -12,6 +12,9 @@ import {
   Linkedin,
   Twitter,
   CheckCircle,
+  Clock,
+  Video,
+  Globe,
 } from "lucide-react";
 
 const contactInfo = [
@@ -50,6 +53,12 @@ const socialLinks = [
   },
 ];
 
+const callBenefits = [
+  { icon: Clock, text: "30-minute session" },
+  { icon: Video, text: "Video or phone call" },
+  { icon: Globe, text: "Any timezone" },
+];
+
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
@@ -60,11 +69,31 @@ export default function ContactPage() {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In production, this would send to an API
-    console.log("Form submitted:", formData);
+    setIsLoading(true);
+    
+    // Simulate form submission
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    // Open email client with form data
+    const subject = `New Project Inquiry: ${formData.service || 'General'}`;
+    const body = `
+Name: ${formData.name}
+Email: ${formData.email}
+Company: ${formData.company || 'Not specified'}
+Service: ${formData.service || 'Not specified'}
+Budget: ${formData.budget || 'Not specified'}
+
+Message:
+${formData.message}
+    `.trim();
+    
+    window.location.href = `mailto:totinarh24@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    
+    setIsLoading(false);
     setSubmitted(true);
   };
 
@@ -78,6 +107,12 @@ export default function ContactPage() {
     <div className="pt-24">
       {/* Hero */}
       <section className="relative py-20 overflow-hidden">
+        <motion.div
+          className="absolute top-1/2 left-1/4 w-[400px] h-[400px] bg-vibrantorange/10 rounded-full blur-3xl -z-10"
+          animate={{ scale: [1, 1.2, 1] }}
+          transition={{ duration: 8, repeat: Infinity }}
+        />
+        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -108,41 +143,76 @@ export default function ContactPage() {
             >
               <div className="glass-card p-8 h-full">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="p-3 rounded-xl bg-gradient-to-br from-vibrantorange to-orange-600">
+                  <motion.div 
+                    className="p-3 rounded-xl bg-gradient-to-br from-vibrantorange to-orange-600"
+                    whileHover={{ rotate: 10 }}
+                  >
                     <Calendar size={24} className="text-white" />
-                  </div>
+                  </motion.div>
                   <div>
-                    <h2 className="text-2xl font-bold text-white">Book a Call</h2>
+                    <h2 className="text-2xl font-bold text-white">Book a Discovery Call</h2>
                     <p className="text-gray-400 text-sm">Free 30-minute consultation</p>
                   </div>
                 </div>
 
-                {/* Cal.com Placeholder */}
-                <div className="aspect-[4/3] bg-gray-900/50 rounded-xl border border-white/10 
-                              flex items-center justify-center">
-                  <div className="text-center p-8">
-                    <Calendar size={48} className="text-gray-600 mx-auto mb-4" />
-                    <p className="text-gray-400 mb-4">
-                      Cal.com booking widget will be embedded here
+                {/* Call Benefits */}
+                <div className="flex flex-wrap gap-3 mb-6">
+                  {callBenefits.map((benefit) => (
+                    <div
+                      key={benefit.text}
+                      className="flex items-center gap-2 text-sm text-gray-300 bg-white/5 px-4 py-2 rounded-full"
+                    >
+                      <benefit.icon size={14} className="text-vibrantorange" />
+                      {benefit.text}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Booking Widget Placeholder */}
+                <motion.div 
+                  className="aspect-[4/3] bg-gradient-to-br from-gray-900 to-gray-950 rounded-xl border border-white/10 
+                            flex flex-col items-center justify-center p-8 relative overflow-hidden"
+                  whileHover={{ borderColor: "rgba(239, 94, 51, 0.3)" }}
+                >
+                  {/* Animated background */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-vibrantorange/5 to-deepblue/5"
+                    animate={{ opacity: [0.5, 1, 0.5] }}
+                    transition={{ duration: 3, repeat: Infinity }}
+                  />
+                  
+                  <div className="relative z-10 text-center">
+                    <motion.div
+                      animate={{ y: [0, -10, 0] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    >
+                      <Calendar size={56} className="text-vibrantorange mx-auto mb-4" />
+                    </motion.div>
+                    <h3 className="text-xl font-semibold text-white mb-2">Schedule Your Call</h3>
+                    <p className="text-gray-400 mb-6 max-w-xs">
+                      Pick a time that works for you. We&apos;ll discuss your project and explore solutions.
                     </p>
-                    <a
-                      href="https://cal.com"
+                    <motion.a
+                      href="https://cal.com/stevetoti"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn-primary text-sm py-2 px-4 inline-flex items-center gap-2"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="btn-primary inline-flex items-center gap-2"
                     >
-                      <Calendar size={16} />
-                      Schedule on Cal.com
-                    </a>
+                      <Calendar size={18} />
+                      Open Calendar
+                    </motion.a>
                   </div>
-                </div>
+                </motion.div>
 
                 {/* Contact Info */}
                 <div className="mt-8 space-y-4">
                   {contactInfo.map((info) => (
-                    <a
+                    <motion.a
                       key={info.label}
                       href={info.href}
+                      whileHover={{ x: 5 }}
                       className="flex items-center gap-4 p-4 rounded-xl bg-white/5 
                                hover:bg-white/10 transition-colors group"
                     >
@@ -154,7 +224,7 @@ export default function ContactPage() {
                         <div className="text-sm text-gray-500">{info.label}</div>
                         <div className="text-white">{info.value}</div>
                       </div>
-                    </a>
+                    </motion.a>
                   ))}
                 </div>
 
@@ -163,16 +233,17 @@ export default function ContactPage() {
                   <p className="text-gray-400 text-sm mb-4">Connect on social</p>
                   <div className="flex gap-3">
                     {socialLinks.map((social) => (
-                      <a
+                      <motion.a
                         key={social.label}
                         href={social.href}
                         target="_blank"
                         rel="noopener noreferrer"
+                        whileHover={{ y: -3 }}
                         className={`p-3 rounded-xl bg-white/5 text-gray-400 hover:text-white 
                                   transition-all ${social.color}`}
                       >
                         <social.icon size={24} />
-                      </a>
+                      </motion.a>
                     ))}
                   </div>
                 </div>
@@ -188,9 +259,12 @@ export default function ContactPage() {
             >
               <div className="glass-card p-8">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="p-3 rounded-xl bg-gradient-to-br from-deepblue to-blue-700">
+                  <motion.div 
+                    className="p-3 rounded-xl bg-gradient-to-br from-deepblue to-blue-700"
+                    whileHover={{ rotate: -10 }}
+                  >
                     <MessageCircle size={24} className="text-white" />
-                  </div>
+                  </motion.div>
                   <div>
                     <h2 className="text-2xl font-bold text-white">Send a Message</h2>
                     <p className="text-gray-400 text-sm">I&apos;ll get back to you within 24 hours</p>
@@ -203,11 +277,23 @@ export default function ContactPage() {
                     animate={{ opacity: 1, scale: 1 }}
                     className="py-12 text-center"
                   >
-                    <CheckCircle size={64} className="text-green-500 mx-auto mb-4" />
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: "spring", delay: 0.1 }}
+                    >
+                      <CheckCircle size={64} className="text-green-500 mx-auto mb-4" />
+                    </motion.div>
                     <h3 className="text-2xl font-bold text-white mb-2">Message Sent!</h3>
-                    <p className="text-gray-400">
+                    <p className="text-gray-400 mb-6">
                       Thanks for reaching out. I&apos;ll get back to you soon.
                     </p>
+                    <button
+                      onClick={() => setSubmitted(false)}
+                      className="text-vibrantorange hover:underline"
+                    >
+                      Send another message
+                    </button>
                   </motion.div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
@@ -323,13 +409,27 @@ export default function ContactPage() {
                       />
                     </div>
 
-                    <button
+                    <motion.button
                       type="submit"
-                      className="w-full btn-primary inline-flex items-center justify-center gap-2"
+                      disabled={isLoading}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="w-full btn-primary inline-flex items-center justify-center gap-2 
+                               disabled:opacity-70 disabled:cursor-not-allowed"
                     >
-                      <Send size={20} />
-                      Send Message
-                    </button>
+                      {isLoading ? (
+                        <motion.div
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                          className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
+                        />
+                      ) : (
+                        <>
+                          <Send size={20} />
+                          Send Message
+                        </>
+                      )}
+                    </motion.button>
                   </form>
                 )}
               </div>
@@ -377,6 +477,7 @@ export default function ContactPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
+                whileHover={{ x: 5 }}
                 className="glass-card p-6"
               >
                 <h3 className="text-lg font-semibold text-white mb-2">{faq.q}</h3>

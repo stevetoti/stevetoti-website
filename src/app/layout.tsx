@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AnimatedBackground from "@/components/AnimatedBackground";
+import AnamChatWidget from "@/components/AnamChatWidget";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://stevetoti.com"),
@@ -61,18 +62,144 @@ export const metadata: Metadata = {
   },
 };
 
+// JSON-LD Structured Data
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://stevetoti.com/#person",
+      name: "Stephen Totimeh",
+      alternateName: "Steve Toti",
+      description: "Tech entrepreneur and digital solutions architect specializing in AI automation and web development",
+      url: "https://stevetoti.com",
+      image: "https://stevetoti.com/images/steve-headshot.jpg",
+      sameAs: [
+        "https://www.youtube.com/@stevetoti",
+        "https://linkedin.com/in/stevetoti",
+        "https://twitter.com/stevetoti"
+      ],
+      jobTitle: "CEO & Digital Solutions Architect",
+      worksFor: [
+        {
+          "@type": "Organization",
+          name: "Pacific Wave Digital",
+          url: "https://pacificwavedigital.com"
+        },
+        {
+          "@type": "Organization",
+          name: "Global Digital Prime"
+        },
+        {
+          "@type": "Organization",
+          name: "Rapid Entrepreneurs"
+        }
+      ],
+      knowsAbout: [
+        "AI Automation",
+        "Web Development",
+        "Digital Transformation",
+        "Business Systems",
+        "Technology Consulting"
+      ],
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Port Vila",
+        addressCountry: "Vanuatu"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://stevetoti.com/#website",
+      url: "https://stevetoti.com",
+      name: "Stephen Totimeh",
+      description: "AI Automation & Digital Solutions Expert",
+      publisher: {
+        "@id": "https://stevetoti.com/#person"
+      }
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://stevetoti.com/#service",
+      name: "Stephen Totimeh Digital Solutions",
+      description: "AI automation, web development, and business systems consulting",
+      url: "https://stevetoti.com",
+      provider: {
+        "@id": "https://stevetoti.com/#person"
+      },
+      areaServed: {
+        "@type": "Place",
+        name: "Worldwide"
+      },
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "Digital Solutions Services",
+        itemListElement: [
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "AI Automation",
+              description: "Custom AI chatbots, workflow automation, and intelligent business solutions"
+            }
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Web Development",
+              description: "Modern, scalable web applications built with Next.js and React"
+            }
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Business Systems",
+              description: "Custom CRM, ERP, and internal tools for operational efficiency"
+            }
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Consulting",
+              description: "Strategic technology guidance and digital transformation consulting"
+            }
+          },
+          {
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: "Training",
+              description: "Team upskilling in modern development and AI tools"
+            }
+          }
+        ]
+      }
+    }
+  ]
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" suppressHydrationWarning>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="antialiased">
         <AnimatedBackground />
         <Navbar />
         <main className="min-h-screen">{children}</main>
         <Footer />
+        <AnamChatWidget />
       </body>
     </html>
   );
