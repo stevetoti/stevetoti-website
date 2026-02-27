@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Video,
@@ -59,6 +59,31 @@ const quickReplies = [
   "Book a discovery call",
   "View portfolio",
 ];
+
+// Helper function to parse links in text
+function parseLinks(text: string): React.ReactNode[] {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const parts = text.split(urlRegex);
+  
+  return parts.map((part, index) => {
+    if (urlRegex.test(part)) {
+      // Reset regex lastIndex
+      urlRegex.lastIndex = 0;
+      return (
+        <a
+          key={index}
+          href={part}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-vibrantorange hover:underline break-all"
+        >
+          {part}
+        </a>
+      );
+    }
+    return part;
+  });
+}
 
 export default function AnamVideoAvatar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -504,7 +529,7 @@ export default function AnamVideoAvatar() {
                             : "bg-white/10 text-white rounded-bl-md"
                         }`}
                       >
-                        <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                        <p className="text-sm whitespace-pre-wrap">{parseLinks(message.content)}</p>
                       </div>
                     </motion.div>
                   ))}
