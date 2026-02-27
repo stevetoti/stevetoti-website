@@ -193,7 +193,7 @@ ${formData.message}
                       Pick a time that works for you. We&apos;ll discuss your project and explore solutions.
                     </p>
                     <motion.a
-                      href="https://cal.com/stevetoti"
+                      href="https://cal.com/stevetotibooking"
                       target="_blank"
                       rel="noopener noreferrer"
                       whileHover={{ scale: 1.05 }}
