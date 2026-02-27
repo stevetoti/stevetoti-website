@@ -9,7 +9,7 @@ import {
   Calendar,
   Users,
   Clock,
-  
+  FileText,
   Search
 } from "lucide-react";
 
