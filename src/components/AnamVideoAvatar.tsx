@@ -330,6 +330,7 @@ export default function AnamVideoAvatar() {
     <>
       {/* Floating Button */}
       <motion.button
+        data-toti-chat
         onClick={handleOpen}
         className={`fixed bottom-6 right-6 z-50 p-4 rounded-full bg-gradient-to-r from-vibrantorange to-orange-500 
                    text-white shadow-lg shadow-vibrantorange/30 hover:shadow-xl hover:shadow-vibrantorange/40
