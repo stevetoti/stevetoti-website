@@ -1,235 +1,218 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, Bot, Sparkles } from "lucide-react";
+import { X, Send, Sparkles, Calendar } from "lucide-react";
 
 interface Message {
   id: string;
   role: "user" | "assistant";
   content: string;
-  timestamp: Date;
 }
 
-const greetings = [
-  "👋 Hi there! I'm Toti AI, Stephen's virtual assistant.",
-  "Welcome! I can help you learn about Stephen's services, book a consultation, or answer questions about AI automation and web development.",
-  "How can I help you today?"
-];
+const GREETING =
+  "👋 Hi, I'm Toti — Steve's AI assistant. I can tell you about his AI automation, web, and consulting work, or book you a free 30-minute discovery call. What brings you here today?";
 
 const quickReplies = [
-  "Tell me about AI automation",
-  "What services do you offer?",
-  "Book a consultation",
-  "View portfolio",
+  "What does Steve do?",
+  "I need AI automation",
+  "Book a discovery call",
+  "See the portfolio",
 ];
+
+const CAL_LINK = "https://cal.com/stevetotibooking/discovery-call-toti";
 
 export default function AnamChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-  const [hasGreeted, setHasGreeted] = useState(false);
+  const [showNudge, setShowNudge] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Show greeting when chat opens
+  // Gentle nudge bubble after a few seconds (once).
   useEffect(() => {
-    if (isOpen && !hasGreeted) {
-      setIsTyping(true);
-      const timer = setTimeout(() => {
-        setMessages(greetings.map((content, i) => ({
-          id: `greeting-${i}`,
-          role: "assistant" as const,
-          content,
-          timestamp: new Date(),
-        })));
-        setIsTyping(false);
-        setHasGreeted(true);
-      }, 1000);
-      return () => clearTimeout(timer);
+    const t = setTimeout(() => setShowNudge(true), 6000);
+    return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    if (isOpen && messages.length === 0) {
+      setMessages([{ id: "greeting", role: "assistant", content: GREETING }]);
     }
-  }, [isOpen, hasGreeted]);
+  }, [isOpen, messages.length]);
 
-  const handleSend = async (text: string) => {
-    if (!text.trim()) return;
+  useEffect(() => {
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
+  }, [messages, isTyping]);
 
-    const userMessage: Message = {
-      id: `user-${Date.now()}`,
-      role: "user",
-      content: text,
-      timestamp: new Date(),
-    };
-
-    setMessages(prev => [...prev, userMessage]);
+  const send = async (text: string) => {
+    const content = text.trim();
+    if (!content || isTyping) return;
+    const userMsg: Message = { id: `u-${Date.now()}`, role: "user", content };
+    const next = [...messages, userMsg];
+    setMessages(next);
     setInput("");
     setIsTyping(true);
 
-    // Simulate AI response (in production, this would call Anam AI API)
-    setTimeout(() => {
-      const responses: Record<string, string> = {
-        "ai automation": "Steve specializes in AI automation that saves businesses 20+ hours per week! This includes custom chatbots, workflow automation, and AI-powered content generation. Would you like to book a free consultation to discuss your needs?",
-        "services": "Stephen offers 5 core services:\n\n🤖 AI Automation\n💻 Web Development\n📊 Business Systems\n🎯 Consulting\n🎓 Training\n\nEach is tailored to help businesses scale efficiently. Which interests you most?",
-        "consultation": "Great choice! You can book a free 30-minute discovery call with Steve. Click here to schedule: https://cal.com/stevetotibooking/discovery-call-toti\n\nOr send a message via the contact form!",
-        "portfolio": "Stephen has delivered 100+ projects across 15+ countries! Some highlights:\n\n• Trade Farm - AI agricultural platform ($2M+ transactions)\n• Pacific Resort Group - 40% booking increase\n• Healthcare Simulation - 2,000+ medical students\n\nVisit /portfolio for the full showcase!",
-      };
-
-      const lowerText = text.toLowerCase();
-      let response = "Thanks for your message! Steve typically responds within 24 hours. For immediate assistance, you can:\n\n• Book a call at cal.com/stevetotibooking\n• Email totinarh24@gmail.com\n• Check the FAQ on the contact page";
-
-      for (const [key, value] of Object.entries(responses)) {
-        if (lowerText.includes(key)) {
-          response = value;
-          break;
-        }
-      }
-
-      setMessages(prev => [...prev, {
-        id: `assistant-${Date.now()}`,
-        role: "assistant",
-        content: response,
-        timestamp: new Date(),
-      }]);
+    try {
+      // Send only the real conversation (from the first user turn onward).
+      const firstUser = next.findIndex((m) => m.role === "user");
+      const history = next.slice(firstUser).map((m) => ({ role: m.role, content: m.content }));
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: history }),
+      });
+      const data = await res.json();
+      setMessages((prev) => [
+        ...prev,
+        { id: `a-${Date.now()}`, role: "assistant", content: data.message || "Sorry, I had trouble there — could you try again?" },
+      ]);
+    } catch {
+      setMessages((prev) => [
+        ...prev,
+        { id: `a-${Date.now()}`, role: "assistant", content: "I couldn't reach the server just now. You can book directly at " + CAL_LINK },
+      ]);
+    } finally {
       setIsTyping(false);
-    }, 1500);
+    }
   };
+
+  const open = () => { setIsOpen(true); setShowNudge(false); };
 
   return (
     <>
-      {/* Floating Button */}
-      <motion.button
-        onClick={() => setIsOpen(true)}
-        className={`fixed bottom-6 right-6 z-50 p-4 rounded-full bg-gradient-to-r from-vibrantorange to-orange-500 
-                   text-white shadow-lg shadow-vibrantorange/30 hover:shadow-xl hover:shadow-vibrantorange/40
-                   transition-all ${isOpen ? 'hidden' : 'flex'}`}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ type: "spring", delay: 1 }}
-      >
-        <MessageCircle size={28} />
-        <motion.span
-          className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"
-          animate={{ scale: [1, 1.2, 1] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        />
-      </motion.button>
+      {/* Floating launcher */}
+      <AnimatePresence>
+        {!isOpen && (
+          <motion.div
+            className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3"
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0, opacity: 0 }}
+            transition={{ type: "spring", delay: 0.8 }}
+          >
+            <AnimatePresence>
+              {showNudge && (
+                <motion.button
+                  onClick={open}
+                  initial={{ opacity: 0, y: 10, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  className="max-w-[230px] rounded-2xl rounded-br-sm bg-white px-4 py-3 text-left text-sm text-gray-800 shadow-xl"
+                >
+                  👋 Need help or want to book a call with Steve? Chat with me!
+                </motion.button>
+              )}
+            </AnimatePresence>
+            <motion.button
+              onClick={open}
+              whileHover={{ scale: 1.06 }}
+              whileTap={{ scale: 0.94 }}
+              className="relative h-16 w-16 overflow-hidden rounded-full border-2 border-white/30 shadow-2xl shadow-vibrantorange/40 ring-2 ring-vibrantorange/60"
+              aria-label="Chat with Toti"
+            >
+              <Image src="/images/toti-avatar.jpg" alt="Toti" fill className="object-cover" />
+              <span className="absolute bottom-1 right-1 h-3.5 w-3.5 animate-pulse rounded-full border-2 border-white bg-green-400" />
+            </motion.button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* Chat Window */}
+      {/* Chat panel */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            initial={{ opacity: 0, y: 24, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ type: "spring", damping: 25 }}
-            className="fixed bottom-6 right-6 z-50 w-[380px] max-w-[calc(100vw-3rem)] h-[600px] max-h-[calc(100vh-6rem)]
-                       flex flex-col rounded-2xl overflow-hidden shadow-2xl border border-white/10"
+            exit={{ opacity: 0, y: 24, scale: 0.96 }}
+            transition={{ type: "spring", damping: 26 }}
+            className="fixed bottom-6 right-6 z-50 flex h-[600px] max-h-[calc(100vh-3rem)] w-[390px] max-w-[calc(100vw-3rem)] flex-col overflow-hidden rounded-[24px] border border-white/10 bg-gray-950 shadow-2xl"
           >
             {/* Header */}
-            <div className="bg-gradient-to-r from-vibrantorange to-orange-500 p-4 flex items-center gap-3">
-              <div className="relative">
-                <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center">
-                  <Bot size={28} className="text-white" />
+            <div className="relative overflow-hidden px-5 py-4">
+              <div className="absolute inset-0 bg-gradient-to-br from-deepblue via-deepblue-600 to-vibrantorange" />
+              <div className="relative flex items-center gap-3">
+                <div className="relative h-12 w-12 overflow-hidden rounded-full border-2 border-white/40">
+                  <Image src="/images/toti-avatar.jpg" alt="Toti" fill className="object-cover" />
+                  <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-deepblue bg-green-400" />
                 </div>
-                <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-orange-500" />
+                <div className="flex-1">
+                  <h3 className="flex items-center gap-1.5 font-semibold text-white">
+                    Toti <Sparkles size={14} className="text-amber-200" />
+                  </h3>
+                  <p className="text-xs text-white/80">Steve&apos;s AI Assistant · Online</p>
+                </div>
+                <button onClick={() => setIsOpen(false)} className="rounded-lg p-2 text-white/90 transition-colors hover:bg-white/20" aria-label="Close">
+                  <X size={20} />
+                </button>
               </div>
-              <div className="flex-1">
-                <h3 className="font-semibold text-white flex items-center gap-2">
-                  Toti AI
-                  <Sparkles size={14} />
-                </h3>
-                <p className="text-white/80 text-sm">Stephen&apos;s Virtual Assistant</p>
-              </div>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="p-2 hover:bg-white/20 rounded-lg transition-colors"
-              >
-                <X size={20} className="text-white" />
-              </button>
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-950">
-              {messages.map((message) => (
+            <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto bg-gradient-to-b from-gray-950 to-gray-900 p-4">
+              {messages.map((m) => (
                 <motion.div
-                  key={message.id}
-                  initial={{ opacity: 0, y: 10 }}
+                  key={m.id}
+                  initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
+                  className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}
                 >
                   <div
-                    className={`max-w-[80%] p-3 rounded-2xl ${
-                      message.role === "user"
-                        ? "bg-vibrantorange text-white rounded-br-md"
-                        : "bg-white/10 text-white rounded-bl-md"
+                    className={`max-w-[82%] whitespace-pre-wrap rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
+                      m.role === "user"
+                        ? "rounded-br-md bg-vibrantorange text-white"
+                        : "rounded-bl-md border border-white/10 bg-white/[0.06] text-gray-100 backdrop-blur-xl"
                     }`}
                   >
-                    <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                    {m.content}
                   </div>
                 </motion.div>
               ))}
 
               {isTyping && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="flex justify-start"
-                >
-                  <div className="bg-white/10 p-3 rounded-2xl rounded-bl-md">
+                <div className="flex justify-start">
+                  <div className="rounded-2xl rounded-bl-md border border-white/10 bg-white/[0.06] px-4 py-3">
                     <div className="flex gap-1">
                       {[0, 1, 2].map((i) => (
-                        <motion.span
-                          key={i}
-                          className="w-2 h-2 bg-gray-400 rounded-full"
-                          animate={{ y: [0, -5, 0] }}
-                          transition={{ duration: 0.5, repeat: Infinity, delay: i * 0.1 }}
-                        />
+                        <motion.span key={i} className="h-2 w-2 rounded-full bg-gray-400"
+                          animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: i * 0.12 }} />
                       ))}
                     </div>
                   </div>
-                </motion.div>
+                </div>
               )}
 
-              {/* Quick Replies */}
-              {messages.length > 0 && !isTyping && (
-                <div className="flex flex-wrap gap-2 pt-2">
-                  {quickReplies.map((reply) => (
-                    <button
-                      key={reply}
-                      onClick={() => handleSend(reply)}
-                      className="px-3 py-1.5 text-xs bg-white/5 hover:bg-white/10 border border-white/10 
-                               rounded-full text-gray-300 hover:text-white transition-colors"
-                    >
-                      {reply}
+              {/* Quick replies (only at the start) */}
+              {messages.length <= 1 && !isTyping && (
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {quickReplies.map((q) => (
+                    <button key={q} onClick={() => send(q)}
+                      className="rounded-full border border-vibrantorange/40 bg-vibrantorange/10 px-3 py-1.5 text-xs text-orange-200 transition-colors hover:bg-vibrantorange/20">
+                      {q}
                     </button>
                   ))}
                 </div>
               )}
             </div>
 
-            {/* Input */}
-            <div className="p-4 bg-gray-900 border-t border-white/10">
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleSend(input);
-                }}
-                className="flex gap-2"
-              >
+            {/* Book CTA + input */}
+            <div className="border-t border-white/10 bg-gray-900 p-3">
+              <a href={CAL_LINK} target="_blank" rel="noopener noreferrer"
+                className="mb-2 flex items-center justify-center gap-2 rounded-xl bg-white/5 py-2 text-xs font-medium text-gray-300 transition-colors hover:bg-white/10 hover:text-white">
+                <Calendar size={14} className="text-vibrantorange" /> Or book a free 30-min discovery call →
+              </a>
+              <form onSubmit={(e) => { e.preventDefault(); send(input); }} className="flex gap-2">
                 <input
-                  type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder="Type your message..."
-                  className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white 
-                           placeholder-gray-500 focus:outline-none focus:border-vibrantorange transition-colors"
+                  placeholder="Ask Toti anything…"
+                  className="flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-gray-500 transition-colors focus:border-vibrantorange focus:outline-none"
                 />
-                <button
-                  type="submit"
-                  disabled={!input.trim()}
-                  className="p-3 bg-vibrantorange hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed
-                           rounded-xl text-white transition-colors"
-                >
+                <button type="submit" disabled={!input.trim() || isTyping}
+                  className="rounded-xl bg-vibrantorange p-3 text-white transition-colors hover:bg-vibrantorange-500 disabled:cursor-not-allowed disabled:opacity-50">
                   <Send size={20} />
                 </button>
               </form>
