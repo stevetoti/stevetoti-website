@@ -38,7 +38,7 @@ const socialLinks = [
   { href: "https://www.youtube.com/@stevetoti", icon: Youtube, label: "YouTube" },
   { href: "https://linkedin.com/in/stevetoti", icon: Linkedin, label: "LinkedIn" },
   { href: "https://twitter.com/stevetoti", icon: Twitter, label: "Twitter" },
-  { href: "mailto:totinarh24@gmail.com", icon: Mail, label: "Email" },
+  { href: "mailto:me@stevetoti.com", icon: Mail, label: "Email" },
 ];
 
 export default function Footer() {
@@ -131,10 +131,10 @@ export default function Footer() {
               <li className="flex items-center space-x-3">
                 <Mail size={20} className="text-vibrantorange flex-shrink-0" />
                 <a
-                  href="mailto:totinarh24@gmail.com"
+                  href="mailto:me@stevetoti.com"
                   className="text-gray-400 hover:text-vibrantorange transition-colors"
                 >
-                  totinarh24@gmail.com
+                  me@stevetoti.com
                 </a>
               </li>
             </ul>
