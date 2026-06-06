@@ -663,20 +663,6 @@ export default function AnamVideoAvatar() {
                   <div ref={messagesEndRef} />
                 </div>
 
-                {/* Book Call CTA */}
-                <div className="px-4 pb-2">
-                  <a
-                    href="https://cal.com/stevetotibooking/discovery-call-toti"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full flex items-center justify-center gap-2 px-4 py-2 
-                             bg-white/5 hover:bg-white/10 border border-white/10
-                             rounded-xl text-gray-300 text-sm transition-colors"
-                  >
-                    <Calendar size={16} />
-                    <span>Or schedule a call for later</span>
-                  </a>
-                </div>
 
                 {/* Input */}
                 <div className="p-4 bg-gray-900 border-t border-white/10">
@@ -970,18 +956,6 @@ export default function AnamVideoAvatar() {
                     </button>
                   </div>
 
-                  {/* Book Call Button */}
-                  <a
-                    href="https://cal.com/stevetotibooking/discovery-call-toti"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-4 w-full flex items-center justify-center gap-2 px-4 py-2.5 
-                             bg-vibrantorange/20 hover:bg-vibrantorange/30 border border-vibrantorange/50
-                             rounded-xl text-vibrantorange transition-colors text-sm"
-                  >
-                    <Calendar size={16} />
-                    <span>Schedule a follow-up call</span>
-                  </a>
                 </div>
               </div>
             )}
