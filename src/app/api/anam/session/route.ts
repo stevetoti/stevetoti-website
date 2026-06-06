@@ -25,7 +25,7 @@ export async function POST() {
       body: JSON.stringify({
         action: "create_session",
         data: {
-          includeContext: true, // Include unified Toti context
+          clientMode: true, // PUBLIC website — client-facing prompt, never "Steve", no owner data
         },
       }),
     });
