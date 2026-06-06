@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = process.env.TOTIROOM_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || "";
-const supabaseKey = process.env.TOTIROOM_SUPABASE_ANON_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || "";
+// Always target the Toti Room project (where toti_chat_messages lives), with a
+// public anon-key fallback so persistence works even without Vercel env vars set.
+const supabaseUrl = process.env.TOTIROOM_SUPABASE_URL || "https://rndegttgwtpkbjtvjgnc.supabase.co";
+const supabaseKey =
+  process.env.TOTIROOM_SUPABASE_ANON_KEY ||
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJuZGVndHRnd3Rwa2JqdHZqZ25jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg0MzIxMjAsImV4cCI6MjA4NDAwODEyMH0.0j4_x-CmkDlIAUC07N9zMs3i7iTN5468_liR7B4Mx2Y";
 
 // GET - Load existing session messages
 export async function GET(request: NextRequest) {
