@@ -73,7 +73,6 @@ export async function POST(request: NextRequest) {
       await supabase.from("toti_chat_sessions").insert({
         id: sessionId,
         visitor_id: visitorId || sessionId,
-        started_at: new Date().toISOString(),
       });
     }
 
