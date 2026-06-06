@@ -6,10 +6,11 @@
 
 @layer base {
   :root {
-    --deep-blue: #233C6F;
-    --vibrant-orange: #EF5E33;
-    --gradient-start: #233C6F;
-    --gradient-end: #0F172A;
+    --deep-blue: #1E3A8A;
+    --vibrant-orange: #F59E0B;
+    --brand-green: #10B981;
+    --gradient-start: #1E3A8A;
+    --gradient-end: #0A1433;
   }
 
   html {
