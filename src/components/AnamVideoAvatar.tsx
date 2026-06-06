@@ -54,7 +54,7 @@ type ViewState = "chat" | "lead-form" | "video";
 
 const greetings = [
   "👋 Hi there! I'm Toti, Steve's AI assistant.",
-  "I can help you learn about our services, answer questions about AI automation, or connect you for a face-to-face video chat.",
+  "I can tell you about Steve's services and book you a free 30-minute discovery call to discuss your project.",
   "What brings you here today?",
 ];
 
@@ -442,11 +442,6 @@ export default function AnamVideoAvatar() {
     }
   };
 
-  // Handle upgrade to video
-  const handleUpgradeToVideo = () => {
-    setViewState("lead-form");
-  };
-
   // Handle lead form submission
   const handleLeadSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -568,16 +563,16 @@ export default function AnamVideoAvatar() {
             {/* Chat View */}
             {viewState === "chat" && (
               <>
-                {/* Upgrade to Video CTA */}
+                {/* Book a scheduled (verified) Discovery Call — instant video removed */}
                 <div className="p-3 bg-gradient-to-r from-deepblue/50 to-deepblue/30 border-b border-white/10">
                   <button
-                    onClick={handleUpgradeToVideo}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-2.5 
-                             bg-vibrantorange hover:bg-vibrantorange/90 
-                             rounded-xl text-white font-medium transition-colors"
+                    onClick={() => handleSend("I'd like to book a free 30-minute discovery call with Steve.")}
+                    className="w-full flex items-center justify-center gap-2 px-4 py-2.5
+                             bg-vibrantorange hover:bg-vibrantorange/90
+                             rounded-xl text-deepblue font-semibold transition-colors"
                   >
-                    <Video size={18} />
-                    <span>Upgrade to Video Call</span>
+                    <Calendar size={18} />
+                    <span>Book a Free Discovery Call</span>
                     <ArrowRight size={16} />
                   </button>
                 </div>
