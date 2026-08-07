@@ -3,16 +3,18 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { 
-  ArrowRight, 
-  MapPin, 
-  Briefcase, 
-  GraduationCap, 
-  Globe, 
+import {
+  ArrowRight,
+  MapPin,
+  Briefcase,
+  GraduationCap,
+  Globe,
   Lightbulb,
   Target,
+  Trophy,
   Users
 } from "lucide-react";
+import AwardShowcase from "@/components/AwardShowcase";
 
 const timeline = [
   {
@@ -39,6 +41,11 @@ const timeline = [
     year: "2024",
     title: "AI-First Approach",
     description: "Pivoted to AI automation, helping businesses leverage cutting-edge technology for growth.",
+  },
+  {
+    year: "2026",
+    title: "AI Personality of the Year",
+    description: "Named AI Personality of the Year at the Ghana AI Summit & Awards for contributions to AI in Ghana through Digi Assist AI Ghana Limited.",
   },
 ];
 
@@ -78,6 +85,10 @@ export default function AboutPage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
             >
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-vibrantorange/10 border border-vibrantorange/30 text-vibrantorange text-sm font-medium mb-6">
+                <Trophy size={16} />
+                AI Personality of the Year 2026 — Ghana AI Summit &amp; Awards
+              </div>
               <h1 className="section-heading text-left">
                 <span className="text-white">About </span>
                 <span className="gradient-text">Stephen</span>
@@ -132,6 +143,9 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+
+      {/* Awards & Recognition */}
+      <AwardShowcase />
 
       {/* Journey Timeline */}
       <section className="py-20 relative">

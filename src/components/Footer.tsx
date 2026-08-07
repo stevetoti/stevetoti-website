@@ -16,6 +16,7 @@ const footerLinks = {
     { href: "/", label: "Home" },
     { href: "/about", label: "About" },
     { href: "/services", label: "Services" },
+    { href: "/training", label: "Training" },
     { href: "/portfolio", label: "Portfolio" },
     { href: "/blog", label: "Blog" },
     { href: "/contact", label: "Contact" },
@@ -25,7 +26,7 @@ const footerLinks = {
     { href: "/services#web-development", label: "Web Development" },
     { href: "/services#business-systems", label: "Business Systems" },
     { href: "/services#consulting", label: "Consulting" },
-    { href: "/services#training", label: "Training" },
+    { href: "/training", label: "Training" },
   ],
   companies: [
     { href: "#", label: "Pacific Wave Digital" },
