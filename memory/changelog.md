@@ -25,3 +25,8 @@
 - **Nav**: added Training link to Navbar and Footer (footer services link now
   points to /training instead of /services#training).
 - Verified: `npm run build` clean (29 routes).
+- **Deployed to production**: commit `6789f15` pushed to main, deployed via
+  `npx vercel --prod` (deployment dpl_25dNSBjGAYNHZzF9g2juwnEjFBqW). Verified
+  live on https://www.stevetoti.com — /training, /about, award images and all
+  three flyer PDFs return 200; pricing and award content render correctly.
+  No migrations or edge functions in this release.
