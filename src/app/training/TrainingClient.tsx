@@ -421,10 +421,10 @@ export default function TrainingClient() {
                 <div className="absolute inset-0 bg-gradient-to-br from-vibrantorange/30 to-deepblue/30 rounded-3xl blur-2xl transform scale-95" />
                 <div className="relative rounded-3xl border-2 border-white/10 overflow-hidden shadow-2xl">
                   <Image
-                    src="/images/ghana-ai-summit/receiving-award.jpg"
-                    alt="Stephen Totimeh receiving the AI Personality of the Year 2026 award at the Ghana AI Summit"
+                    src="/images/ghana-ai-summit/award-trophy.jpg"
+                    alt="AI Personality of the Year 2026 award trophy - Ghana AI Summit & Awards"
                     width={800}
-                    height={534}
+                    height={800}
                     className="object-cover"
                     priority
                   />

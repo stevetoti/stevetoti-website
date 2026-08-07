@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     title: "1-on-1 Digital Business & AI Mastery Training",
     description:
       "Train personally with award-winning tech entrepreneur Stephen Totimeh — build a profitable business, then master AI. In person or online.",
-    images: ["/images/ghana-ai-summit/receiving-award.jpg"],
+    images: ["/images/ghana-ai-summit/award-trophy.jpg"],
   },
 };
 

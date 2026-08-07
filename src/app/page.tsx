@@ -1,4 +1,5 @@
 import Hero from "@/components/Hero";
+import AwardShowcase from "@/components/AwardShowcase";
 import MeetToti from "@/components/MeetToti";
 import ServicesOverview from "@/components/ServicesOverview";
 import AboutPreview from "@/components/AboutPreview";
@@ -11,6 +12,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <AwardShowcase />
       <MeetToti />
       <ServicesOverview />
       <AboutPreview />
