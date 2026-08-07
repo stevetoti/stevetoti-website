@@ -30,3 +30,11 @@
   live on https://www.stevetoti.com — /training, /about, award images and all
   three flyer PDFs return 200; pricing and award content render correctly.
   No migrations or edge functions in this release.
+
+## 2026-08-08 — [Claude Code] Award section on homepage + training hero image swap
+
+- Homepage: `AwardShowcase` (same component as /about) now renders between
+  `Hero` and `MeetToti`.
+- /training hero + OG image switched from receiving-award.jpg to the
+  award-trophy.jpg close-up.
+- Deployed: commit `7ed1561`, verified live on www.stevetoti.com.
