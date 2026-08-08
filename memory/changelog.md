@@ -38,3 +38,13 @@
 - /training hero + OG image switched from receiving-award.jpg to the
   award-trophy.jpg close-up.
 - Deployed: commit `7ed1561`, verified live on www.stevetoti.com.
+
+## 2026-08-09 — [Claude Code] Profile-photo favicon + Toti meeting-attendance verification
+
+- Favicon: replaced default favicon.ico and added src/app/icon.png (512px) +
+  apple-icon.png (180px) generated from steve-headshot.jpg. Commit `bfd484c`,
+  deployed, verified live (favicon.ico + icon.png link tags serving).
+- Verified/fixed the "will Toti join booked calls?" pipeline — root causes and
+  fixes recorded in ~/Projects/totiroom/memory/changelog.md (Cal.com event
+  used Cal Video so no bot dispatch; uuid-vs-string bug killed recall-bot
+  insert). Live test booking for stevetoti1@gmail.com at 2026-08-09 00:30 UTC.
