@@ -135,3 +135,21 @@ incremented on each successful OTP room grant in /api/meet/verify; at 2 the
 booking returns reason "join_limit" and the UI shows an expired message with
 a rebook prompt. Two joins so one accidental disconnect/refresh doesn't
 lock a client out. Host key joins don't consume the allowance.
+
+## 2026-08-08 — [Claude Code] Toti gets real email powers in meetings + proper introduction + client recap
+
+- Root cause of "he said he sent the booking link but nothing came": the
+  meeting brain had NO tools — it hallucinated the send. Now video-avatar
+  v146 declares an Anam client tool send_email_to_participant; the /meet page
+  handles it (new /api/meet/toti-action → send-notification v2 with
+  linkLabel) and emails the verified participant — booking-link button
+  included when asked. Toti's prompt: NEVER claim a send unless the tool
+  returned success; report failures honestly.
+- Introduction script per Stephen: Toti opens by putting the client at ease —
+  he's Steve's assistant, Steve asked him to take this first meeting and
+  will personally meet them after; mentions his work on Steve's tech videos
+  and the Build Profit AI community (can share by email); then invites the
+  client to introduce themselves and reassures them the team will help.
+- meet-recap v2: recap email now ALSO goes to the participant (thanks +
+  summary + book-with-Steve button); Steve still gets the full internal
+  version with action items and decisions. Room passes attendeeEmail.

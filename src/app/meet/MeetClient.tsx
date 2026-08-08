@@ -56,6 +56,10 @@ interface AnamClientLike {
   talk(content: string): Promise<void>;
   stopAllStreams?: () => void;
   addListener?: (event: string, callback: (...args: unknown[]) => void) => void;
+  registerToolCallHandler?: (
+    name: string,
+    handlers: { onStart: (payload: { arguments?: Record<string, unknown> }) => Promise<string> }
+  ) => void;
 }
 
 interface TranscriptLine {
@@ -147,6 +151,7 @@ function MeetRoom() {
   const nameRef = useRef("");
   const transcriptRef = useRef<TranscriptLine[]>([]);
   const recapSentRef = useRef(false);
+  const emailRef = useRef("");
 
   const localVideoRef = useRef<HTMLVideoElement>(null);
   const lobbyVideoRef = useRef<HTMLVideoElement>(null);
@@ -159,6 +164,9 @@ function MeetRoom() {
   useEffect(() => {
     nameRef.current = name;
   }, [name]);
+  useEffect(() => {
+    emailRef.current = email.trim().toLowerCase();
+  }, [email]);
 
   /* ------------------------------ Access check ------------------------------ */
 
@@ -328,6 +336,39 @@ function MeetRoom() {
       const { createClient, AnamEvent } = await import("@anam-ai/js-sdk");
       const anam = createClient(data.sessionToken) as unknown as AnamClientLike;
       anamRef.current = anam;
+
+      // Toti's REAL email capability — he only claims success when this returns it.
+      anam.registerToolCallHandler?.("send_email_to_participant", {
+        onStart: async (payload) => {
+          const args = (payload?.arguments || {}) as {
+            subject?: string;
+            message?: string;
+            include_booking_link?: boolean;
+          };
+          if (!emailRef.current.includes("@")) {
+            return "Email FAILED: no participant email on file. Tell them honestly that Steve will follow up manually.";
+          }
+          try {
+            const r = await fetch("/api/meet/toti-action", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                toEmail: emailRef.current,
+                toName: nameRef.current,
+                subject: args.subject,
+                message: args.message,
+                includeBookingLink: !!args.include_booking_link,
+              }),
+            });
+            const d = (await r.json()) as { success?: boolean; error?: string };
+            return d.success
+              ? `Email sent successfully to ${emailRef.current}. You may now confirm to them it's in their inbox.`
+              : `Email FAILED to send (${d.error || "unknown error"}). Tell them honestly and promise Steve will follow up.`;
+          } catch {
+            return "Email FAILED to send (network error). Tell them honestly and promise Steve will follow up.";
+          }
+        },
+      });
 
       // Capture the conversation so the host can send a recap when leaving.
       anam.addListener?.(AnamEvent.MESSAGE_HISTORY_UPDATED, (msgs: unknown) => {
@@ -618,6 +659,7 @@ function MeetRoom() {
           title: accessRef.current?.title,
           participants: names.length ? names : [nameRef.current || "Guest"],
           notes: accessRef.current?.notes,
+          attendeeEmail: emailRef.current.includes("@") ? emailRef.current : undefined,
           transcript: transcriptRef.current.slice(0, 400),
           durationSeconds: joinedAtRef.current
             ? Math.round((Date.now() - joinedAtRef.current) / 1000)
