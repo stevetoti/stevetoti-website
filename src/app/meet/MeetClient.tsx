@@ -104,6 +104,8 @@ function MeetRoom() {
 
   const [stage, setStage] = useState<Stage>("verify");
   const [email, setEmail] = useState("");
+  const [otpStep, setOtpStep] = useState(false);
+  const [otpCode, setOtpCode] = useState("");
   const [verifying, setVerifying] = useState(false);
   const [verifyError, setVerifyError] = useState<string | null>(null);
   const [upcoming, setUpcoming] = useState<UpcomingBooking | null>(null);
@@ -152,7 +154,7 @@ function MeetRoom() {
   /* ------------------------------ Access check ------------------------------ */
 
   const verifyAccess = useCallback(
-    async (opts: { email?: string; hostKey?: string }) => {
+    async (opts: { email?: string; code?: string; hostKey?: string }) => {
       setVerifying(true);
       setVerifyError(null);
       setUpcoming(null);
@@ -162,12 +164,14 @@ function MeetRoom() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             email: opts.email,
+            code: opts.code,
             hostKey: opts.hostKey,
             room: urlRoom || undefined,
           }),
         });
         const data = (await res.json()) as {
           ok?: boolean;
+          otpRequired?: boolean;
           room?: string;
           title?: string;
           start?: string;
@@ -188,7 +192,13 @@ function MeetRoom() {
           });
           if (data.name && !name) setName(data.name);
           setStage("lobby");
+        } else if (data.otpRequired) {
+          setOtpStep(true);
+          setOtpCode("");
+        } else if (data.reason === "bad_code") {
+          setVerifyError("That code isn't right or has expired. Check the email and try again.");
         } else if (data.reason === "not_yet" && data.upcoming) {
+          setOtpStep(false);
           setUpcoming(data.upcoming);
         } else if (data.reason === "no_booking") {
           setVerifyError(
@@ -661,11 +671,74 @@ function MeetRoom() {
                   Check a different email
                 </button>
               </div>
+            ) : otpStep ? (
+              <>
+                <h1 className="text-xl font-bold text-white mb-2">Check your email</h1>
+                <p className="text-gray-400 text-sm mb-6">
+                  We sent a 6-digit code to <span className="text-white">{email}</span>. Enter it
+                  to unlock your meeting.
+                </p>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    verifyAccess({ email, code: otpCode });
+                  }}
+                >
+                  <label htmlFor="verify-code" className="block text-sm text-gray-400 mb-1.5">
+                    Verification code
+                  </label>
+                  <input
+                    id="verify-code"
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="one-time-code"
+                    required
+                    maxLength={6}
+                    value={otpCode}
+                    onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, ""))}
+                    placeholder="123456"
+                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-center text-2xl tracking-[0.5em] placeholder-gray-600 focus:border-vibrantorange focus:outline-none focus:ring-1 focus:ring-vibrantorange transition-colors mb-4"
+                  />
+                  {verifyError && <p className="text-red-400 text-sm mb-4">{verifyError}</p>}
+                  <button
+                    type="submit"
+                    disabled={verifying || otpCode.length !== 6}
+                    className="w-full btn-primary py-3.5 inline-flex items-center justify-center gap-2 disabled:opacity-60"
+                  >
+                    {verifying ? (
+                      <>
+                        <Loader2 size={18} className="animate-spin" /> Verifying…
+                      </>
+                    ) : (
+                      "Unlock my meeting"
+                    )}
+                  </button>
+                </form>
+                <div className="flex justify-between mt-5 text-xs">
+                  <button
+                    onClick={() => verifyAccess({ email })}
+                    disabled={verifying}
+                    className="text-vibrantorange hover:underline disabled:opacity-50"
+                  >
+                    Resend code
+                  </button>
+                  <button
+                    onClick={() => {
+                      setOtpStep(false);
+                      setOtpCode("");
+                      setVerifyError(null);
+                    }}
+                    className="text-gray-500 hover:text-gray-300"
+                  >
+                    Use a different email
+                  </button>
+                </div>
+              </>
             ) : (
               <>
                 <h1 className="text-xl font-bold text-white mb-2">Join your meeting</h1>
                 <p className="text-gray-400 text-sm mb-6">
-                  Enter the email you booked with and we&apos;ll take you to your room.
+                  Enter the email you booked with — we&apos;ll send you a code to unlock your room.
                 </p>
                 <form
                   onSubmit={(e) => {
