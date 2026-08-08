@@ -55,6 +55,12 @@ interface AnamClientLike {
   stream(userProvidedAudioStream?: MediaStream): Promise<MediaStream[]>;
   talk(content: string): Promise<void>;
   stopAllStreams?: () => void;
+  addListener?: (event: string, callback: (...args: unknown[]) => void) => void;
+}
+
+interface TranscriptLine {
+  role: string;
+  text: string;
 }
 
 interface RosterEntry {
@@ -139,6 +145,8 @@ function MeetRoom() {
   const greetedRef = useRef(false);
   const accessRef = useRef<Access | null>(null);
   const nameRef = useRef("");
+  const transcriptRef = useRef<TranscriptLine[]>([]);
+  const recapSentRef = useRef(false);
 
   const localVideoRef = useRef<HTMLVideoElement>(null);
   const lobbyVideoRef = useRef<HTMLVideoElement>(null);
@@ -312,9 +320,21 @@ function MeetRoom() {
         throw new Error(data.error || "Could not create Toti session");
       }
 
-      const { createClient } = await import("@anam-ai/js-sdk");
+      const { createClient, AnamEvent } = await import("@anam-ai/js-sdk");
       const anam = createClient(data.sessionToken) as unknown as AnamClientLike;
       anamRef.current = anam;
+
+      // Capture the conversation so the host can send a recap when leaving.
+      anam.addListener?.(AnamEvent.MESSAGE_HISTORY_UPDATED, (msgs: unknown) => {
+        if (Array.isArray(msgs)) {
+          transcriptRef.current = msgs
+            .map((m) => {
+              const rec = m as { role?: string; content?: string };
+              return { role: rec.role || "user", text: rec.content || "" };
+            })
+            .filter((l) => l.text.trim().length > 0);
+        }
+      });
 
       // Toti listens to a mix of EVERY participant (host mic + remote peers).
       const mixed = ensureMixer();
@@ -581,6 +601,25 @@ function MeetRoom() {
   }, [name, createPeerConnection, handleSignal, startToti]);
 
   const leaveCall = useCallback(() => {
+    // Host sends the meeting recap (summary email to Stephen + Toti Room record).
+    if (isHostRef.current && !recapSentRef.current && transcriptRef.current.length >= 2) {
+      recapSentRef.current = true;
+      const names = Array.from(rosterRef.current.values()).map((r) => r.name);
+      fetch("/api/meet/recap", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        keepalive: true,
+        body: JSON.stringify({
+          title: accessRef.current?.title,
+          participants: names.length ? names : [nameRef.current || "Guest"],
+          notes: accessRef.current?.notes,
+          transcript: transcriptRef.current.slice(0, 400),
+          durationSeconds: joinedAtRef.current
+            ? Math.round((Date.now() - joinedAtRef.current) / 1000)
+            : undefined,
+        }),
+      }).catch(() => undefined);
+    }
     pcsRef.current.forEach((pc) => pc.close());
     pcsRef.current.clear();
     channelRef.current?.unsubscribe();
