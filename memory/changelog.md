@@ -153,3 +153,18 @@ lock a client out. Host key joins don't consume the allowance.
 - meet-recap v2: recap email now ALSO goes to the participant (thanks +
   summary + book-with-Steve button); Steve still gets the full internal
   version with action items and decisions. Room passes attendeeEmail.
+
+## 2026-08-08 — [Claude Code] Toti no longer gate-crashes meetings + host bot control
+
+Stephen found Toti sitting in his own "Digi Assist AI Zoom Meeting" with no
+way to eject him. Two fixes:
+- recall-bot: auto-dispatch is now OPT-IN. The cron dispatcher only sends
+  Toti to events whose title contains "toti", whose description contains
+  "@toti", or with metadata.toti_join = true — and skips events hosted at
+  stevetoti.com/meet (he's already there natively). Previously it dispatched
+  to EVERY confirmed calendar_event with a meeting URL, including
+  Google-Calendar-synced meetings of Steve's own.
+- NEW /meet/bots?key=<MEET_HOST_KEY> (+ /api/meet/bots): host-only panel
+  listing every meeting Toti is currently in with one-click Remove, plus a
+  form to send Toti into any Zoom/Meet/Teams URL on demand (clientMode off —
+  assistant mode for Steve's own meetings). Auto-refreshes every 20s.
