@@ -26,12 +26,17 @@ interface CalendarEventRow {
   end_time: string | null;
   status: string;
   attendees: Array<{ name?: string; email?: string }> | null;
+  join_count: number | null;
 }
+
+// Each booking may be joined at most twice (the 2nd covers an accidental
+// disconnect/refresh). After that the link expires — the client must rebook.
+const MAX_JOINS = 2;
 
 async function lookupBookings(email: string, key: string): Promise<CalendarEventRow[] | null> {
   const filter = encodeURIComponent(`[{"email":"${email}"}]`);
   const res = await fetch(
-    `${TOTIROOM_URL}/rest/v1/calendar_events?status=eq.confirmed&attendees=cs.${filter}&order=start_time.asc&select=id,title,description,start_time,end_time,status,attendees`,
+    `${TOTIROOM_URL}/rest/v1/calendar_events?status=eq.confirmed&attendees=cs.${filter}&order=start_time.asc&select=id,title,description,start_time,end_time,status,attendees,join_count`,
     { headers: { apikey: key, Authorization: `Bearer ${key}` } }
   );
   if (!res.ok) {
@@ -129,6 +134,20 @@ export async function POST(request: NextRequest) {
     });
 
     if (active) {
+      if ((active.join_count || 0) >= MAX_JOINS) {
+        return NextResponse.json({ ok: false, reason: "join_limit" });
+      }
+      // Consume one join (best-effort; a race between two devices is harmless).
+      await fetch(`${TOTIROOM_URL}/rest/v1/calendar_events?id=eq.${active.id}`, {
+        method: "PATCH",
+        headers: {
+          apikey: key,
+          Authorization: `Bearer ${key}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ join_count: (active.join_count || 0) + 1 }),
+      }).catch(() => undefined);
+
       return NextResponse.json({
         ok: true,
         room: `evt-${active.id}`,

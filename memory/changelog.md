@@ -127,3 +127,11 @@ Website fixes in the same pass:
   verify → /meet → anam session → video-avatar prompt (v143), so Toti opens
   discovery calls knowing what the client asked for. Live test booking:
   "I want a pharmacy website" (uid giMRpb2EZiNb8harFNYecX).
+
+## 2026-08-08 — [Claude Code] Meeting links expire after 2 joins
+
+calendar_events.join_count (new column, migration meet_join_count) is
+incremented on each successful OTP room grant in /api/meet/verify; at 2 the
+booking returns reason "join_limit" and the UI shows an expired message with
+a rebook prompt. Two joins so one accidental disconnect/refresh doesn't
+lock a client out. Host key joins don't consume the allowance.

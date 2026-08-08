@@ -208,6 +208,11 @@ function MeetRoom() {
           setOtpCode("");
         } else if (data.reason === "bad_code") {
           setVerifyError("That code isn't right or has expired. Check the email and try again.");
+        } else if (data.reason === "join_limit") {
+          setOtpStep(false);
+          setVerifyError(
+            "This meeting link has already been used and has expired. Please book a new call to meet with Toti again."
+          );
         } else if (data.reason === "not_yet" && data.upcoming) {
           setOtpStep(false);
           setUpcoming(data.upcoming);
