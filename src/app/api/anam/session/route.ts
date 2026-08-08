@@ -18,10 +18,12 @@ export async function POST(request: NextRequest) {
   // so Toti knows who he is talking to. Always client-safe.
   let participants: string[] = [];
   let meetingTitle: string | undefined;
+  let meetingNotes: string | undefined;
   try {
     const body = (await request.json()) as {
       participants?: unknown;
       meetingTitle?: unknown;
+      meetingNotes?: unknown;
     };
     if (Array.isArray(body.participants)) {
       participants = body.participants
@@ -29,6 +31,7 @@ export async function POST(request: NextRequest) {
         .slice(0, 10);
     }
     if (typeof body.meetingTitle === "string") meetingTitle = body.meetingTitle.slice(0, 200);
+    if (typeof body.meetingNotes === "string") meetingNotes = body.meetingNotes.slice(0, 1000);
   } catch {
     // No body (e.g. the site chat widget) — fine.
   }
@@ -47,6 +50,7 @@ export async function POST(request: NextRequest) {
           clientMode: true, // PUBLIC website — client-facing prompt, never "Steve", no owner data
           participants,
           meetingTitle,
+          meetingNotes,
         },
       }),
     });

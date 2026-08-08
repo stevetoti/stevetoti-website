@@ -21,6 +21,7 @@ const JOIN_LATE_GRACE_MS = 10 * 60 * 1000;
 interface CalendarEventRow {
   id: string;
   title: string | null;
+  description: string | null;
   start_time: string;
   end_time: string | null;
   status: string;
@@ -30,7 +31,7 @@ interface CalendarEventRow {
 async function lookupBookings(email: string, key: string): Promise<CalendarEventRow[] | null> {
   const filter = encodeURIComponent(`[{"email":"${email}"}]`);
   const res = await fetch(
-    `${TOTIROOM_URL}/rest/v1/calendar_events?status=eq.confirmed&attendees=cs.${filter}&order=start_time.asc&select=id,title,start_time,end_time,status,attendees`,
+    `${TOTIROOM_URL}/rest/v1/calendar_events?status=eq.confirmed&attendees=cs.${filter}&order=start_time.asc&select=id,title,description,start_time,end_time,status,attendees`,
     { headers: { apikey: key, Authorization: `Bearer ${key}` } }
   );
   if (!res.ok) {
@@ -135,6 +136,7 @@ export async function POST(request: NextRequest) {
         start: active.start_time,
         end: active.end_time,
         name: attendeeName(active),
+        notes: active.description || undefined,
       });
     }
 

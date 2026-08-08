@@ -84,6 +84,7 @@ interface Access {
   start?: string;
   end?: string;
   name?: string;
+  notes?: string;
   host?: boolean;
 }
 
@@ -177,6 +178,7 @@ function MeetRoom() {
           start?: string;
           end?: string;
           name?: string;
+          notes?: string;
           host?: boolean;
           reason?: string;
           upcoming?: UpcomingBooking;
@@ -188,6 +190,7 @@ function MeetRoom() {
             start: data.start,
             end: data.end,
             name: data.name,
+            notes: data.notes,
             host: data.host,
           });
           if (data.name && !name) setName(data.name);
@@ -301,6 +304,7 @@ function MeetRoom() {
         body: JSON.stringify({
           participants: roster.length ? roster : [nameRef.current || "Guest"],
           meetingTitle: accessRef.current?.title,
+          meetingNotes: accessRef.current?.notes,
         }),
       });
       const data = (await res.json()) as { sessionToken?: string; error?: string };
