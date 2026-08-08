@@ -91,3 +91,17 @@ Fixes from Stephen's live test of /meet:
   mandatory (no cam-off toggle; join blocked without camera).
 - Toti greets by the verified attendee's name; "Call Stephen in" hidden for
   the host himself.
+
+## 2026-08-08 — [Claude Code] OTP join gate for the meeting room
+
+/api/meet/verify is now two-phase, reusing the Toti Room `otp` edge function:
+phase 1 ({email}) sends a 6-digit code to the booking email and reveals
+nothing (not even that a booking exists); phase 2 ({email, code}) proves
+inbox ownership, then returns the private room (in-window) or the upcoming
+booking details. UI adds the code-entry step with resend/change-email.
+Host key path unchanged. Deployed + verified live (phase 1 returns
+otpRequired and delivers a real code). Data fix: three stale
+google-calendar-sync duplicates of cancelled Cal bookings were still
+status=confirmed in calendar_events — marked cancelled. Test booking for
+Monday 11:00 Vanuatu (uid f8FnwzYbyo1DzW2xwi3tFD, stevetoti1@gmail.com)
+confirms the new Cal.com location (stevetoti.com/meet) flows end to end.
