@@ -406,7 +406,8 @@ export default function TrainingClient() {
                   href="/contact"
                   className="btn-secondary inline-flex items-center justify-center gap-2"
                 >
-                  Book Free Discovery Call
+                  <span className="sm:hidden">Book Free Call</span>
+                  <span className="hidden sm:inline">Book Free Discovery Call</span>
                 </Link>
               </div>
             </motion.div>

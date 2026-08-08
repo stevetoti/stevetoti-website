@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Send, Sparkles, Calendar } from "lucide-react";
+import { linkify } from "@/lib/linkify";
 
 interface Message {
   id: string;
@@ -167,7 +168,7 @@ export default function AnamChatWidget() {
                         : "rounded-bl-md border border-white/10 bg-white/[0.06] text-gray-100 backdrop-blur-xl"
                     }`}
                   >
-                    {m.content}
+                    {linkify(m.content)}
                   </div>
                 </motion.div>
               ))}

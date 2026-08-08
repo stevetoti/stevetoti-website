@@ -602,7 +602,7 @@ export default function AnamVideoAvatar() {
                                       [&_ul]:list-disc [&_ul]:ml-3 [&_ul]:my-1
                                       [&_li]:my-0.5">
                           {message.role === "assistant" ? (
-                            <span dangerouslySetInnerHTML={{ 
+                            <span dangerouslySetInnerHTML={{
                               __html: message.content
                                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                                 .replace(/^### (.*$)/gm, '<h2>$1</h2>')
@@ -610,6 +610,9 @@ export default function AnamVideoAvatar() {
                                 .replace(/^# (.*$)/gm, '<h1>$1</h1>')
                                 .replace(/^- (.*$)/gm, '<li>$1</li>')
                                 .replace(/(<li>[\s\S]*<\/li>)/, '<ul>$1</ul>')
+                                // Markdown links first, then bare URLs (not already inside an attribute)
+                                .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-vibrantorange underline underline-offset-2 break-all">$1</a>')
+                                .replace(/(^|[\s(])((https?:\/\/)[^\s<>")\]]+?)([.,;:!?]?)(?=$|[\s<)])/gm, '$1<a href="$2" target="_blank" rel="noopener noreferrer" class="text-vibrantorange underline underline-offset-2 break-all">$2</a>$4')
                                 .replace(/\n/g, '<br/>')
                             }} />
                           ) : (

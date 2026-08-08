@@ -105,3 +105,25 @@ google-calendar-sync duplicates of cancelled Cal bookings were still
 status=confirmed in calendar_events — marked cancelled. Test booking for
 Monday 11:00 Vanuatu (uid f8FnwzYbyo1DzW2xwi3tFD, stevetoti1@gmail.com)
 confirms the new Cal.com location (stevetoti.com/meet) flows end to end.
+
+## 2026-08-08 — [Claude Code] CRITICAL: retired Claude model broke Toti's brain fleet-wide + chat UX fixes
+
+Root cause of "chat gives generic answers": toti-concierge (and 4 more Toti
+Room functions) still called claude-sonnet-4-20250514, retired by Anthropic
+2026-06-15 → every call 404'd → website chat silently served the keyword
+fallback in /api/chat since June. Swapped to claude-sonnet-5 (+ max_tokens
+headroom for its adaptive thinking) and redeployed: toti-concierge v27,
+chat v180, prepare-briefing v90, recall-bot v121, content-create v99.
+Verified live — real knowledge-base answers are back.
+
+Website fixes in the same pass:
+- Chat links now clickable: new src/lib/linkify.tsx used in AnamChatWidget;
+  AnamVideoAvatar's markdown renderer now converts [text](url) and bare URLs
+  to styled <a> tags.
+- /training hero CTA shows "Book Free Call" on mobile (full label ≥sm).
+- AnamVideoAvatar now lazy-loads client-side via ClientWidgets wrapper
+  (next/dynamic ssr:false) — out of the shared first-load bundle.
+- Meeting context: booking notes (calendar_events.description) now flow
+  verify → /meet → anam session → video-avatar prompt (v143), so Toti opens
+  discovery calls knowing what the client asked for. Live test booking:
+  "I want a pharmacy website" (uid giMRpb2EZiNb8harFNYecX).
