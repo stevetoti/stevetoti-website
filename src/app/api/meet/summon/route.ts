@@ -24,7 +24,11 @@ export async function POST(request: NextRequest) {
     }
     lastSummon.set(roomKey, now);
 
-    const meetUrl = `https://stevetoti.com/meet${roomKey !== "discovery" ? `?room=${roomKey}` : ""}`;
+    // One-click host join link for Stephen (host key bypasses booking check).
+    const hostKey = process.env.MEET_HOST_KEY || "";
+    const meetUrl = `https://stevetoti.com/meet?room=${encodeURIComponent(roomKey)}${
+      hostKey ? `&key=${encodeURIComponent(hostKey)}` : ""
+    }`;
     const key = process.env.SUPABASE_TOTIROOM_ANON_KEY;
     if (!key) {
       return NextResponse.json({ error: "Not configured" }, { status: 500 });

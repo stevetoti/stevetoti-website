@@ -1,9 +1,9 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 // TotiRoom Supabase edge function endpoint
 const TOTIROOM_URL = "https://rndegttgwtpkbjtvjgnc.supabase.co/functions/v1/video-avatar";
 
-export async function POST() {
+export async function POST(request: NextRequest) {
   const supabaseAnonKey = process.env.SUPABASE_TOTIROOM_ANON_KEY;
 
   if (!supabaseAnonKey) {
@@ -12,6 +12,25 @@ export async function POST() {
       { error: "Supabase credentials not configured" },
       { status: 500 }
     );
+  }
+
+  // Optional meeting context from the /meet room (participant names, title)
+  // so Toti knows who he is talking to. Always client-safe.
+  let participants: string[] = [];
+  let meetingTitle: string | undefined;
+  try {
+    const body = (await request.json()) as {
+      participants?: unknown;
+      meetingTitle?: unknown;
+    };
+    if (Array.isArray(body.participants)) {
+      participants = body.participants
+        .filter((p): p is string => typeof p === "string" && p.length > 0)
+        .slice(0, 10);
+    }
+    if (typeof body.meetingTitle === "string") meetingTitle = body.meetingTitle.slice(0, 200);
+  } catch {
+    // No body (e.g. the site chat widget) — fine.
   }
 
   try {
@@ -26,6 +45,8 @@ export async function POST() {
         action: "create_session",
         data: {
           clientMode: true, // PUBLIC website — client-facing prompt, never "Steve", no owner data
+          participants,
+          meetingTitle,
         },
       }),
     });

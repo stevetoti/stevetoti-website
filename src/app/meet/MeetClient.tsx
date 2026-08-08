@@ -4,6 +4,11 @@
  * Toti Meeting Room — a self-hosted video call where Toti (Anam avatar) joins
  * natively alongside any number of human participants.
  *
+ * Access is booking-gated: visitors verify the email they booked with, and the
+ * room only unlocks inside their booked window (15 min early → 10 min grace).
+ * Stephen bypasses with a host key (?key=... in the URL, e.g. from the summon
+ * email) and can step into any ongoing room.
+ *
  * Architecture:
  * - Humans connect to each other over a WebRTC mesh (fine for 2–5 people).
  * - Signaling + roster run over a Supabase Realtime channel (broadcast + presence).
@@ -20,8 +25,6 @@ import { createClient as createSupabaseClient, type RealtimeChannel } from "@sup
 import {
   Mic,
   MicOff,
-  Video,
-  VideoOff,
   PhoneOff,
   Link2,
   Check,
@@ -29,6 +32,9 @@ import {
   Sparkles,
   Users,
   UserPlus,
+  Clock,
+  CalendarPlus,
+  Mail,
 } from "lucide-react";
 
 /* ------------------------------ Configuration ----------------------------- */
@@ -42,9 +48,6 @@ const SIGNALING_ANON_KEY =
 const ICE_SERVERS: RTCIceServer[] = [
   { urls: ["stun:stun.l.google.com:19302", "stun:stun1.l.google.com:19302"] },
 ];
-
-const TOTI_GREETING =
-  "Hello! I'm Toti, Stephen's AI assistant. Welcome to the call — I can see and hear you, so whenever you're ready, feel free to introduce yourself or ask me anything.";
 
 /* --------------------------------- Types ---------------------------------- */
 
@@ -75,18 +78,39 @@ interface RemotePeer {
   stream: MediaStream | null;
 }
 
-type Stage = "lobby" | "joining" | "call" | "left";
+interface Access {
+  room: string;
+  title: string;
+  start?: string;
+  end?: string;
+  name?: string;
+  host?: boolean;
+}
+
+interface UpcomingBooking {
+  title: string;
+  start: string;
+  name?: string;
+}
+
+type Stage = "verify" | "lobby" | "joining" | "call" | "left";
 
 /* -------------------------------- Component -------------------------------- */
 
 function MeetRoom() {
   const searchParams = useSearchParams();
-  const room = (searchParams.get("room") || "discovery").replace(/[^a-zA-Z0-9-_]/g, "").slice(0, 40) || "discovery";
+  const urlKey = searchParams.get("key") || "";
+  const urlRoom = searchParams.get("room") || "";
 
-  const [stage, setStage] = useState<Stage>("lobby");
+  const [stage, setStage] = useState<Stage>("verify");
+  const [email, setEmail] = useState("");
+  const [verifying, setVerifying] = useState(false);
+  const [verifyError, setVerifyError] = useState<string | null>(null);
+  const [upcoming, setUpcoming] = useState<UpcomingBooking | null>(null);
+  const [access, setAccess] = useState<Access | null>(null);
+
   const [name, setName] = useState("");
   const [micOn, setMicOn] = useState(true);
-  const [camOn, setCamOn] = useState(true);
   const [copied, setCopied] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const [isHost, setIsHost] = useState(false);
@@ -110,11 +134,83 @@ function MeetRoom() {
   const mixedSourcesRef = useRef<Map<string, MediaStreamAudioSourceNode>>(new Map());
   const isHostRef = useRef(false);
   const greetedRef = useRef(false);
+  const accessRef = useRef<Access | null>(null);
+  const nameRef = useRef("");
 
   const localVideoRef = useRef<HTMLVideoElement>(null);
   const lobbyVideoRef = useRef<HTMLVideoElement>(null);
   const totiVideoRef = useRef<HTMLVideoElement>(null);
   const totiAudioRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    accessRef.current = access;
+  }, [access]);
+  useEffect(() => {
+    nameRef.current = name;
+  }, [name]);
+
+  /* ------------------------------ Access check ------------------------------ */
+
+  const verifyAccess = useCallback(
+    async (opts: { email?: string; hostKey?: string }) => {
+      setVerifying(true);
+      setVerifyError(null);
+      setUpcoming(null);
+      try {
+        const res = await fetch("/api/meet/verify", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: opts.email,
+            hostKey: opts.hostKey,
+            room: urlRoom || undefined,
+          }),
+        });
+        const data = (await res.json()) as {
+          ok?: boolean;
+          room?: string;
+          title?: string;
+          start?: string;
+          end?: string;
+          name?: string;
+          host?: boolean;
+          reason?: string;
+          upcoming?: UpcomingBooking;
+        };
+        if (data.ok && data.room) {
+          setAccess({
+            room: data.room,
+            title: data.title || "Discovery Call with Toti",
+            start: data.start,
+            end: data.end,
+            name: data.name,
+            host: data.host,
+          });
+          if (data.name && !name) setName(data.name);
+          setStage("lobby");
+        } else if (data.reason === "not_yet" && data.upcoming) {
+          setUpcoming(data.upcoming);
+        } else if (data.reason === "no_booking") {
+          setVerifyError(
+            "We couldn't find a booking for that email. Please use the email you booked with, or book a call first."
+          );
+        } else {
+          setVerifyError("Verification failed. Please try again.");
+        }
+      } catch {
+        setVerifyError("Could not reach the server. Please try again.");
+      } finally {
+        setVerifying(false);
+      }
+    },
+    [urlRoom, name]
+  );
+
+  // Host fast-path: ?key=... in URL (e.g. from the summon email).
+  useEffect(() => {
+    if (urlKey) verifyAccess({ hostKey: urlKey });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [urlKey]);
 
   /* ------------------------------ Lobby preview ----------------------------- */
 
@@ -131,7 +227,9 @@ function MeetRoom() {
         localStreamRef.current = stream;
         if (lobbyVideoRef.current) lobbyVideoRef.current.srcObject = stream;
       } catch {
-        setLobbyError("Camera or microphone access was blocked. Please allow access and reload.");
+        setLobbyError(
+          "Camera and microphone are required for this meeting. Please allow access and reload."
+        );
       }
     })();
     return () => {
@@ -141,8 +239,16 @@ function MeetRoom() {
 
   useEffect(() => {
     const saved = localStorage.getItem("meet-name");
-    if (saved) setName(saved);
+    if (saved) setName((n) => n || saved);
   }, []);
+
+  // Attach the local stream to the in-call self tile once the call view exists.
+  useEffect(() => {
+    if (stage === "call" && localVideoRef.current && localStreamRef.current) {
+      localVideoRef.current.srcObject = localStreamRef.current;
+      localVideoRef.current.play().catch(() => undefined);
+    }
+  }, [stage]);
 
   /* ------------------------------ Call timer -------------------------------- */
 
@@ -178,7 +284,15 @@ function MeetRoom() {
     if (anamRef.current || totiState === "connecting") return;
     setTotiState("connecting");
     try {
-      const res = await fetch("/api/anam/session", { method: "POST" });
+      const roster = Array.from(rosterRef.current.values()).map((r) => r.name);
+      const res = await fetch("/api/anam/session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          participants: roster.length ? roster : [nameRef.current || "Guest"],
+          meetingTitle: accessRef.current?.title,
+        }),
+      });
       const data = (await res.json()) as { sessionToken?: string; error?: string };
       if (!res.ok || !data.sessionToken) {
         throw new Error(data.error || "Could not create Toti session");
@@ -191,9 +305,6 @@ function MeetRoom() {
       // Toti listens to a mix of EVERY participant (host mic + remote peers).
       const mixed = ensureMixer();
       if (localStreamRef.current) addToMix("self", localStreamRef.current);
-      remotePeersSnapshot().forEach((p) => {
-        if (p.stream) addToMix(p.peerId, p.stream);
-      });
 
       const streams = await anam.stream(mixed);
       const totiStream = new MediaStream();
@@ -218,8 +329,12 @@ function MeetRoom() {
       setTotiState("live");
       if (!greetedRef.current) {
         greetedRef.current = true;
+        const firstName = (nameRef.current || "").trim().split(" ")[0];
+        const greeting = accessRef.current?.host
+          ? "Hello Stephen — I'm here and ready whenever you are."
+          : `Hello${firstName ? ` ${firstName}` : ""}! I'm Toti, Stephen's AI assistant. Welcome to your call — I can see and hear you, so whenever you're ready, tell me a little about yourself and your business.`;
         setTimeout(() => {
-          anam.talk(TOTI_GREETING).catch(() => undefined);
+          anam.talk(greeting).catch(() => undefined);
         }, 2500);
       }
     } catch (err) {
@@ -251,15 +366,6 @@ function MeetRoom() {
   };
 
   /* ------------------------------ Peer helpers -------------------------------- */
-
-  const remotePeersSnapshot = () => {
-    const peers: RemotePeer[] = [];
-    setRemotePeers((current) => {
-      peers.push(...current);
-      return current;
-    });
-    return peers;
-  };
 
   const sendSignal = (msg: SignalMessage) => {
     channelRef.current?.send({ type: "broadcast", event: "signal", payload: msg });
@@ -385,11 +491,13 @@ function MeetRoom() {
   /* ------------------------------ Join / leave -------------------------------- */
 
   const joinCall = useCallback(async () => {
-    if (!localStreamRef.current) {
-      setLobbyError("Camera/microphone not ready yet — allow access and try again.");
+    const grantedAccess = accessRef.current;
+    if (!grantedAccess) return;
+    if (!localStreamRef.current || localStreamRef.current.getVideoTracks().length === 0) {
+      setLobbyError("Camera is required for this meeting — allow access and try again.");
       return;
     }
-    const displayName = name.trim() || "Guest";
+    const displayName = name.trim() || grantedAccess.name || "Guest";
     localStorage.setItem("meet-name", displayName);
     setStage("joining");
 
@@ -400,7 +508,7 @@ function MeetRoom() {
     const supabase = createSupabaseClient(SIGNALING_URL, SIGNALING_ANON_KEY, {
       realtime: { params: { eventsPerSecond: 20 } },
     });
-    const channel = supabase.channel(`meet:${room}`, {
+    const channel = supabase.channel(`meet:${grantedAccess.room}`, {
       config: { presence: { key: myId }, broadcast: { self: false } },
     });
     channelRef.current = channel;
@@ -450,16 +558,13 @@ function MeetRoom() {
     channel.subscribe(async (status) => {
       if (status === "SUBSCRIBED") {
         await channel.track({ peerId: myId, name: displayName, joinedAt: joinedAtRef.current });
-        if (localVideoRef.current && localStreamRef.current) {
-          localVideoRef.current.srcObject = localStreamRef.current;
-        }
         setStage("call");
       } else if (status === "CHANNEL_ERROR" || status === "TIMED_OUT") {
         setLobbyError("Could not connect to the meeting service. Please try again.");
         setStage("lobby");
       }
     });
-  }, [name, room, createPeerConnection, handleSignal, startToti]);
+  }, [name, createPeerConnection, handleSignal, startToti]);
 
   const leaveCall = useCallback(() => {
     pcsRef.current.forEach((pc) => pc.close());
@@ -484,13 +589,8 @@ function MeetRoom() {
     setMicOn((v) => !v);
   };
 
-  const toggleCam = () => {
-    localStreamRef.current?.getVideoTracks().forEach((t) => (t.enabled = !camOn));
-    setCamOn((v) => !v);
-  };
-
   const copyLink = async () => {
-    await navigator.clipboard.writeText(window.location.href);
+    await navigator.clipboard.writeText("https://stevetoti.com/meet");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -503,7 +603,7 @@ function MeetRoom() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          room,
+          room: accessRef.current?.room,
           requestedBy: name.trim() || "A participant",
           participants: [name.trim() || "Guest", ...remotePeers.map((p) => p.name)],
         }),
@@ -519,6 +619,104 @@ function MeetRoom() {
     `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
 
   /* ---------------------------------- Views ----------------------------------- */
+
+  if (stage === "verify") {
+    return (
+      <div className="min-h-screen bg-gray-950 flex items-center justify-center px-4 py-10">
+        <div className="w-full max-w-md">
+          <div className="text-center mb-8">
+            <span className="text-3xl font-bold">
+              <span className="text-white">Steve</span>
+              <span className="gradient-text">Toti</span>
+            </span>
+            <p className="text-gray-400 mt-2">Meeting room</p>
+          </div>
+
+          <div className="glass-card p-6 md:p-8">
+            {upcoming ? (
+              <div className="text-center">
+                <div className="inline-flex p-3 rounded-full bg-vibrantorange/10 border border-vibrantorange/30 mb-4">
+                  <Clock size={24} className="text-vibrantorange" />
+                </div>
+                <h1 className="text-xl font-bold text-white mb-2">
+                  {upcoming.name ? `See you soon, ${upcoming.name.split(" ")[0]}!` : "See you soon!"}
+                </h1>
+                <p className="text-gray-400 mb-1">{upcoming.title}</p>
+                <p className="text-white font-medium mb-6">
+                  {new Date(upcoming.start).toLocaleString(undefined, {
+                    weekday: "long",
+                    day: "numeric",
+                    month: "long",
+                    hour: "numeric",
+                    minute: "2-digit",
+                  })}
+                </p>
+                <p className="text-gray-500 text-sm mb-6">
+                  The room unlocks 15 minutes before your call. Come back then!
+                </p>
+                <button
+                  onClick={() => setUpcoming(null)}
+                  className="text-vibrantorange text-sm hover:underline"
+                >
+                  Check a different email
+                </button>
+              </div>
+            ) : (
+              <>
+                <h1 className="text-xl font-bold text-white mb-2">Join your meeting</h1>
+                <p className="text-gray-400 text-sm mb-6">
+                  Enter the email you booked with and we&apos;ll take you to your room.
+                </p>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    verifyAccess({ email });
+                  }}
+                >
+                  <label htmlFor="verify-email" className="block text-sm text-gray-400 mb-1.5">
+                    Booking email
+                  </label>
+                  <div className="relative mb-4">
+                    <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500" />
+                    <input
+                      id="verify-email"
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="you@example.com"
+                      className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-vibrantorange focus:outline-none focus:ring-1 focus:ring-vibrantorange transition-colors"
+                    />
+                  </div>
+                  {verifyError && <p className="text-red-400 text-sm mb-4">{verifyError}</p>}
+                  <button
+                    type="submit"
+                    disabled={verifying}
+                    className="w-full btn-primary py-3.5 inline-flex items-center justify-center gap-2 disabled:opacity-60"
+                  >
+                    {verifying ? (
+                      <>
+                        <Loader2 size={18} className="animate-spin" /> Checking…
+                      </>
+                    ) : (
+                      "Find my meeting"
+                    )}
+                  </button>
+                </form>
+                <p className="text-gray-500 text-xs mt-5 text-center">
+                  No booking yet?{" "}
+                  <Link href="/" className="text-vibrantorange hover:underline">
+                    Chat with Toti on stevetoti.com
+                  </Link>{" "}
+                  to book your free discovery call.
+                </p>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (stage === "left") {
     return (
@@ -554,7 +752,17 @@ function MeetRoom() {
               <span className="text-white">Steve</span>
               <span className="gradient-text">Toti</span>
             </span>
-            <p className="text-gray-400 mt-2">Meeting room</p>
+            <p className="text-gray-400 mt-2">{access?.title || "Meeting room"}</p>
+            {access?.start && (
+              <p className="text-gray-500 text-sm mt-1 inline-flex items-center gap-1.5">
+                <CalendarPlus size={13} />
+                {new Date(access.start).toLocaleString(undefined, {
+                  weekday: "short",
+                  hour: "numeric",
+                  minute: "2-digit",
+                })}
+              </p>
+            )}
           </div>
 
           <div className="glass-card p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
@@ -570,10 +778,13 @@ function MeetRoom() {
 
             {/* Join panel */}
             <div>
-              <h1 className="text-2xl font-bold text-white mb-2">Ready to join?</h1>
+              <h1 className="text-2xl font-bold text-white mb-2">
+                {access?.name ? `Welcome, ${access.name.split(" ")[0]}!` : "Ready to join?"}
+              </h1>
               <p className="text-gray-400 text-sm mb-6">
                 <span className="text-vibrantorange font-medium">Toti</span>, Stephen&apos;s AI
-                assistant, will greet you in the room with video and voice.
+                assistant, will greet you in the room with video and voice. Camera stays on for
+                the meeting.
               </p>
               <label htmlFor="meet-name" className="block text-sm text-gray-400 mb-1.5">
                 Your name
@@ -626,7 +837,9 @@ function MeetRoom() {
         <span className="text-lg font-bold">
           <span className="text-white">Steve</span>
           <span className="gradient-text">Toti</span>
-          <span className="text-gray-500 font-normal text-sm ml-3 hidden sm:inline">Meeting room</span>
+          <span className="text-gray-500 font-normal text-sm ml-3 hidden sm:inline">
+            {access?.title || "Meeting room"}
+          </span>
         </span>
         <div className="flex items-center gap-4 text-sm text-gray-400">
           <span className="flex items-center gap-1.5">
@@ -666,13 +879,6 @@ function MeetRoom() {
         {/* Self tile */}
         <div className="relative rounded-2xl overflow-hidden bg-gray-900 border border-white/10 aspect-video">
           <video ref={localVideoRef} autoPlay playsInline muted className="w-full h-full object-cover" />
-          {!camOn && (
-            <div className="absolute inset-0 flex items-center justify-center bg-gray-900">
-              <div className="w-16 h-16 rounded-full bg-deepblue flex items-center justify-center text-white text-xl font-bold">
-                {(name.trim() || "You").charAt(0).toUpperCase()}
-              </div>
-            </div>
-          )}
           <div className="absolute bottom-2 left-2 bg-gray-950/70 backdrop-blur px-2.5 py-1 rounded-lg">
             <span className="text-white text-sm font-medium">
               {name.trim() || "You"} {isHost && <span className="text-gray-400 text-xs">(host)</span>}
@@ -703,41 +909,34 @@ function MeetRoom() {
           {micOn ? <Mic size={20} /> : <MicOff size={20} />}
         </button>
         <button
-          onClick={toggleCam}
-          className={`p-3.5 rounded-full transition-colors ${
-            camOn ? "bg-white/10 hover:bg-white/20 text-white" : "bg-red-500 text-white"
-          }`}
-          aria-label={camOn ? "Turn camera off" : "Turn camera on"}
-        >
-          {camOn ? <Video size={20} /> : <VideoOff size={20} />}
-        </button>
-        <button
           onClick={copyLink}
           className="p-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
           aria-label="Copy meeting link"
         >
           {copied ? <Check size={20} className="text-emerald-400" /> : <Link2 size={20} />}
         </button>
-        <button
-          onClick={summonStephen}
-          disabled={summonState !== "idle"}
-          className="px-4 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-sm font-medium inline-flex items-center gap-2 transition-colors disabled:opacity-70"
-          aria-label="Ask Stephen to join this meeting"
-        >
-          {summonState === "sent" ? (
-            <>
-              <Check size={16} className="text-emerald-400" />
-              <span className="hidden sm:inline">Stephen notified</span>
-            </>
-          ) : summonState === "sending" ? (
-            <Loader2 size={16} className="animate-spin" />
-          ) : (
-            <>
-              <UserPlus size={16} />
-              <span className="hidden sm:inline">Call Stephen in</span>
-            </>
-          )}
-        </button>
+        {!access?.host && (
+          <button
+            onClick={summonStephen}
+            disabled={summonState !== "idle"}
+            className="px-4 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-sm font-medium inline-flex items-center gap-2 transition-colors disabled:opacity-70"
+            aria-label="Ask Stephen to join this meeting"
+          >
+            {summonState === "sent" ? (
+              <>
+                <Check size={16} className="text-emerald-400" />
+                <span className="hidden sm:inline">Stephen notified</span>
+              </>
+            ) : summonState === "sending" ? (
+              <Loader2 size={16} className="animate-spin" />
+            ) : (
+              <>
+                <UserPlus size={16} />
+                <span className="hidden sm:inline">Call Stephen in</span>
+              </>
+            )}
+          </button>
+        )}
         <button
           onClick={leaveCall}
           className="px-6 py-3.5 rounded-full bg-red-600 hover:bg-red-700 text-white font-medium inline-flex items-center gap-2 transition-colors"
