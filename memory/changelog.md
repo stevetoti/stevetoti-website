@@ -48,3 +48,25 @@
   fixes recorded in ~/Projects/totiroom/memory/changelog.md (Cal.com event
   used Cal Video so no bot dispatch; uuid-vs-string bug killed recall-bot
   insert). Live test booking for stevetoti1@gmail.com at 2026-08-09 00:30 UTC.
+
+## 2026-08-08 — [Claude Code] Self-hosted Toti meeting room (/meet) replaces Zoom for discovery calls
+
+Zoom + Recall + headless-Anam proved fragile for client-facing Toti calls
+(black tile, no audio in live test). Built our own meeting room instead:
+- /meet — branded lobby (camera preview, name) → multi-party video room.
+  Humans connect over a WebRTC mesh (STUN only, 2–5 people); signaling +
+  roster via Toti Room Supabase Realtime (broadcast + presence). The HOST
+  (earliest joiner) owns the Anam Toti session, feeds it a WebAudio mix of
+  every participant so Toti hears the whole room, and relays Toti's
+  video/audio tracks to all peers. Toti greets the room on connect.
+  Controls: mic/cam, copy link, leave, and "Call Stephen in" — emails Steve
+  via Toti Room send-notification with the live meeting link (new
+  /api/meet/summon route, 60s per-room throttle). Stephen can also just
+  open the same room URL anytime to step into an ongoing meeting.
+- /meet/booked — booking-confirmed page: countdown + Add to Google
+  Calendar / Outlook / .ics download + join button. (Cal.com success
+  redirect requires team plan, so this page is currently reachable
+  directly; Cal's own email still carries calendar buttons.)
+- Cal.com "Discovery Call with Toti" location switched to
+  https://stevetoti.com/meet (link type). Zoom/Recall path remains for
+  Toti joining Steve's real human meetings.
