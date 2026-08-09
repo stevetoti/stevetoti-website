@@ -33,17 +33,21 @@ interface CalendarEventRow {
 // disconnect/refresh). After that the link expires — the client must rebook.
 const MAX_JOINS = 2;
 
+// Bookings are read through the meet-access edge function: RLS is enabled on
+// calendar_events, so the anon key can't query it directly — the function uses
+// the service role inside Supabase and returns only what the room needs.
 async function lookupBookings(email: string, key: string): Promise<CalendarEventRow[] | null> {
-  const filter = encodeURIComponent(`[{"email":"${email}"}]`);
-  const res = await fetch(
-    `${TOTIROOM_URL}/rest/v1/calendar_events?status=eq.confirmed&attendees=cs.${filter}&order=start_time.asc&select=id,title,description,start_time,end_time,status,attendees,join_count`,
-    { headers: { apikey: key, Authorization: `Bearer ${key}` } }
-  );
+  const res = await fetch(`${TOTIROOM_URL}/functions/v1/meet-access`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` },
+    body: JSON.stringify({ action: "lookup", email }),
+  });
   if (!res.ok) {
-    console.error("calendar_events lookup failed:", res.status, await res.text());
+    console.error("meet-access lookup failed:", res.status, await res.text());
     return null;
   }
-  return (await res.json()) as CalendarEventRow[];
+  const data = (await res.json()) as { bookings?: CalendarEventRow[] };
+  return data.bookings || [];
 }
 
 export async function POST(request: NextRequest) {
@@ -138,14 +142,10 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ ok: false, reason: "join_limit" });
       }
       // Consume one join (best-effort; a race between two devices is harmless).
-      await fetch(`${TOTIROOM_URL}/rest/v1/calendar_events?id=eq.${active.id}`, {
-        method: "PATCH",
-        headers: {
-          apikey: key,
-          Authorization: `Bearer ${key}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ join_count: (active.join_count || 0) + 1 }),
+      await fetch(`${TOTIROOM_URL}/functions/v1/meet-access`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` },
+        body: JSON.stringify({ action: "consume_join", eventId: active.id }),
       }).catch(() => undefined);
 
       return NextResponse.json({
