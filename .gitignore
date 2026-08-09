@@ -34,3 +34,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Generated bio-kit documents (rebuild from BIO-KIT.md when facts change)
+Stephen-Totimeh-Bio-Kit.pdf
+Stephen-Totimeh-Bio-Kit.docx

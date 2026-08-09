@@ -11,7 +11,7 @@ each platform's limit. Last updated: 2026-08-08.
 
 ## FACT SHEET (source of truth)
 
-| | |
+| Field | Detail |
 |---|---|
 | **Full name** | Stephen Narh Junior Totimeh (professionally: Stephen Totimeh) |
 | **Known as** | Steve Toti |
