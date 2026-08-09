@@ -152,6 +152,7 @@ function MeetRoom() {
   const transcriptRef = useRef<TranscriptLine[]>([]);
   const recapSentRef = useRef(false);
   const emailRef = useRef("");
+  const remotePeersRef = useRef<RemotePeer[]>([]);
 
   const localVideoRef = useRef<HTMLVideoElement>(null);
   const lobbyVideoRef = useRef<HTMLVideoElement>(null);
@@ -167,6 +168,9 @@ function MeetRoom() {
   useEffect(() => {
     emailRef.current = email.trim().toLowerCase();
   }, [email]);
+  useEffect(() => {
+    remotePeersRef.current = remotePeers;
+  }, [remotePeers]);
 
   /* ------------------------------ Access check ------------------------------ */
 
@@ -366,6 +370,33 @@ function MeetRoom() {
               : `Email FAILED to send (${d.error || "unknown error"}). Tell them honestly and promise Steve will follow up.`;
           } catch {
             return "Email FAILED to send (network error). Tell them honestly and promise Steve will follow up.";
+          }
+        },
+      });
+
+      // Toti can summon Stephen into the meeting on his own judgement.
+      anam.registerToolCallHandler?.("call_stephen_into_meeting", {
+        onStart: async (payload) => {
+          const args = (payload?.arguments || {}) as { reason?: string; urgency?: string };
+          try {
+            const r = await fetch("/api/meet/summon", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                room: accessRef.current?.room,
+                requestedBy: "Toti",
+                reason: args.reason,
+                urgency: args.urgency,
+                participants: [nameRef.current || "Guest", ...remotePeersRef.current.map((p) => p.name)],
+              }),
+            });
+            const d = (await r.json()) as { success?: boolean; throttled?: boolean };
+            if (d.throttled) return "Steve was already alerted a moment ago — don't call again, just continue.";
+            return d.success
+              ? "Steve has been alerted on email with a one-click link to join. Tell them warmly that you've called him in and he'll join if he's free."
+              : "The alert FAILED to send. Do not claim Steve was called — say you'll make sure he's briefed right after the call instead.";
+          } catch {
+            return "The alert FAILED to send. Do not claim Steve was called — say you'll make sure he's briefed right after the call instead.";
           }
         },
       });

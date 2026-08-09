@@ -10,10 +10,12 @@ const lastSummon = new Map<string, number>();
 
 export async function POST(request: NextRequest) {
   try {
-    const { room, requestedBy, participants } = (await request.json()) as {
+    const { room, requestedBy, participants, reason, urgency } = (await request.json()) as {
       room?: string;
       requestedBy?: string;
       participants?: string[];
+      reason?: string;
+      urgency?: string;
     };
 
     const roomKey = (room || "discovery").slice(0, 40);
@@ -42,11 +44,18 @@ export async function POST(request: NextRequest) {
       },
       body: JSON.stringify({
         type: "meeting_summon",
-        to: ["steve@pacificwavedigital.com", "toti@pacificwavedigital.com"],
-        subject: `🔴 LIVE: ${requestedBy || "A participant"} needs you in the meeting room now`,
+        to: ["steve@pacificwavedigital.com", "me@stevetoti.com"],
+        subject:
+          requestedBy === "Toti"
+            ? `🔴 ${urgency === "high" ? "URGENT — " : ""}Toti needs you in a live meeting now`
+            : `🔴 LIVE: ${requestedBy || "A participant"} needs you in the meeting room now`,
         data: {
-          message: `${requestedBy || "A participant"} asked for you to join the live meeting with Toti.`,
+          message:
+            requestedBy === "Toti"
+              ? `Toti is in a live call and is asking you to join.\n\nWhy: ${reason || "A participant would benefit from speaking with you directly."}`
+              : `${requestedBy || "A participant"} asked for you to join the live meeting with Toti.`,
           meetingLink: meetUrl,
+          linkLabel: "Join the meeting now",
           participants: (participants || []).slice(0, 10),
           requestedAt: new Date().toISOString(),
         },
