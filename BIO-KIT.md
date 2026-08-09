@@ -22,6 +22,7 @@ each platform's limit. Last updated: 2026-08-08.
 | **Advisory** | BLP-Approved Business Advisor (Business Coaching & Training) — Business Link Pacific, supported by the New Zealand Ministry of Foreign Affairs and Trade |
 | **Platforms built** | Akwaaba AI (Twi) · Onukpa AI (Ga) · Sena AI (Ewe) · Storian AI (Bislama) · Digiassist AI |
 | **Other products** | VanuConnect · VanuWay · Trade Farm · MEDD-SIM / TrainerSim · Toti (AI digital twin) |
+| **Community** | Build Profit AI — buildprofitai.com — free community for making money with AI (courses, masterclasses, builder community) |
 | **Regions** | Ghana · Nigeria · Kenya · Vanuatu & the Pacific · Australia |
 | **Based** | Port Vila, Vanuatu (UTC+11); Ghanaian |
 | **Languages** | English · Twi · Bislama |
@@ -59,6 +60,8 @@ I work on both sides of the table. As Senior AI Software Developer at Medd Austr
 I also serve as a Board Member, Trainer and Coach with Vanuatu IDEA, and as a BLP-Approved Business Advisor for business coaching and training under Business Link Pacific, an initiative supported by the New Zealand Ministry of Foreign Affairs and Trade. That side of my work is about capacity: helping Pacific businesses build capability that stays with them.
 
 What I actually do for clients: replace repetitive work with intelligent systems. AI agents that qualify leads and answer customers around the clock. Workflows that run while you sleep. Websites that convert. Search visibility that keeps the pipeline full. My own AI twin, Toti, meets prospective clients on my website and briefs me afterwards — the philosophy, running live.
+
+I also run Build Profit AI (buildprofitai.com) — a free community where I teach people to actually make money with AI, not just talk about it. Free courses, live masterclasses, and builders sharing what's working.
 
 Ghanaian by birth, based in Port Vila, Vanuatu. I work in English, Twi and Bislama.
 
@@ -113,7 +116,7 @@ By day I'm a Senior AI Software Developer for Medd Australia and Connect The Doc
 
 On this channel I build in public. AI agents that handle real sales conversations, automations that erase hours of admin, and the systems I use to run four companies across three continents. Everything I teach, I've shipped for a paying client first.
 
-Join the Build Profit AI community and let's build.
+Join Build Profit AI — my free community for making money with AI. Free courses, live masterclasses, and builders sharing what actually works: buildprofitai.com
 
 🌐 stevetoti.com · 📩 steve@pacificwavedigital.com
 ```
@@ -134,6 +137,8 @@ Stephen Totimeh is an AI Business Automation expert named AI Personality of the 
 Stephen Totimeh is an AI Business Automation expert named AI Personality of the Year at the Ghana AI Summit & Awards 2026. He is a Senior AI Software Developer for Medd Australia and Connect The Docs, and Founder & CEO of Pacific Wave Digital (Vanuatu), Global Digital Prime (USA), Rapid Entrepreneurs (Ghana) and Digi Assist AI Ghana Ltd.
 
 He is best known for building AI platforms in African and Pacific languages — Akwaaba AI (Twi), Onukpa AI (Ga), Sena AI (Ewe) and Storian AI (Bislama) — bringing AI to communities mainstream technology overlooks. He also serves as a Board Member, Trainer and Coach with Vanuatu IDEA, and as a BLP-Approved Business Advisor under Business Link Pacific, an initiative supported by the New Zealand Ministry of Foreign Affairs and Trade.
+
+He founded Build Profit AI (buildprofitai.com), a free community teaching people to earn with AI through courses, live masterclasses and peer learning.
 
 Ghanaian and based in Port Vila, Vanuatu, he works across Ghana, Nigeria, Kenya, the Pacific and Australia in English, Twi and Bislama.
 ```
