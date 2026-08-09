@@ -54,6 +54,7 @@ const ICE_SERVERS: RTCIceServer[] = [
 interface AnamClientLike {
   stream(userProvidedAudioStream?: MediaStream): Promise<MediaStream[]>;
   talk(content: string): Promise<void>;
+  sendUserMessage?: (content: string) => void;
   stopAllStreams?: () => void;
   addListener?: (event: string, callback: (...args: unknown[]) => void) => void;
   registerToolCallHandler?: (
@@ -71,6 +72,7 @@ interface RosterEntry {
   peerId: string;
   name: string;
   joinedAt: number;
+  isPrincipal?: boolean; // true when this participant is Stephen (host key)
 }
 
 interface SignalMessage {
@@ -153,6 +155,7 @@ function MeetRoom() {
   const recapSentRef = useRef(false);
   const emailRef = useRef("");
   const remotePeersRef = useRef<RemotePeer[]>([]);
+  const announcedPrincipalRef = useRef(false);
 
   const localVideoRef = useRef<HTMLVideoElement>(null);
   const lobbyVideoRef = useRef<HTMLVideoElement>(null);
@@ -330,6 +333,11 @@ function MeetRoom() {
           participants: roster.length ? roster : [nameRef.current || "Guest"],
           meetingTitle: accessRef.current?.title,
           meetingNotes: accessRef.current?.notes,
+          // Stephen present at session start (he opened the room himself, or
+          // was already here) — Toti must greet him as Steve, not as a client.
+          hostPresent:
+            accessRef.current?.host === true ||
+            Array.from(rosterRef.current.values()).some((r) => r.isPrincipal),
         }),
       });
       const data = (await res.json()) as { sessionToken?: string; error?: string };
@@ -635,6 +643,18 @@ function MeetRoom() {
       const members = Array.from(rosterRef.current.values()).sort(
         (a, b) => a.joinedAt - b.joinedAt || a.peerId.localeCompare(b.peerId)
       );
+
+      // Stephen joined a call already in progress (e.g. Toti called him in):
+      // tell Toti so he greets his principal instead of pitching to him.
+      if (anamRef.current && !announcedPrincipalRef.current) {
+        const principal = members.find((m) => m.isPrincipal && m.peerId !== myId);
+        if (principal) {
+          announcedPrincipalRef.current = true;
+          anamRef.current.sendUserMessage?.(
+            `[MEETING UPDATE — not spoken by a client] Stephen "Steve" Totimeh, your principal, has just joined this call. He is NOT a client. Greet him warmly by name, give him a one-or-two-sentence catch-up on what we've covered so far, and then hand the conversation over to him.`
+          );
+        }
+      }
       const hostId = members[0]?.peerId;
       const amHost = hostId === myId;
       isHostRef.current = amHost;
@@ -668,7 +688,12 @@ function MeetRoom() {
 
     channel.subscribe(async (status) => {
       if (status === "SUBSCRIBED") {
-        await channel.track({ peerId: myId, name: displayName, joinedAt: joinedAtRef.current });
+        await channel.track({
+          peerId: myId,
+          name: displayName,
+          joinedAt: joinedAtRef.current,
+          isPrincipal: grantedAccess.host === true,
+        });
         setStage("call");
       } else if (status === "CHANNEL_ERROR" || status === "TIMED_OUT") {
         setLobbyError("Could not connect to the meeting service. Please try again.");

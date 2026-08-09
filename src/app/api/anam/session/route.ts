@@ -19,12 +19,15 @@ export async function POST(request: NextRequest) {
   let participants: string[] = [];
   let meetingTitle: string | undefined;
   let meetingNotes: string | undefined;
+  let hostPresent = false;
   try {
     const body = (await request.json()) as {
       participants?: unknown;
       meetingTitle?: unknown;
       meetingNotes?: unknown;
+      hostPresent?: unknown;
     };
+    hostPresent = body.hostPresent === true;
     if (Array.isArray(body.participants)) {
       participants = body.participants
         .filter((p): p is string => typeof p === "string" && p.length > 0)
@@ -51,6 +54,7 @@ export async function POST(request: NextRequest) {
           participants,
           meetingTitle,
           meetingNotes,
+          hostPresent,
         },
       }),
     });
