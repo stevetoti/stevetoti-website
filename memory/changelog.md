@@ -1,5 +1,25 @@
 # Changelog — stevetoti-website
 
+## 2026-08-30 — [Claude Code] SEO baseline: robots, sitemap, GA4, Search Console verification
+
+- **`src/app/robots.ts`** (new): allow-all robots with `/admin`, `/api`, `/meet`
+  disallowed (meet pages are already noindex); points to
+  `https://stevetoti.com/sitemap.xml`.
+- **`src/app/sitemap.ts`** (new): lists the 7 real public routes (`/`, `/about`,
+  `/services`, `/portfolio`, `/training`, `/blog`, `/contact`). Blog post stubs
+  in `blog/page.tsx` have no detail pages, so no `/blog/<slug>` entries yet —
+  add them when real posts ship.
+- **`src/components/GoogleAnalytics.tsx`** (new): env-driven GA4 (gtag via
+  `next/script` afterInteractive). Renders nothing unless
+  `NEXT_PUBLIC_GA_MEASUREMENT_ID` is set. Rendered from the root layout.
+- **`src/app/layout.tsx`**: added `verification.google` metadata from
+  `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`. JSON-LD untouched.
+- Env vars Stephen must set in Vercel: `NEXT_PUBLIC_GA_MEASUREMENT_ID`
+  (GA4 `G-…` id), `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` (Search Console
+  meta-tag token — optional if verifying via DNS).
+- `npx tsc --noEmit` clean, `npm run build` clean (`/robots.txt` and
+  `/sitemap.xml` now in the route table).
+
 ## 2026-08-08 — [Claude Code] Ghana AI Summit award + Training landing page
 
 - **Awards & Recognition section on /about**: new `AwardShowcase` component
