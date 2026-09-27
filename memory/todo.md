@@ -18,3 +18,8 @@
 - [ ] Configure TOTI_WEBSITE_BACKEND_KEY in both services and a >=32-character MEET_HOST_KEY; rotate old URL-exposed host key.
 - [ ] Coordinate Toti Room backend/migrations release; run authenticated booking/meeting/recap/notification and host-control tests.
 - [ ] Review meeting media/signalling admission enforcement before production sign-off.
+
+
+## 2026-09-28 — [Codex] Meeting security release live
+- [x] Production deployment dpl_7ushUQGG8iuPUkJtWELkhkp52vGe READY; native host sign-in and private channel admission verified.
+- [ ] Complete real guest OTP/booking, audio/video and recap acceptance with Stephen. Paid recovery remains deferred.

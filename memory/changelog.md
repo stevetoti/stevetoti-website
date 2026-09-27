@@ -201,3 +201,14 @@ Approved Toti Room compatibility hardening: OTP before booking lookup, atomic jo
 
 ## 2026-09-27 — [Codex] Patched framework upgrade
 - Audit found critical Next.js 14 advisories. Applied official async-request codemod (no changes required), upgraded to Next.js 15.5.26 / React 19 and compatible types, and patched transitive packages. PostCSS override keeps Next.js's pinned copy on patched 8.5.x. npm audit now reports zero vulnerabilities.
+
+
+## 2026-09-28 — [Codex] Production release complete; verification boundaries
+- Toti Room is READY at https://totiroom.pacificwavedigital.com from 0f62aea02cad39a7d4ae32abd3c7f36854e90a19, deployment dpl_4R9cKXQ5ckppLbv6iw3a8anH234g. Canonical alias independently verified. Initial 94890cd deployment was canceled by legacy docs-only ignore logic; fixed production builds to always run.
+- Companion is READY at https://www.stevetoti.com from c4fc98f800addb7ae79fa955d3229ceea1fc215c, deployment dpl_7ushUQGG8iuPUkJtWELkhkp52vGe.
+- All six 20260927 migrations recorded; all 35 explicitly named Toti Edge Functions deployed. Verified one owner, private video buckets, Recall cron disabled. Owner ElevenLabs auth enabled and verified; LiveAvatar dedicated key/configuration completed with explicit consent.
+- Live checks passed: anonymous private endpoints 401; private tables zero anonymous rows; missing meeting cookies 401; wrong host password 401; valid host sign-in 200; Secure/HttpOnly cookie; signed channel issuance 200; admitted private Realtime topic SUBSCRIBED and guessed topic CHANNEL_ERROR; retired website bot route 410; authenticated owner LLM completion 200. Synthetic meeting channel removed after testing.
+- Browser: production /auth renders correctly with no console errors. No owner password was used; authenticated dashboard UI, GitHub row, real microphone/video, guest OTP/booking and actual email-alert receipt still need end-to-end acceptance.
+- Service smoke using the Management API legacy service key returned 401; its hash differs from the function runtime service-key digest. Did not weaken authentication or rotate shared keys. Native signed meeting flow and owner LLM internal backend flow passed. GitHub/health/voice service-level checks are not claimed as passed; follow up through owner session and reconcile managed key metadata if needed.
+- Removed the exact obsolete exposed deployment dpl_Fch1KjeMXfDYgJziKeSzs3XTbYxD (DELETE HTTP 200) after replacement verification. Original GitHub token revocation completion remains unverified; no exposed-token probing performed.
+- Paid PITR remains OFF by Stephen's decision. Daily backups do not meet the few-minute recovery objective; object-storage backup coverage and full restore drill remain unresolved.
