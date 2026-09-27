@@ -18,3 +18,7 @@ limited; Stripe fits best only for the USD/international tier. (3) High-ticket
 1-on-1 offers convert better with a human touchpoint. Stripe Payment Links for
 the USD tier can be added as an optional "pay now" after the call flow proves
 out.
+
+
+## 2026-09-27 — [Codex] Approved backend compatibility work
+Public proxies do not receive a service-role key. Dedicated TOTI_WEBSITE_BACKEND_KEY only delegates host meeting controls; participant operations use signed, short-lived meeting proofs. Only Stephen may access private Toti operations.

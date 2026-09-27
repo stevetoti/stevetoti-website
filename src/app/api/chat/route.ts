@@ -1,3 +1,4 @@
+import { proofCookie, setTotiCookie } from '@/lib/toti-backend';
 import { NextRequest, NextResponse } from "next/server";
 
 interface Message {
@@ -28,11 +29,13 @@ export async function POST(request: NextRequest) {
     const res = await fetch(CONCIERGE_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${CONCIERGE_KEY}` },
-      body: JSON.stringify({ messages: messages.map((m) => ({ role: m.role, content: m.content })) }),
+      body: JSON.stringify({ messages: messages.map((m) => ({ role: m.role, content: m.content })), verificationToken: request.cookies.get(proofCookie)?.value }),
     });
     const data = await res.json();
     if (data?.message) {
-      return NextResponse.json({ message: data.message });
+      const response = NextResponse.json({ message: data.message });
+      if (typeof data.verificationToken === 'string') setTotiCookie(response, proofCookie, data.verificationToken, 900);
+      return response;
     }
     return NextResponse.json({
       message: getFallbackResponse(messages[messages.length - 1]?.content || ""),

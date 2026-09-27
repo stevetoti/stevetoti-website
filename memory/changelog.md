@@ -188,3 +188,16 @@ way to eject him. Two fixes:
   listing every meeting Toti is currently in with one-click Remove, plus a
   form to send Toti into any Zoom/Meet/Teams URL on demand (clientMode off —
   assistant mode for Steve's own meetings). Auto-refreshes every 20s.
+
+
+## 2026-09-27 — [Codex] Approved backend compatibility work
+Approved Toti Room compatibility hardening: OTP before booking lookup, atomic join result required, HTTP-only signed meeting/email-proof cookies, scoped host backend delegation, recipient-bound notifications, removed host credential from summon URLs. Local only; coordinated release required.
+- Validation: Next.js production build + typecheck passed; `node scripts/test-meeting-access.cjs` passed 7 mocked admission scenarios without live service calls. These adapters remain local and require the coordinated Toti Room migration/function release and new credentials before deployment.
+
+## 2026-09-27 — [Codex] Private meeting channel admission
+- Added cookie-authenticated channel endpoint; client joins only backend-issued private topics, never predictable public room names. Removed peer-controlled principal assertions and URL-based host login; host uses password form. Matching Supabase migration/function changes are required before release.
+
+- Stephen confirmed native meeting room only: removed external bot controls and URL-key login from the bot page; its API returns 410. No external bot requests are made.
+
+## 2026-09-27 — [Codex] Patched framework upgrade
+- Audit found critical Next.js 14 advisories. Applied official async-request codemod (no changes required), upgraded to Next.js 15.5.26 / React 19 and compatible types, and patched transitive packages. PostCSS override keeps Next.js's pinned copy on patched 8.5.x. npm audit now reports zero vulnerabilities.

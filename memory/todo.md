@@ -12,3 +12,9 @@
 - [ ] Training testimonials section once first students complete.
 - [ ] Auto-detect visitor region for the pricing tab default (currently
       defaults to International).
+
+
+## 2026-09-27 — [Codex] Approved backend compatibility work
+- [ ] Configure TOTI_WEBSITE_BACKEND_KEY in both services and a >=32-character MEET_HOST_KEY; rotate old URL-exposed host key.
+- [ ] Coordinate Toti Room backend/migrations release; run authenticated booking/meeting/recap/notification and host-control tests.
+- [ ] Review meeting media/signalling admission enforcement before production sign-off.

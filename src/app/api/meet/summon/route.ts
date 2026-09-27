@@ -1,3 +1,4 @@
+import { meetingCookie } from '@/lib/toti-backend';
 import { NextRequest, NextResponse } from "next/server";
 
 // Notifies Stephen (email via Toti Room's send-notification edge function)
@@ -10,6 +11,8 @@ const lastSummon = new Map<string, number>();
 
 export async function POST(request: NextRequest) {
   try {
+    const access = request.cookies.get(meetingCookie)?.value;
+    if (!access) return NextResponse.json({ error: 'Verify meeting access first' }, { status: 401 });
     const { room, requestedBy, participants, reason, urgency } = (await request.json()) as {
       room?: string;
       requestedBy?: string;
@@ -27,20 +30,18 @@ export async function POST(request: NextRequest) {
     lastSummon.set(roomKey, now);
 
     // One-click host join link for Stephen (host key bypasses booking check).
-    const hostKey = process.env.MEET_HOST_KEY || "";
-    const meetUrl = `https://stevetoti.com/meet?room=${encodeURIComponent(roomKey)}${
-      hostKey ? `&key=${encodeURIComponent(hostKey)}` : ""
-    }`;
+    const meetUrl = `https://stevetoti.com/meet?room=${encodeURIComponent(roomKey)}`;
     const key = process.env.SUPABASE_TOTIROOM_ANON_KEY;
     if (!key) {
       return NextResponse.json({ error: "Not configured" }, { status: 500 });
     }
 
-    await fetch(`${TOTIROOM_URL}/functions/v1/send-notification`, {
+    const result = await fetch(`${TOTIROOM_URL}/functions/v1/send-notification`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${key}`,
+        "x-toti-meeting": access,
       },
       body: JSON.stringify({
         type: "meeting_summon",
@@ -62,6 +63,7 @@ export async function POST(request: NextRequest) {
       }),
     });
 
+    if (!result.ok) return NextResponse.json({ error: 'Notification unavailable' }, { status: 502 });
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Summon error:", error);

@@ -6,8 +6,7 @@
  *
  * Access is booking-gated: visitors verify the email they booked with, and the
  * room only unlocks inside their booked window (15 min early → 10 min grace).
- * Stephen bypasses with a host key (?key=... in the URL, e.g. from the summon
- * email) and can step into any ongoing room.
+ * Stephen signs in using the host password form and can step into any ongoing room.
  *
  * Architecture:
  * - Humans connect to each other over a WebRTC mesh (fine for 2–5 people).
@@ -72,7 +71,6 @@ interface RosterEntry {
   peerId: string;
   name: string;
   joinedAt: number;
-  isPrincipal?: boolean; // true when this participant is Stephen (host key)
 }
 
 interface SignalMessage {
@@ -112,7 +110,7 @@ type Stage = "verify" | "lobby" | "joining" | "call" | "left";
 
 function MeetRoom() {
   const searchParams = useSearchParams();
-  const urlKey = searchParams.get("key") || "";
+  const [hostKey, setHostKey] = useState("");
   const urlRoom = searchParams.get("room") || "";
 
   const [stage, setStage] = useState<Stage>("verify");
@@ -155,7 +153,8 @@ function MeetRoom() {
   const recapSentRef = useRef(false);
   const emailRef = useRef("");
   const remotePeersRef = useRef<RemotePeer[]>([]);
-  const announcedPrincipalRef = useRef(false);
+  const expiryTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const leaveCallRef = useRef<() => void>(() => {});
 
   const localVideoRef = useRef<HTMLVideoElement>(null);
   const lobbyVideoRef = useRef<HTMLVideoElement>(null);
@@ -247,11 +246,14 @@ function MeetRoom() {
     [urlRoom, name]
   );
 
-  // Host fast-path: ?key=... in URL (e.g. from the summon email).
+  // Old links must no longer carry credentials in browser history.
   useEffect(() => {
-    if (urlKey) verifyAccess({ hostKey: urlKey });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [urlKey]);
+    const url = new URL(window.location.href);
+    if (url.searchParams.has('key')) {
+      url.searchParams.delete('key');
+      window.history.replaceState(null, '', url);
+    }
+  }, []);
 
   /* ------------------------------ Lobby preview ----------------------------- */
 
@@ -336,8 +338,7 @@ function MeetRoom() {
           // Stephen present at session start (he opened the room himself, or
           // was already here) — Toti must greet him as Steve, not as a client.
           hostPresent:
-            accessRef.current?.host === true ||
-            Array.from(rosterRef.current.values()).some((r) => r.isPrincipal),
+            accessRef.current?.host === true,
         }),
       });
       const data = (await res.json()) as { sessionToken?: string; error?: string };
@@ -624,11 +625,24 @@ function MeetRoom() {
     peerIdRef.current = myId;
     joinedAtRef.current = Date.now();
 
+    let admission: { topic: string; expiresAt: number };
+    try {
+      const response = await fetch('/api/meet/channel', { method: 'POST' });
+      admission = await response.json();
+      if (!response.ok || !/^toti-private:[a-f0-9]{64}$/.test(admission.topic) || !Number.isFinite(admission.expiresAt) || admission.expiresAt <= Date.now()) throw new Error('Admission expired');
+    } catch {
+      setLobbyError('Meeting access expired or unavailable. Verify access again.');
+      setStage('verify');
+      return;
+    }
+    if (expiryTimerRef.current) clearTimeout(expiryTimerRef.current);
+    expiryTimerRef.current = setTimeout(() => leaveCallRef.current(), admission.expiresAt - Date.now());
+
     const supabase = createSupabaseClient(SIGNALING_URL, SIGNALING_ANON_KEY, {
       realtime: { params: { eventsPerSecond: 20 } },
     });
-    const channel = supabase.channel(`meet:${grantedAccess.room}`, {
-      config: { presence: { key: myId }, broadcast: { self: false } },
+    const channel = supabase.channel(admission.topic, {
+      config: { private: true, presence: { key: myId }, broadcast: { self: false } },
     });
     channelRef.current = channel;
 
@@ -644,17 +658,6 @@ function MeetRoom() {
         (a, b) => a.joinedAt - b.joinedAt || a.peerId.localeCompare(b.peerId)
       );
 
-      // Stephen joined a call already in progress (e.g. Toti called him in):
-      // tell Toti so he greets his principal instead of pitching to him.
-      if (anamRef.current && !announcedPrincipalRef.current) {
-        const principal = members.find((m) => m.isPrincipal && m.peerId !== myId);
-        if (principal) {
-          announcedPrincipalRef.current = true;
-          anamRef.current.sendUserMessage?.(
-            `[MEETING UPDATE — not spoken by a client] Stephen "Steve" Totimeh, your principal, has just joined this call. He is NOT a client. Greet him warmly by name, give him a one-or-two-sentence catch-up on what we've covered so far, and then hand the conversation over to him.`
-          );
-        }
-      }
       const hostId = members[0]?.peerId;
       const amHost = hostId === myId;
       isHostRef.current = amHost;
@@ -692,7 +695,6 @@ function MeetRoom() {
           peerId: myId,
           name: displayName,
           joinedAt: joinedAtRef.current,
-          isPrincipal: grantedAccess.host === true,
         });
         setStage("call");
       } else if (status === "CHANNEL_ERROR" || status === "TIMED_OUT") {
@@ -725,6 +727,7 @@ function MeetRoom() {
     }
     pcsRef.current.forEach((pc) => pc.close());
     pcsRef.current.clear();
+    if (expiryTimerRef.current) clearTimeout(expiryTimerRef.current);
     channelRef.current?.unsubscribe();
     channelRef.current = null;
     anamRef.current?.stopAllStreams?.();
@@ -776,6 +779,8 @@ function MeetRoom() {
 
   /* ---------------------------------- Views ----------------------------------- */
 
+  leaveCallRef.current = leaveCall;
+
   if (stage === "verify") {
     return (
       <div className="min-h-screen bg-gray-950 flex items-center justify-center px-4 py-10">
@@ -788,6 +793,14 @@ function MeetRoom() {
             <p className="text-gray-400 mt-2">Meeting room</p>
           </div>
 
+          <details className="glass-card p-4 mb-4">
+            <summary className="text-gray-300 cursor-pointer">Host sign-in</summary>
+            <form className="mt-3 space-y-3" onSubmit={event => { event.preventDefault(); void verifyAccess({ hostKey }); setHostKey(''); }}>
+              <label htmlFor="meeting-host-key" className="text-gray-400 text-sm">Host access key</label>
+              <input id="meeting-host-key" type="password" autoComplete="current-password" required value={hostKey} onChange={event => setHostKey(event.target.value)} className="w-full rounded bg-gray-900 border border-gray-700 p-3 text-white" />
+              <button type="submit" disabled={verifying} className="text-vibrantorange">Join as host</button>
+            </form>
+          </details>
           <div className="glass-card p-6 md:p-8">
             {upcoming ? (
               <div className="text-center">

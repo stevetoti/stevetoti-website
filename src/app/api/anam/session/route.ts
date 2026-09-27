@@ -1,3 +1,4 @@
+import { meetingCookie } from '@/lib/toti-backend';
 import { NextRequest, NextResponse } from "next/server";
 
 // TotiRoom Supabase edge function endpoint
@@ -46,6 +47,7 @@ export async function POST(request: NextRequest) {
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${supabaseAnonKey}`,
+        ...(request.cookies.get(meetingCookie)?.value ? { "x-toti-meeting": request.cookies.get(meetingCookie)!.value } : {}),
       },
       body: JSON.stringify({
         action: "create_session",

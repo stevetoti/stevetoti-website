@@ -1,3 +1,4 @@
+import { meetingCookie } from '@/lib/toti-backend';
 import { NextRequest, NextResponse } from "next/server";
 
 // Executes Toti's in-meeting "send email to participant" tool. The email goes
@@ -11,6 +12,8 @@ const sendLog = new Map<string, number[]>();
 
 export async function POST(request: NextRequest) {
   try {
+    const access = request.cookies.get(meetingCookie)?.value;
+    if (!access) return NextResponse.json({ error: 'Verify meeting access first' }, { status: 401 });
     const { toEmail, toName, subject, message, includeBookingLink } =
       (await request.json()) as {
         toEmail?: string;
@@ -38,7 +41,7 @@ export async function POST(request: NextRequest) {
 
     const res = await fetch(`${TOTIROOM_URL}/functions/v1/send-notification`, {
       method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` },
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}`, "x-toti-meeting": access },
       body: JSON.stringify({
         type: "toti_meeting_email",
         to: [email],

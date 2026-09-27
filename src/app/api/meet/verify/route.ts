@@ -1,180 +1,46 @@
-import { NextRequest, NextResponse } from "next/server";
-
-/**
- * Gates the /meet room behind real bookings + email ownership (OTP).
- *
- * Flow:
- *  1. { email } — if that email has any confirmed booking, we send a 6-digit
- *     code to it (via the Toti Room `otp` edge function) and return
- *     { otpRequired: true }. NOTHING about the booking is revealed yet.
- *  2. { email, code } — code is verified (proves inbox ownership), then:
- *     - inside the join window (15 min before start → 10 min grace after end)
- *       → returns the private room id (evt-<event id>).
- *     - otherwise → returns their upcoming booking details.
- *  - { hostKey } matching MEET_HOST_KEY (Stephen) bypasses everything.
- */
-
-const TOTIROOM_URL = "https://rndegttgwtpkbjtvjgnc.supabase.co";
-const JOIN_EARLY_MS = 15 * 60 * 1000;
-const JOIN_LATE_GRACE_MS = 10 * 60 * 1000;
-
-interface CalendarEventRow {
-  id: string;
-  title: string | null;
-  description: string | null;
-  start_time: string;
-  end_time: string | null;
-  status: string;
-  attendees: Array<{ name?: string; email?: string }> | null;
-  join_count: number | null;
-}
-
-// Each booking may be joined at most twice (the 2nd covers an accidental
-// disconnect/refresh). After that the link expires — the client must rebook.
-const MAX_JOINS = 2;
-
-// Bookings are read through the meet-access edge function: RLS is enabled on
-// calendar_events, so the anon key can't query it directly — the function uses
-// the service role inside Supabase and returns only what the room needs.
-async function lookupBookings(email: string, key: string): Promise<CalendarEventRow[] | null> {
-  const res = await fetch(`${TOTIROOM_URL}/functions/v1/meet-access`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` },
-    body: JSON.stringify({ action: "lookup", email }),
-  });
-  if (!res.ok) {
-    console.error("meet-access lookup failed:", res.status, await res.text());
-    return null;
-  }
-  const data = (await res.json()) as { bookings?: CalendarEventRow[] };
-  return data.bookings || [];
-}
-
+import { NextRequest, NextResponse } from 'next/server';
+import { meetingCookie, setTotiCookie, totiBackend, validHostKey } from '@/lib/toti-backend';
+interface Booking { id: string; title: string | null; start_time: string; end_time: string | null; join_count: number | null }
 export async function POST(request: NextRequest) {
   try {
-    const { email, code, hostKey, room } = (await request.json()) as {
-      email?: string;
-      code?: string;
-      hostKey?: string;
-      room?: string;
-    };
-
-    // Host bypass (Stephen)
-    const configuredHostKey = process.env.MEET_HOST_KEY;
-    if (hostKey && configuredHostKey && hostKey === configuredHostKey) {
-      return NextResponse.json({
-        ok: true,
-        host: true,
-        room: (room || "discovery").slice(0, 60),
-        name: "Stephen",
-        title: "Meeting room",
-      });
+    const { email, code, hostKey, room } = await request.json();
+    if (hostKey !== undefined) {
+      if (!validHostKey(hostKey)) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 });
+      const roomId = typeof room === 'string' && /^[a-zA-Z0-9-]{1,64}$/.test(room) ? room : 'discovery';
+      const res = await totiBackend(request, 'meet-access', { action: 'host_session', eventId: roomId.replace(/^evt-/, '') }, { host: true });
+      const data = await res.json();
+      if (!res.ok || !data.meetingToken) return NextResponse.json({ error: 'Host session unavailable' }, { status: res.status >= 400 ? res.status : 502 });
+      const response = NextResponse.json({ ok: true, host: true, room: roomId, name: 'Stephen', title: 'Meeting room' });
+      setTotiCookie(response, meetingCookie, data.meetingToken, 7200);
+      return response;
     }
-
-    const cleanEmail = (email || "").trim().toLowerCase();
-    if (!cleanEmail || !cleanEmail.includes("@")) {
-      return NextResponse.json({ ok: false, reason: "invalid_email" }, { status: 400 });
-    }
-
-    const key = process.env.SUPABASE_TOTIROOM_ANON_KEY;
-    if (!key) {
-      return NextResponse.json({ error: "Not configured" }, { status: 500 });
-    }
-
-    const rows = await lookupBookings(cleanEmail, key);
-    if (rows === null) {
-      return NextResponse.json({ error: "Lookup failed" }, { status: 502 });
-    }
-
-    const now = Date.now();
-    const hasRelevantBooking = rows.some((r) => {
-      const start = new Date(r.start_time).getTime();
-      const end = r.end_time ? new Date(r.end_time).getTime() : start + 30 * 60 * 1000;
-      return start > now || (now >= start - JOIN_EARLY_MS && now <= end + JOIN_LATE_GRACE_MS);
-    });
-
-    if (!hasRelevantBooking) {
-      return NextResponse.json({ ok: false, reason: "no_booking" });
-    }
-
-    const otpHeaders = {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${key}`,
-    };
-
-    // PHASE 1 — no code yet: send the OTP, reveal nothing else.
+    const cleanEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) return NextResponse.json({ ok: false, reason: 'invalid_email' }, { status: 400 });
+    // Prove email ownership before looking up or revealing any booking information.
     if (!code) {
-      const sendRes = await fetch(`${TOTIROOM_URL}/functions/v1/otp`, {
-        method: "POST",
-        headers: otpHeaders,
-        body: JSON.stringify({ action: "send", email: cleanEmail }),
-      });
-      if (!sendRes.ok) {
-        console.error("OTP send failed:", sendRes.status, await sendRes.text());
-        return NextResponse.json({ error: "Could not send code" }, { status: 502 });
-      }
-      return NextResponse.json({ ok: false, otpRequired: true });
+      const sent = await totiBackend(request, 'otp', { action: 'send', email: cleanEmail });
+      return NextResponse.json(sent.ok ? { ok: false, otpRequired: true } : { error: 'Could not send code; try again later' }, { status: sent.ok ? 200 : sent.status });
     }
-
-    // PHASE 2 — verify the code (proves inbox ownership).
-    const verifyRes = await fetch(`${TOTIROOM_URL}/functions/v1/otp`, {
-      method: "POST",
-      headers: otpHeaders,
-      body: JSON.stringify({ action: "verify", email: cleanEmail, code: String(code).trim() }),
-    });
-    const verifyData = (await verifyRes.json()) as { verified?: boolean; error?: string };
-    if (!verifyRes.ok || !verifyData.verified) {
-      return NextResponse.json({ ok: false, reason: "bad_code" });
-    }
-
-    const attendeeName = (row: CalendarEventRow) =>
-      row.attendees?.find((a) => (a.email || "").toLowerCase() === cleanEmail)?.name || "";
-
-    // Active booking: inside the join window right now.
-    const active = rows.find((r) => {
-      const start = new Date(r.start_time).getTime();
-      const end = r.end_time ? new Date(r.end_time).getTime() : start + 30 * 60 * 1000;
-      return now >= start - JOIN_EARLY_MS && now <= end + JOIN_LATE_GRACE_MS;
-    });
-
+    const verified = await totiBackend(request, 'otp', { action: 'verify', email: cleanEmail, code: String(code).trim() });
+    const proof = await verified.json();
+    if (!verified.ok || !proof.verified || !proof.verificationToken) return NextResponse.json({ ok: false, reason: 'bad_code' }, { status: verified.status >= 400 ? verified.status : 200 });
+    const lookup = await totiBackend(request, 'meet-access', { action: 'lookup', email: cleanEmail, verificationToken: proof.verificationToken });
+    const data = await lookup.json();
+    if (!lookup.ok || !Array.isArray(data.bookings)) return NextResponse.json({ error: 'Lookup unavailable' }, { status: 502 });
+    const rows: Booking[] = data.bookings;
+    const now = Date.now();
+    const active = rows.find(row => now >= Date.parse(row.start_time)-900000 && now <= (row.end_time ? Date.parse(row.end_time) : Date.parse(row.start_time)+1800000)+600000);
     if (active) {
-      if ((active.join_count || 0) >= MAX_JOINS) {
-        return NextResponse.json({ ok: false, reason: "join_limit" });
-      }
-      // Consume one join (best-effort; a race between two devices is harmless).
-      await fetch(`${TOTIROOM_URL}/functions/v1/meet-access`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` },
-        body: JSON.stringify({ action: "consume_join", eventId: active.id }),
-      }).catch(() => undefined);
-
-      return NextResponse.json({
-        ok: true,
-        room: `evt-${active.id}`,
-        title: active.title || "Discovery Call with Toti",
-        start: active.start_time,
-        end: active.end_time,
-        name: attendeeName(active),
-        notes: active.description || undefined,
-      });
+      const joined = await totiBackend(request, 'meet-access', { action: 'consume_join', email: cleanEmail, eventId: active.id, verificationToken: proof.verificationToken });
+      const access = await joined.json();
+      if (!joined.ok || !access.meetingToken) return NextResponse.json({ ok: false, reason: 'join_limit' }, { status: joined.status >= 500 ? 502 : 200 });
+      const response = NextResponse.json({ ok: true, room: `evt-${active.id}`, title: active.title || 'Discovery Call with Toti', start: active.start_time, end: active.end_time, name: '' });
+      setTotiCookie(response, meetingCookie, access.meetingToken, 7200);
+      return response;
     }
-
-    const upcoming = rows.find((r) => new Date(r.start_time).getTime() > now);
-    if (upcoming) {
-      return NextResponse.json({
-        ok: false,
-        reason: "not_yet",
-        upcoming: {
-          title: upcoming.title || "Discovery Call with Toti",
-          start: upcoming.start_time,
-          name: attendeeName(upcoming),
-        },
-      });
-    }
-
-    return NextResponse.json({ ok: false, reason: "no_booking" });
-  } catch (error) {
-    console.error("Meet verify error:", error);
-    return NextResponse.json({ error: "Verification failed" }, { status: 500 });
+    const upcoming = rows.find(row => Date.parse(row.start_time) > now);
+    return NextResponse.json(upcoming ? { ok: false, reason: 'not_yet', upcoming: { title: upcoming.title, start: upcoming.start_time, name: '' } } : { ok: false, reason: 'no_booking' });
+  } catch {
+    return NextResponse.json({ error: 'Verification unavailable' }, { status: 503 });
   }
 }
