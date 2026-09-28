@@ -228,3 +228,8 @@ Replaced generic chat launcher/header icons in the active AnamVideoAvatar widget
 
 ## 2026-09-29 — [Codex] Chat portrait deployed
 Production READY: dpl_DUhbECwCTAuMmwKH8ogDMYCWfwXF from 2ea83c420d749d423b5335cf06d7a0d16fd532a2. Live active chat chunk verified with three portrait references (launcher/header/assistant messages); published image hash matches the existing Meet Toti headshot. Lint and production build passed.
+
+## 2026-09-29 — [Codex] Original Toti portrait quality
+Replaced website portrait references with the user-supplied original PNG, copied byte-for-byte from Toti Room public/Toti Digital Assistant Profile Photo.png. Set Next Image unoptimized for these portraits to avoid compression/downsampling; new URL avoids stale optimised-image caches. Applies to active chat, legacy chat and Meet Toti.
+
+- Validation: copied PNG hash equals supplied file; lint and production build passed; active compiled widget references original PNG in all three positions with optimisation bypass enabled.

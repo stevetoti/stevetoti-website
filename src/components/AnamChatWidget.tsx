@@ -115,7 +115,7 @@ export default function AnamChatWidget() {
               className="relative h-16 w-16 overflow-hidden rounded-full border-2 border-white/30 shadow-2xl shadow-vibrantorange/40 ring-2 ring-vibrantorange/60"
               aria-label="Chat with Toti"
             >
-              <Image src="/images/toti-avatar.jpg" alt="Toti" fill className="object-cover" />
+              <Image unoptimized src="/images/toti-profile-original.png" alt="Toti" fill className="object-cover" />
               <span className="absolute bottom-1 right-1 h-3.5 w-3.5 animate-pulse rounded-full border-2 border-white bg-green-400" />
             </motion.button>
           </motion.div>
@@ -137,7 +137,7 @@ export default function AnamChatWidget() {
               <div className="absolute inset-0 bg-gradient-to-br from-deepblue via-deepblue-600 to-vibrantorange" />
               <div className="relative flex items-center gap-3">
                 <div className="relative h-12 w-12 overflow-hidden rounded-full border-2 border-white/40">
-                  <Image src="/images/toti-avatar.jpg" alt="Toti" fill className="object-cover" />
+                  <Image unoptimized src="/images/toti-profile-original.png" alt="Toti" fill className="object-cover" />
                   <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-deepblue bg-green-400" />
                 </div>
                 <div className="flex-1">

@@ -30,3 +30,6 @@ Stephen requested halving training duration and adding affiliate marketing to th
 
 ## 2026-09-28 — [Codex] Toti portrait in public chat
 Use the existing white-shirt/blue-tie Toti portrait consistently in the public chat launcher, header and assistant messages. Keep the AI assistant label.
+
+## 2026-09-29 — [Codex] Original Toti portrait quality
+Use Stephen's supplied original Toti PNG without image editing or generative enhancement. Serve the modest 148 KB file directly for consistent portrait quality.

@@ -53,7 +53,7 @@ export default function MeetToti() {
               {/* Image container */}
               <div className="relative rounded-2xl overflow-hidden border-2 border-white/10 shadow-2xl">
                 <Image
-                  src="/images/toti-avatar.jpg"
+                  unoptimized src="/images/toti-profile-original.png"
                   alt="Toti - AI Business Assistant"
                   width={400}
                   height={400}

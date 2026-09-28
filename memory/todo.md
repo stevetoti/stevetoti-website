@@ -30,3 +30,6 @@
 ## 2026-09-28 — [Codex] Toti portrait in public chat
 - [x] Verify and deploy the public chat portrait update. — [Codex] 2026-09-29: production READY; live chat bundle and image verified.
 - [ ] Follow up on pre-existing raw HTML rendering in AnamVideoAvatar assistant messages; this portrait-only change does not address that rendering path.
+
+## 2026-09-29 — [Codex] Original Toti portrait quality
+- [ ] Verify and deploy original PNG portrait replacement.

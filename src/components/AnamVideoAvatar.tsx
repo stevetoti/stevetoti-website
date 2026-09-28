@@ -504,7 +504,7 @@ export default function AnamVideoAvatar() {
         animate={{ scale: 1 }}
         transition={{ type: "spring", delay: 1 }}
       >
-        <Image src="/images/toti-avatar.jpg" alt="Toti" width={64} height={64} className="h-full w-full rounded-full object-cover" />
+        <Image unoptimized src="/images/toti-profile-original.png" alt="Toti" width={64} height={64} className="h-full w-full rounded-full object-cover" />
         <motion.span
           className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"
           animate={{ scale: [1, 1.2, 1] }}
@@ -529,7 +529,7 @@ export default function AnamVideoAvatar() {
             <div className="bg-gradient-to-r from-[#233C6F] to-[#1a2d52] p-4 flex items-center gap-3 border-b border-white/10">
               <div className="relative">
                 <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center overflow-hidden">
-                  <Image src="/images/toti-avatar.jpg" alt="Toti" width={48} height={48} className="h-full w-full object-cover" />
+                  <Image unoptimized src="/images/toti-profile-original.png" alt="Toti" width={48} height={48} className="h-full w-full object-cover" />
                 </div>
                 {(viewState === "chat" || isConnected) && (
                   <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-orange-500" />
@@ -586,7 +586,7 @@ export default function AnamVideoAvatar() {
                       }`}
                     >
                       {message.role === "assistant" && (
-                        <Image src="/images/toti-avatar.jpg" alt="Toti" width={32} height={32} className="h-8 w-8 shrink-0 rounded-full border border-white/20 bg-white object-cover" />
+                        <Image unoptimized src="/images/toti-profile-original.png" alt="Toti" width={32} height={32} className="h-8 w-8 shrink-0 rounded-full border border-white/20 bg-white object-cover" />
                       )}
                       <div
                         className={`min-w-0 max-w-[85%] px-3 py-2 rounded-2xl ${
