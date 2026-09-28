@@ -32,4 +32,4 @@
 - [ ] Follow up on pre-existing raw HTML rendering in AnamVideoAvatar assistant messages; this portrait-only change does not address that rendering path.
 
 ## 2026-09-29 — [Codex] Original Toti portrait quality
-- [ ] Verify and deploy original PNG portrait replacement.
+- [x] Verify and deploy original PNG portrait replacement. — [Codex] 2026-09-29: READY, live file hash and chat references verified.

@@ -233,3 +233,6 @@ Production READY: dpl_DUhbECwCTAuMmwKH8ogDMYCWfwXF from 2ea83c420d749d423b5335cf
 Replaced website portrait references with the user-supplied original PNG, copied byte-for-byte from Toti Room public/Toti Digital Assistant Profile Photo.png. Set Next Image unoptimized for these portraits to avoid compression/downsampling; new URL avoids stale optimised-image caches. Applies to active chat, legacy chat and Meet Toti.
 
 - Validation: copied PNG hash equals supplied file; lint and production build passed; active compiled widget references original PNG in all three positions with optimisation bypass enabled.
+
+## 2026-09-29 — [Codex] Original portrait live
+Production READY: dpl_AcCaQvxuCyMZdQNkew3sDq8RV67G from 6c24dd3fbcc01656e0a79ebe3b97a5db891812c5. Live PNG SHA-256 equals Stephen's supplied original; live widget references new PNG in all three positions with image optimisation bypass enabled. No generative editing or upscaling performed.
