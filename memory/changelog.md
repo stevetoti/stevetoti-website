@@ -220,3 +220,8 @@ Updated programme copy to 6 weeks per phase / 3 months full programme, added Pha
 
 ## 2026-09-28 — [Codex] Revised training offer deployed
 Production READY: dpl_AhSdqvZwtw5Ld3piHKFyBV2tBBMf from 6210b54b949f0c2342cd64f9786e63db2f88eb0a. Verified https://www.stevetoti.com/training HTTP 200 and rendered shorter durations, 90-minute sessions, affiliate marketing and three-month mentorship. All three public regional PDF downloads exactly match the visually verified local files (SHA-256). Browser tool timed out twice; interactive region/enrolment flow not re-tested and no enrolment submitted. Prices unchanged.
+
+## 2026-09-28 — [Codex] Toti portrait in public chat
+Replaced generic chat launcher/header icons in the active AnamVideoAvatar widget with the existing /images/toti-avatar.jpg portrait used by MeetToti. Added the same portrait beside assistant replies, with fixed dimensions and an accessible launcher label. No image alteration or provider/avatar configuration change.
+
+- Lint and production build passed. Compiled active widget contains three references to the existing portrait plus the accessible launcher label. Source image inspected; no image editing required.

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -11,7 +12,6 @@ import {
   MessageCircle,
   Send,
   Bot,
-  Sparkles,
   Loader2,
   Volume2,
   VolumeX,
@@ -493,8 +493,9 @@ export default function AnamVideoAvatar() {
       {/* Floating Button */}
       <motion.button
         data-toti-chat
+        aria-label="Chat with Toti"
         onClick={handleOpen}
-        className={`fixed bottom-6 right-6 z-50 p-4 rounded-full bg-gradient-to-r from-vibrantorange to-orange-500 
+        className={`fixed bottom-6 right-6 z-50 h-16 w-16 rounded-full bg-white ring-2 ring-vibrantorange/70
                    text-white shadow-lg shadow-vibrantorange/30 hover:shadow-xl hover:shadow-vibrantorange/40
                    transition-all ${isOpen ? "hidden" : "flex"} items-center gap-2`}
         whileHover={{ scale: 1.1 }}
@@ -503,7 +504,7 @@ export default function AnamVideoAvatar() {
         animate={{ scale: 1 }}
         transition={{ type: "spring", delay: 1 }}
       >
-        <MessageCircle size={28} />
+        <Image src="/images/toti-avatar.jpg" alt="Toti" width={64} height={64} className="h-full w-full rounded-full object-cover" />
         <motion.span
           className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"
           animate={{ scale: [1, 1.2, 1] }}
@@ -528,11 +529,7 @@ export default function AnamVideoAvatar() {
             <div className="bg-gradient-to-r from-[#233C6F] to-[#1a2d52] p-4 flex items-center gap-3 border-b border-white/10">
               <div className="relative">
                 <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center overflow-hidden">
-                  {viewState === "video" && isConnected ? (
-                    <Sparkles size={24} className="text-white" />
-                  ) : (
-                    <Bot size={28} className="text-white" />
-                  )}
+                  <Image src="/images/toti-avatar.jpg" alt="Toti" width={48} height={48} className="h-full w-full object-cover" />
                 </div>
                 {(viewState === "chat" || isConnected) && (
                   <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-orange-500" />
@@ -584,12 +581,15 @@ export default function AnamVideoAvatar() {
                       key={message.id}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className={`flex ${
+                      className={`flex items-end gap-2 ${
                         message.role === "user" ? "justify-end" : "justify-start"
                       }`}
                     >
+                      {message.role === "assistant" && (
+                        <Image src="/images/toti-avatar.jpg" alt="Toti" width={32} height={32} className="h-8 w-8 shrink-0 rounded-full border border-white/20 bg-white object-cover" />
+                      )}
                       <div
-                        className={`max-w-[85%] px-3 py-2 rounded-2xl ${
+                        className={`min-w-0 max-w-[85%] px-3 py-2 rounded-2xl ${
                           message.role === "user"
                             ? "bg-vibrantorange text-white rounded-br-md"
                             : "bg-[#233C6F] text-white rounded-bl-md border border-white/10"
