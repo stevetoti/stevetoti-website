@@ -23,3 +23,6 @@
 ## 2026-09-28 — [Codex] Meeting security release live
 - [x] Production deployment dpl_7ushUQGG8iuPUkJtWELkhkp52vGe READY; native host sign-in and private channel admission verified.
 - [ ] Complete real guest OTP/booking, audio/video and recap acceptance with Stephen. Paid recovery remains deferred.
+
+## 2026-09-28 — [Codex] Shorter training programmes and mentorship
+- [ ] Update regional flyers, verify the training page and deploy the revised offer.

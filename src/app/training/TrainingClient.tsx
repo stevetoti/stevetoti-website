@@ -56,24 +56,24 @@ const regions: Record<RegionKey, Region> = {
     label: "Ghana",
     flag: "🇬🇭",
     currencyNote: "Prices in Ghanaian Cedi (GHS)",
-    flyer: "/downloads/training-flyer-ghs.pdf",
+    flyer: "/downloads/training-flyer-ghs.pdf?v=20260928",
     packages: [
       {
         name: "Phase 1 — Digital Business Foundations",
-        duration: "3 months · 36 sessions",
+        duration: "1 month & 2 weeks · 18 sessions",
         price: "GHS 4,500",
         installment: "or 3 × GHS 1,700 / month",
       },
       {
         name: "Full Program — Both Phases",
-        duration: "6 months · 72 sessions",
+        duration: "3 months · 36 sessions",
         price: "GHS 10,000",
         save: "Save GHS 1,000",
         highlight: true,
       },
       {
         name: "Phase 2 — AI Mastery & Automation",
-        duration: "3 months · 36 sessions",
+        duration: "1 month & 2 weeks · 18 sessions",
         price: "GHS 6,500",
         installment: "or 3 × GHS 2,400 / month",
       },
@@ -83,24 +83,24 @@ const regions: Record<RegionKey, Region> = {
     label: "Vanuatu",
     flag: "🇻🇺",
     currencyNote: "Prices in Vanuatu Vatu (VT)",
-    flyer: "/downloads/training-flyer-vt.pdf",
+    flyer: "/downloads/training-flyer-vt.pdf?v=20260928",
     packages: [
       {
         name: "Phase 1 — Digital Business Foundations",
-        duration: "3 months · 36 sessions",
+        duration: "1 month & 2 weeks · 18 sessions",
         price: "VT 120,000",
         installment: "or 3 × VT 45,000 / month",
       },
       {
         name: "Full Program — Both Phases",
-        duration: "6 months · 72 sessions",
+        duration: "3 months · 36 sessions",
         price: "VT 250,000",
         save: "Save VT 50,000",
         highlight: true,
       },
       {
         name: "Phase 2 — AI Mastery & Automation",
-        duration: "3 months · 36 sessions",
+        duration: "1 month & 2 weeks · 18 sessions",
         price: "VT 180,000",
         installment: "or 3 × VT 65,000 / month",
       },
@@ -110,24 +110,24 @@ const regions: Record<RegionKey, Region> = {
     label: "International",
     flag: "🌍",
     currencyNote: "Prices in US Dollars (USD) — all other countries",
-    flyer: "/downloads/training-flyer-usd.pdf",
+    flyer: "/downloads/training-flyer-usd.pdf?v=20260928",
     packages: [
       {
         name: "Phase 1 — Digital Business Foundations",
-        duration: "3 months · 36 sessions",
+        duration: "1 month & 2 weeks · 18 sessions",
         price: "$1,000",
         installment: "or 3 × $375 / month",
       },
       {
         name: "Full Program — Both Phases",
-        duration: "6 months · 72 sessions",
+        duration: "3 months · 36 sessions",
         price: "$2,100",
         save: "Save $400",
         highlight: true,
       },
       {
         name: "Phase 2 — AI Mastery & Automation",
-        duration: "3 months · 36 sessions",
+        duration: "1 month & 2 weeks · 18 sessions",
         price: "$1,500",
         installment: "or 3 × $550 / month",
       },
@@ -136,6 +136,11 @@ const regions: Record<RegionKey, Region> = {
 };
 
 const phase1Modules = [
+  {
+    icon: Users,
+    title: "Affiliate Marketing",
+    description: "Choose relevant offers, create useful content and track referral income",
+  },
   {
     icon: Briefcase,
     title: "How to Set Up a Profitable Business",
@@ -179,7 +184,7 @@ const phase2Modules = [
 const curriculum = [
   {
     phase: "Phase 1",
-    weeks: "Weeks 1–3",
+    weeks: "Week 1",
     title: "Profitable Business Setup",
     items: [
       "Find & validate a profitable idea",
@@ -190,7 +195,7 @@ const curriculum = [
   },
   {
     phase: "Phase 1",
-    weeks: "Weeks 4–6",
+    weeks: "Week 2",
     title: "Website Development",
     items: [
       "Domains, hosting & professional email",
@@ -201,7 +206,7 @@ const curriculum = [
   },
   {
     phase: "Phase 1",
-    weeks: "Weeks 7–9",
+    weeks: "Week 3",
     title: "Digital Marketing",
     items: [
       "Social media strategy & content calendar",
@@ -212,7 +217,18 @@ const curriculum = [
   },
   {
     phase: "Phase 1",
-    weeks: "Weeks 10–12",
+    weeks: "Week 4",
+    title: "Affiliate Marketing",
+    items: [
+      "Choose a niche and suitable affiliate programmes",
+      "Create helpful reviews, comparisons & recommendations",
+      "Set up referral links, clear disclosures & tracking",
+      "Build a content plan and improve conversions",
+    ],
+  },
+  {
+    phase: "Phase 1",
+    weeks: "Weeks 5–6",
     title: "Advertising & Video Production",
     items: [
       "Facebook & Instagram ads that convert",
@@ -223,7 +239,7 @@ const curriculum = [
   },
   {
     phase: "Phase 2",
-    weeks: "Weeks 1–4",
+    weeks: "Weeks 7–8",
     title: "AI Automation for Businesses",
     items: [
       "AI fundamentals & prompt mastery",
@@ -234,7 +250,7 @@ const curriculum = [
   },
   {
     phase: "Phase 2",
-    weeks: "Weeks 5–8",
+    weeks: "Weeks 9–10",
     title: "AI Automation Software Creation",
     items: [
       "No-code & AI app builders",
@@ -245,7 +261,7 @@ const curriculum = [
   },
   {
     phase: "Phase 2",
-    weeks: "Weeks 9–12",
+    weeks: "Weeks 11–12",
     title: "How to Train Institutions in AI",
     items: [
       "Design an AI curriculum that lands",
@@ -261,6 +277,7 @@ const included = [
   "WhatsApp support between sessions",
   "Capstone project",
   "Certificate of completion",
+  "3 months of personalised post-training mentorship",
 ];
 
 const steps = [
@@ -277,7 +294,12 @@ const steps = [
   {
     icon: Rocket,
     title: "Train 3× a Week & Launch",
-    description: "1 hour per session, homework between, capstone at the end.",
+    description: "90 minutes per session, homework between, capstone at the end.",
+  },
+  {
+    icon: GraduationCap,
+    title: "Keep Building with Mentorship",
+    description: "Get 3 months of follow-up guidance tailored to your needs as you apply the skills and work towards your income goals.",
   },
 ];
 
@@ -382,10 +404,11 @@ export default function TrainingClient() {
 
               <div className="flex flex-wrap gap-3 mb-8">
                 {[
-                  { icon: Calendar, label: "3 months per phase" },
+                  { icon: Calendar, label: "1 month & 2 weeks per phase" },
                   { icon: Users, label: "3 sessions / week" },
-                  { icon: Clock, label: "1 hour, 1-on-1" },
+                  { icon: Clock, label: "90 minutes, 1-on-1" },
                   { icon: Globe, label: "In person or online" },
+                  { icon: GraduationCap, label: "+ 3 months of mentorship" },
                 ].map((fact) => (
                   <div
                     key={fact.label}
@@ -460,7 +483,7 @@ export default function TrainingClient() {
               <span className="gradient-text">One Transformation.</span>
             </h2>
             <p className="section-subheading">
-              Build the business first, then supercharge it with AI.
+              Build your digital business in 1 month and 2 weeks, or complete both phases in 3 months. Each option includes 3 months of mentorship afterwards.
             </p>
           </motion.div>
 
@@ -476,7 +499,7 @@ export default function TrainingClient() {
                 <span className="px-4 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-sm font-bold">
                   PHASE 1
                 </span>
-                <span className="text-gray-500 text-sm">Months 1–3</span>
+                <span className="text-gray-500 text-sm">Weeks 1–6</span>
               </div>
               <h3 className="text-2xl font-bold text-white mb-6">
                 Digital Business Foundations
@@ -499,7 +522,7 @@ export default function TrainingClient() {
                   You walk away with
                 </p>
                 <p className="text-gray-300 text-sm">
-                  A registered business, live website &amp; running ad campaign.
+                  A business launch plan, live website, affiliate marketing plan &amp; practical ad campaign.
                 </p>
               </div>
             </motion.div>
@@ -516,7 +539,7 @@ export default function TrainingClient() {
                 <span className="px-4 py-1.5 rounded-full bg-vibrantorange/20 border border-vibrantorange/30 text-vibrantorange text-sm font-bold">
                   PHASE 2
                 </span>
-                <span className="text-gray-500 text-sm">Months 4–6</span>
+                <span className="text-gray-500 text-sm">Weeks 7–12</span>
               </div>
               <h3 className="text-2xl font-bold text-white mb-6">
                 AI Mastery &amp; Automation
@@ -558,11 +581,11 @@ export default function TrainingClient() {
             className="text-center mb-16"
           >
             <h2 className="section-heading">
-              <span className="text-white">The Full 6-Month </span>
+              <span className="text-white">The Full 3-Month </span>
               <span className="gradient-text">Curriculum</span>
             </h2>
             <p className="section-subheading">
-              36 one-hour sessions per phase — every session is hands-on, on your business.
+              18 ninety-minute sessions per phase — every session is hands-on, on your business.
             </p>
           </motion.div>
 
@@ -603,6 +626,24 @@ export default function TrainingClient() {
         </div>
       </section>
 
+      <section id="mentorship" className="py-16 scroll-mt-24">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="glass-card p-8 sm:p-12 border-vibrantorange/30">
+            <p className="text-vibrantorange text-sm font-semibold uppercase tracking-wider mb-3">Support beyond the classroom</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-5">3 months of mentorship after your training</h2>
+            <p className="text-gray-300 leading-relaxed mb-6">Your support continues after the final session. For 3 months after your chosen programme, I provide mentorship based on your needs and progress — helping you put the lessons into practice, resolve challenges and improve your business as you work towards your income goals.</p>
+            <div className="grid gap-5 sm:grid-cols-3">
+              {[
+                { title: "Apply what you learn", detail: "Get guidance as you launch, test and improve your real projects." },
+                { title: "Work through challenges", detail: "Bring the practical questions and obstacles that matter to your next step." },
+                { title: "Build towards income", detail: "Review your approach to offers, marketing and delivery, with support tailored to your progress." },
+              ].map(item => <div key={item.title} className="rounded-xl border border-white/10 bg-white/5 p-5"><h3 className="text-white font-semibold mb-2">{item.title}</h3><p className="text-sm text-gray-400 leading-relaxed">{item.detail}</p></div>)}
+            </div>
+            <p className="mt-6 text-sm text-gray-400">Mentorship is included with each training option. The support plan is agreed around your needs; results depend on your effort, implementation and market conditions.</p>
+          </div>
+        </div>
+      </section>
+
       {/* ============================== Pricing ============================== */}
       <section id="pricing" className="py-20 relative scroll-mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -617,7 +658,7 @@ export default function TrainingClient() {
               <span className="gradient-text">Enrolment</span>
             </h2>
             <p className="section-subheading">
-              Select your region to see pricing in your local currency.
+              Select your region to see pricing in your local currency. All options include 3 months of post-training mentorship. Monthly payments may continue during mentorship.
             </p>
           </motion.div>
 
@@ -736,7 +777,7 @@ export default function TrainingClient() {
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
             {steps.map((step, index) => (
               <motion.div
                 key={step.title}
@@ -847,6 +888,7 @@ export default function TrainingClient() {
                 <>
                   <h3 className="text-2xl font-bold text-white mb-1">Enrol Now</h3>
                   <p className="text-gray-400 text-sm mb-1">{selectedPackage.name}</p>
+                  <p className="text-gray-400 text-sm mb-2">{selectedPackage.duration} + 3 months of mentorship</p>
                   <p className="mb-6">
                     <span className="text-2xl font-bold gradient-text">
                       {selectedPackage.price}

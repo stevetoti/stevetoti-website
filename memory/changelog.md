@@ -212,3 +212,8 @@ Approved Toti Room compatibility hardening: OTP before booking lookup, atomic jo
 - Service smoke using the Management API legacy service key returned 401; its hash differs from the function runtime service-key digest. Did not weaken authentication or rotate shared keys. Native signed meeting flow and owner LLM internal backend flow passed. GitHub/health/voice service-level checks are not claimed as passed; follow up through owner session and reconcile managed key metadata if needed.
 - Removed the exact obsolete exposed deployment dpl_Fch1KjeMXfDYgJziKeSzs3XTbYxD (DELETE HTTP 200) after replacement verification. Original GitHub token revocation completion remains unverified; no exposed-token probing performed.
 - Paid PITR remains OFF by Stephen's decision. Daily backups do not meet the few-minute recovery objective; object-storage backup coverage and full restore drill remain unresolved.
+
+## 2026-09-28 — [Codex] Shorter training programmes and mentorship
+Updated programme copy to 6 weeks per phase / 3 months full programme, added Phase 1 affiliate marketing and 3 months of needs-based post-training mentorship. Prices and existing monthly payment amounts retained; 3 sessions/week implies 18 per phase, 36 full. Flyers and verification pending.
+
+- Stephen confirmed 90-minute sessions, three weekly. Updated hero, curriculum, process and flyers accordingly. Lint clean; final production build passed; generated training HTML verified for all revised offer details. All three one-page PDFs rendered and inspected; extracted text verified for 18/36 sessions, 90-minute cadence, affiliate marketing and mentorship. Existing meeting-access regression passed.

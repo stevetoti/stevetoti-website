@@ -22,3 +22,8 @@ out.
 
 ## 2026-09-27 — [Codex] Approved backend compatibility work
 Public proxies do not receive a service-role key. Dedicated TOTI_WEBSITE_BACKEND_KEY only delegates host meeting controls; participant operations use signed, short-lived meeting proofs. Only Stephen may access private Toti operations.
+
+## 2026-09-28 — [Codex] Shorter training programmes and mentorship
+Stephen requested halving training duration and adding affiliate marketing to the first phase. Mentorship lasts 3 months after the chosen programme and is tailored to needs/progress towards income goals; no guaranteed income or indefinite support promise. Retain existing prices and 3-session weekly cadence unless Stephen specifies otherwise.
+
+- [Codex] 2026-09-28: Stephen confirmed 90 minutes per session, three sessions weekly. 18 sessions / 27 teaching hours per phase; 36 sessions / 54 teaching hours for both phases.
