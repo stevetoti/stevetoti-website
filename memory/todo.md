@@ -25,4 +25,4 @@
 - [ ] Complete real guest OTP/booking, audio/video and recap acceptance with Stephen. Paid recovery remains deferred.
 
 ## 2026-09-28 — [Codex] Shorter training programmes and mentorship
-- [ ] Update regional flyers, verify the training page and deploy the revised offer.
+- [x] Update regional flyers, verify the training page and deploy the revised offer. — [Codex] 2026-09-28: production READY, live content and PDF file hashes verified; browser interaction checks unavailable due to tool timeout.

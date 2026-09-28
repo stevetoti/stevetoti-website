@@ -217,3 +217,6 @@ Approved Toti Room compatibility hardening: OTP before booking lookup, atomic jo
 Updated programme copy to 6 weeks per phase / 3 months full programme, added Phase 1 affiliate marketing and 3 months of needs-based post-training mentorship. Prices and existing monthly payment amounts retained; 3 sessions/week implies 18 per phase, 36 full. Flyers and verification pending.
 
 - Stephen confirmed 90-minute sessions, three weekly. Updated hero, curriculum, process and flyers accordingly. Lint clean; final production build passed; generated training HTML verified for all revised offer details. All three one-page PDFs rendered and inspected; extracted text verified for 18/36 sessions, 90-minute cadence, affiliate marketing and mentorship. Existing meeting-access regression passed.
+
+## 2026-09-28 — [Codex] Revised training offer deployed
+Production READY: dpl_AhSdqvZwtw5Ld3piHKFyBV2tBBMf from 6210b54b949f0c2342cd64f9786e63db2f88eb0a. Verified https://www.stevetoti.com/training HTTP 200 and rendered shorter durations, 90-minute sessions, affiliate marketing and three-month mentorship. All three public regional PDF downloads exactly match the visually verified local files (SHA-256). Browser tool timed out twice; interactive region/enrolment flow not re-tested and no enrolment submitted. Prices unchanged.
