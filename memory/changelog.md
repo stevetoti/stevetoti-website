@@ -225,3 +225,6 @@ Production READY: dpl_AhSdqvZwtw5Ld3piHKFyBV2tBBMf from 6210b54b949f0c2342cd64f9
 Replaced generic chat launcher/header icons in the active AnamVideoAvatar widget with the existing /images/toti-avatar.jpg portrait used by MeetToti. Added the same portrait beside assistant replies, with fixed dimensions and an accessible launcher label. No image alteration or provider/avatar configuration change.
 
 - Lint and production build passed. Compiled active widget contains three references to the existing portrait plus the accessible launcher label. Source image inspected; no image editing required.
+
+## 2026-09-29 — [Codex] Chat portrait deployed
+Production READY: dpl_DUhbECwCTAuMmwKH8ogDMYCWfwXF from 2ea83c420d749d423b5335cf06d7a0d16fd532a2. Live active chat chunk verified with three portrait references (launcher/header/assistant messages); published image hash matches the existing Meet Toti headshot. Lint and production build passed.

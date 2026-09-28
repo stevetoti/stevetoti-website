@@ -28,5 +28,5 @@
 - [x] Update regional flyers, verify the training page and deploy the revised offer. — [Codex] 2026-09-28: production READY, live content and PDF file hashes verified; browser interaction checks unavailable due to tool timeout.
 
 ## 2026-09-28 — [Codex] Toti portrait in public chat
-- [ ] Verify and deploy the public chat portrait update.
+- [x] Verify and deploy the public chat portrait update. — [Codex] 2026-09-29: production READY; live chat bundle and image verified.
 - [ ] Follow up on pre-existing raw HTML rendering in AnamVideoAvatar assistant messages; this portrait-only change does not address that rendering path.
