@@ -236,3 +236,12 @@ Replaced website portrait references with the user-supplied original PNG, copied
 
 ## 2026-09-29 — [Codex] Original portrait live
 Production READY: dpl_AcCaQvxuCyMZdQNkew3sDq8RV67G from 6c24dd3fbcc01656e0a79ebe3b97a5db891812c5. Live PNG SHA-256 equals Stephen's supplied original; live widget references new PNG in all three positions with image optimisation bypass enabled. No generative editing or upscaling performed.
+
+## 2026-09-29 — [Claude Code] Recommended tools / affiliate page
+- **Public `/tools`** (`src/app/tools/`): hero (generated Pacific workspace image + headshot), filterable tool cards (clickable website screenshot, name, tagline, description, domain, CTA), two image content sections, "why trust these picks" with the award photo, CTA, affiliate disclosure. ISR 60s; admin saves revalidate instantly.
+- **`/go/[slug]`**: logs a click (skips bots) to `affiliate_clicks` via `after()`, then 302s to the affiliate URL; unknown/hidden slugs fall back to `/tools`. Disallowed in robots.
+- **`/admin/tools`** + `/api/admin/tools` (+ `/upload` to Toti Room `site-assets/affiliate-tools/`): add/edit/hide/highlight/reorder/delete tools, image upload or URL, copy short link, 30-day + total clicks.
+- Data: Toti Room migration `20260929000100_affiliate_tools.sql` (applied). Seeded Hostinger, Namecheap, DigiAssist AI. Images in `public/images/tools/`.
+- Fixes found while testing: admin login rejected the real password because the Vercel `ADMIN_PASSWORD` value has a trailing newline (login now compares trimmed; token signing unchanged); admin pages sat under the fixed site navbar (content/sidebar offset); navbar CTA hover overlay was unclipped (orange block) and CTA overflowed at tablet widths.
+- Nav/footer/sitemap gain Tools.
+- Verified locally on a production build with production env: tsc, lint, build clean; desktop/mobile screenshots; all three /go redirects; full admin E2E in Chromium (login incl. wrong password, add + upload, public render, image click opens affiliate in new tab, click counted, edit, hide, duplicate-slug error, delete); anon RLS denies click reads and all writes. Test rows/uploads removed.

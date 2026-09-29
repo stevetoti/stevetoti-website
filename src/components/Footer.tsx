@@ -18,6 +18,7 @@ const footerLinks = {
     { href: "/services", label: "Services" },
     { href: "/training", label: "Training" },
     { href: "/portfolio", label: "Portfolio" },
+    { href: "/tools", label: "Tools" },
     { href: "/blog", label: "Blog" },
     { href: "/contact", label: "Contact" },
   ],

@@ -14,7 +14,8 @@ import {
   Lock,
   Users,
   Search,
-  FileText
+  FileText,
+  Wrench
 } from "lucide-react";
 
 const navItems = [
@@ -24,6 +25,7 @@ const navItems = [
   { href: "/admin/calls", label: "Video Calls", icon: Video },
   { href: "/admin/newsletter", label: "Newsletter", icon: Users },
   { href: "/admin/blog", label: "Blog Management", icon: FileText },
+  { href: "/admin/tools", label: "Tools & Affiliates", icon: Wrench },
   { href: "/admin/seo", label: "SEO Hub", icon: Search },
 ];
 
@@ -146,7 +148,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <div className="min-h-screen bg-gray-950 pt-0">
       {/* Mobile menu button */}
-      <div className="lg:hidden fixed top-20 left-4 z-50">
+      <div className="lg:hidden fixed top-24 left-4 z-50">
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
           className="p-2 bg-gray-800 rounded-lg text-white"
@@ -157,7 +159,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-16 left-0 h-[calc(100vh-4rem)] w-64 bg-gray-900 border-r border-gray-800 
+        className={`fixed top-20 left-0 h-[calc(100vh-5rem)] w-64 bg-gray-900 border-r border-gray-800 
                    transform transition-transform duration-200 z-40
                    ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}
       >
@@ -199,7 +201,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </aside>
 
       {/* Main content */}
-      <main className="lg:ml-64 min-h-screen p-6 pt-20 lg:pt-6">
+      <main className="lg:ml-64 min-h-screen p-6 pt-36 lg:pt-28">
         {children}
       </main>
 

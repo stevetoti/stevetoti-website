@@ -13,7 +13,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (password !== adminPassword) {
+    // The stored secret carries a trailing newline, which a password field can't send.
+    if (typeof password !== "string" || password.trim() !== adminPassword.trim()) {
       return NextResponse.json(
         { error: "Invalid password" },
         { status: 401 }

@@ -33,3 +33,8 @@
 
 ## 2026-09-29 — [Codex] Original Toti portrait quality
 - [x] Verify and deploy original PNG portrait replacement. — [Codex] 2026-09-29: READY, live file hash and chat references verified.
+
+## 2026-09-29 — [Claude Code] Tools page
+- [ ] Stephen: add Wise, Payoneer and other tools at /admin/tools (image upload or paste image link).
+- [ ] Re-save `ADMIN_PASSWORD`, `TOTIROOM_SUPABASE_URL` and the Supabase keys in Vercel without the trailing newline (code tolerates it, but it's a trap).
+- [ ] Existing `/api/admin/data` PATCH/DELETE accept any table name and it reads `TOTIROOM_SUPABASE_SERVICE_KEY` (not set; prod has `SUPABASE_TOTIROOM_SERVICE_KEY`), so it silently falls back to the anon key. Review.

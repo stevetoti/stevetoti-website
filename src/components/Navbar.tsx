@@ -11,6 +11,7 @@ const navLinks = [
   { href: "/services", label: "Services" },
   { href: "/training", label: "Training" },
   { href: "/portfolio", label: "Portfolio" },
+  { href: "/tools", label: "Tools" },
   { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },
 ];
@@ -89,7 +90,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-4 lg:space-x-6 xl:space-x-8 whitespace-nowrap">
             {navLinks.map((link, index) => (
               <motion.div
                 key={link.href}
@@ -134,13 +135,14 @@ export default function Navbar() {
             
             {/* CTA Button */}
             <motion.div
+              className="hidden lg:flex"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.5 }}
             >
               <Link 
                 href="/contact" 
-                className="btn-primary text-sm py-2 px-4 relative overflow-hidden group"
+                className="btn-primary text-sm py-2 px-4 relative inline-block overflow-hidden group"
               >
                 <span className="relative z-10">Let&apos;s Talk</span>
                 <motion.div
