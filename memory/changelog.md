@@ -267,3 +267,4 @@ Production READY: dpl_9wLfwcoTNAF5XUcV49UH5iGoYabm from 8fcaa9e (Toti Room migra
 
 ## 2026-09-30 — [Claude Code] New automation image on /tools
 - Stephen disliked the AI section photo. Replaced section-ai.jpg with section-automation.jpg (Higgsfield/Recraft: owner relaxing while a holographic workflow completes email, chat, invoice and calendar tasks). Alternatives offered: abstract AI core with task cards; isometric gold robots.
+- [Claude Code] 2026-09-30: Stephen wanted a professional person, no earrings. Replaced with section-automation-pro.jpg (suited businessman, tablet, automation icons ticked off).

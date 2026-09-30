@@ -148,8 +148,8 @@ export default async function ToolsPage() {
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
           <div className="lg:order-2 relative aspect-[4/3] overflow-hidden rounded-3xl border border-white/10">
             <Image
-              src="/images/tools/section-automation.jpg"
-              alt="Business owner relaxing while AI automations handle email, chat, invoices and bookings"
+              src="/images/tools/section-automation-pro.jpg"
+              alt="Professional in a suit reviewing a tablet while AI automations complete email, chat, document and calendar tasks"
               fill
               sizes="(min-width: 1024px) 50vw, 100vw"
               className="object-cover"
