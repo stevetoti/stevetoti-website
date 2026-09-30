@@ -253,3 +253,6 @@ Production READY: dpl_9wLfwcoTNAF5XUcV49UH5iGoYabm from 8fcaa9e (Toti Room migra
 - Hero copy now lists Vanuatu, Ghana, the USA and Indonesia; badge reads "3 companies · 4 countries"; disclosure says "including products from my own companies".
 - DigiAssist AI badge "Built by me" → "My company" (Stephen's request); description credits Global Digital Prime. Admin checkbox relabelled "My company's product".
 - Added via data (no schema change): Higgsfield (affiliate), ChatGPT Codex (official link, no affiliate), Wise (invite link), Payoneer (official link until Stephen supplies a referral link). New category "Money Transfers". Screenshots in public/images/tools/.
+
+## 2026-09-30 — [Claude Code] Namecheap affiliate link updated
+- Data change only: namecheap affiliate_url → https://namecheap.pxf.io/c/2427860/4055573/5618 (Impact tracking link; currently lands on Namecheap's hosting birthday promo page). Live /go/namecheap verified.
