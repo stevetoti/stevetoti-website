@@ -256,3 +256,4 @@ Production READY: dpl_9wLfwcoTNAF5XUcV49UH5iGoYabm from 8fcaa9e (Toti Room migra
 
 ## 2026-09-30 — [Claude Code] Namecheap affiliate link updated
 - Data change only: namecheap affiliate_url → https://namecheap.pxf.io/c/2427860/4055573/5618 (Impact tracking link; currently lands on Namecheap's hosting birthday promo page). Live /go/namecheap verified.
+- Replaced with https://namecheap.pxf.io/P0bk3z (lands on Namecheap homepage with tracking) at Stephen's request; previous link went to a promo page.
