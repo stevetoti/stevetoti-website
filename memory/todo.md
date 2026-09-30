@@ -38,3 +38,4 @@
 - [ ] Stephen: add Wise, Payoneer and other tools at /admin/tools (image upload or paste image link).
 - [ ] Re-save `ADMIN_PASSWORD`, `TOTIROOM_SUPABASE_URL` and the Supabase keys in Vercel without the trailing newline (code tolerates it, but it's a trap).
 - [ ] Existing `/api/admin/data` PATCH/DELETE accept any table name and it reads `TOTIROOM_SUPABASE_SERVICE_KEY` (not set; prod has `SUPABASE_TOTIROOM_SERVICE_KEY`), so it silently falls back to the anon key. Review.
+- [ ] Stephen: paste Payoneer referral link (and a Codex/ChatGPT referral if one exists) in /admin/tools; both currently use the official site link.

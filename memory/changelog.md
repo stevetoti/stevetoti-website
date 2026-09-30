@@ -248,3 +248,8 @@ Production READY: dpl_AcCaQvxuCyMZdQNkew3sDq8RV67G from 6c24dd3fbcc01656e0a79ebe
 
 ## 2026-09-29 — [Claude Code] Tools page deployed
 Production READY: dpl_9wLfwcoTNAF5XUcV49UH5iGoYabm from 8fcaa9e (Toti Room migration commit 8e75cf5, applied before deploy). Verified on https://www.stevetoti.com: /tools 200 with all three tools; /go/hostinger, /go/namecheap, /go/digiassistai 302 to the exact affiliate URLs; robots/sitemap updated; wrong admin password 401; full admin E2E against live (login with real password, add + image upload, public render, image click → affiliate in new tab, click counted, edit, hide, duplicate-slug error, delete). QA rows, verification clicks and test upload removed.
+
+## 2026-09-30 — [Claude Code] Tools page: Indonesia, company badge, four new tools
+- Hero copy now lists Vanuatu, Ghana, the USA and Indonesia; badge reads "3 companies · 4 countries"; disclosure says "including products from my own companies".
+- DigiAssist AI badge "Built by me" → "My company" (Stephen's request); description credits Global Digital Prime. Admin checkbox relabelled "My company's product".
+- Added via data (no schema change): Higgsfield (affiliate), ChatGPT Codex (official link, no affiliate), Wise (invite link), Payoneer (official link until Stephen supplies a referral link). New category "Money Transfers". Screenshots in public/images/tools/.

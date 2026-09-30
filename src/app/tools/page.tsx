@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 };
 
 const DISCLOSURE =
-  "Some links on this page are affiliate links. If you sign up through them I may earn a commission, at no extra cost to you. I only recommend tools I use or my team built.";
+  "Some links on this page are affiliate links. If you sign up through them I may earn a commission, at no extra cost to you. I only recommend tools I use, including products from my own companies.";
 
 export default async function ToolsPage() {
   const tools = await getPublishedTools();
@@ -40,7 +40,7 @@ export default async function ToolsPage() {
               The tools I use to <span className="gradient-text">build and run businesses</span>
             </h1>
             <p className="mt-6 max-w-xl text-lg text-gray-400">
-              I run companies in Vanuatu, Ghana and the USA. These are the platforms I trust for hosting, domains, AI and
+              I run companies in Vanuatu, Ghana, the USA and Indonesia. These are the platforms I trust for hosting, domains, AI, payments and
               everyday operations, and the same ones I set up for my clients.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
@@ -81,7 +81,7 @@ export default async function ToolsPage() {
             <div className="glass-card absolute -bottom-6 left-4 flex items-center gap-3 px-5 py-4 sm:-left-6">
               <Globe2 className="h-8 w-8 text-vibrantorange" />
               <div>
-                <p className="font-bold text-white">3 companies · 3 continents</p>
+                <p className="font-bold text-white">3 companies · 4 countries</p>
                 <p className="text-sm text-gray-400">Run on these tools every day</p>
               </div>
             </div>

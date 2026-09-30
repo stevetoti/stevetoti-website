@@ -410,7 +410,7 @@ export default function ToolsAdminPage() {
                 [
                   ["is_published", "Show on page"],
                   ["is_featured", "Highlight"],
-                  ["is_own_product", "Built by me"],
+                  ["is_own_product", "My company's product"],
                 ] as const
               ).map(([key, label]) => (
                 <label key={key} className="flex items-center gap-2 cursor-pointer">
