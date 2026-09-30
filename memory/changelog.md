@@ -264,3 +264,6 @@ Production READY: dpl_9wLfwcoTNAF5XUcV49UH5iGoYabm from 8fcaa9e (Toti Room migra
 
 ## 2026-09-30 — [Claude Code] Tools page: VisaReadyPro and EduSmartAssist
 - Stephen confirmed both are his products. Added via data with official links (no referral links supplied), badged "My company": VisaReadyPro ("Visas & Travel") and EduSmartAssist ("Education"). Screenshots in public/images/tools/; rows published after the image deploy.
+
+## 2026-09-30 — [Claude Code] New automation image on /tools
+- Stephen disliked the AI section photo. Replaced section-ai.jpg with section-automation.jpg (Higgsfield/Recraft: owner relaxing while a holographic workflow completes email, chat, invoice and calendar tasks). Alternatives offered: abstract AI core with task cards; isometric gold robots.
