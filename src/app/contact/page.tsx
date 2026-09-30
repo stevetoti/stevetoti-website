@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { TurnstileWidget } from "@/components/security/TurnstileWidget";
+import { HoneypotField, useFormBotFields } from "@/components/security/FormBotFields";
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
 import {
   Mail,
   MapPin,
@@ -70,16 +73,23 @@ export default function ContactPage() {
   });
   const [submitted, setSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const bot = useFormBotFields();
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [captchaAttempt, setCaptchaAttempt] = useState(0);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (TURNSTILE_SITE_KEY && !turnstileToken) {
+      alert("Please complete the human verification check below.");
+      return;
+    }
     setIsLoading(true);
     
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, website: bot.honeypot, form_started_at: bot.formStartedAt ?? undefined, turnstile_token: turnstileToken ?? undefined }),
       });
       
       const data = await response.json();
@@ -102,6 +112,8 @@ export default function ContactPage() {
       alert("Failed to send message. Please try again or email directly at totinarh24@gmail.com");
     } finally {
       setIsLoading(false);
+      setTurnstileToken(null);
+      setCaptchaAttempt((n) => n + 1);
     }
   };
 
@@ -417,6 +429,10 @@ export default function ContactPage() {
                       />
                     </div>
 
+                    <HoneypotField value={bot.honeypot} onChange={bot.setHoneypot} />
+                    {TURNSTILE_SITE_KEY && (
+                      <TurnstileWidget key={captchaAttempt} siteKey={TURNSTILE_SITE_KEY} onVerify={setTurnstileToken} theme="light" />
+                    )}
                     <motion.button
                       type="submit"
                       disabled={isLoading}

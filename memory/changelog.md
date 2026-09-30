@@ -1,5 +1,25 @@
 # Changelog — stevetoti-website
 
+## 2026-09-30 — [Claude Code] Bot defence on the contact form (form-bot-defence skill)
+
+Spam like name `iifQfOBmSAtHZBibzgBQ` / message `2990030907` was reaching the inbox
+(contact_submissions: 4 bot-shaped rows in the last 7 days). Applied the shared PWD
+`form-bot-defence` skill:
+- `src/lib/security/{bot-signals,turnstile,form-guard}.ts`, `src/components/security/*`.
+- `/api/contact` now runs the guard BEFORE proxying to the Toti Room `contact-form` Edge
+  Function: honeypot (silent 200), 3 s minimum fill time, digit/link-only message refusal,
+  server-verified Cloudflare Turnstile (fail-closed). Review flags (generated-looking name)
+  are passed to the Edge Function, which now prints "Review signals" in the email
+  (function redeployed to rndegttgwtpkbjtvjgnc; backward compatible).
+- Contact page sends the three bot fields and renders the Turnstile widget; tokens re-issue
+  after every attempt.
+- Shared-project policy: dropped `contact_submissions` "Allow public insert" (anon could
+  insert rows directly; only the service-role Edge Function writes there).
+- Turnstile keys (shared PWD widget) added to Vercel production by stdin pipe.
+Committed on the current release branch `codex/production-security-2026-09-27` (production
+is deployed from it). Deploy + live probes follow once `stevetoti.com` and
+`www.stevetoti.com` are on the shared Turnstile widget.
+
 ## 2026-08-30 — [Claude Code] SEO baseline: robots, sitemap, GA4, Search Console verification
 
 - **`src/app/robots.ts`** (new): allow-all robots with `/admin`, `/api`, `/meet`

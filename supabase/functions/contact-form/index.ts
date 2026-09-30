@@ -17,7 +17,8 @@ serve(async (req) => {
   }
 
   try {
-    const { name, email, company, service, budget, message } = await req.json();
+    const { name, email, company, service, budget, message, flags } = await req.json();
+    const reviewFlags: string[] = Array.isArray(flags) ? flags.filter((f: unknown) => typeof f === "string").slice(0, 5) : [];
 
     // Validate required fields
     if (!name || !email || !message) {
@@ -63,6 +64,7 @@ serve(async (req) => {
         ${budget ? `<p><strong>Budget:</strong> ${budget}</p>` : ""}
         <p><strong>Message:</strong></p>
         <p style="white-space: pre-wrap; background: #f5f5f5; padding: 16px; border-radius: 8px;">${message}</p>
+        ${reviewFlags.length ? `<p style="color:#b45309;"><strong>Review signals:</strong> ${reviewFlags.join(", ")} — looks automated, verify before replying.</p>` : ""}
         <hr />
         <p style="color: #666; font-size: 12px;">Submitted via stevetoti.com contact form</p>
       `;

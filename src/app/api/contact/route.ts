@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
+import { guardPublicForm } from "@/lib/security/form-guard";
+import { clientIpFromHeaders } from "@/lib/security/turnstile";
 
 const TOTIROOM_URL = "https://rndegttgwtpkbjtvjgnc.supabase.co";
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, email, company, service, budget, message } = body;
+    const { name, email, company, service, budget, message, website, form_started_at, turnstile_token } = body;
 
     // Validate required fields
     if (!name || !email || !message) {
@@ -15,6 +17,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Bot defence (2026-09-30, form-bot-defence skill): honeypot, minimum fill
+    // time, content sanity and server-verified Turnstile run BEFORE anything is
+    // saved or emailed. The Sept spam (gibberish name, digit-only message) fails here.
+    const guard = await guardPublicForm({ honeypot: website, formStartedAt: form_started_at, turnstileToken: turnstile_token, ip: clientIpFromHeaders(request.headers), message: String(message), name: String(name) });
+    if (!guard.ok) {
+      if (guard.reason === "honeypot") return NextResponse.json({ success: true });
+      return NextResponse.json({ error: guard.message }, { status: 400 });
+    }
+
     // Call the edge function
     const response = await fetch(`${TOTIROOM_URL}/functions/v1/contact-form`, {
       method: "POST",
@@ -22,7 +33,7 @@ export async function POST(request: NextRequest) {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${process.env.SUPABASE_TOTIROOM_ANON_KEY}`,
       },
-      body: JSON.stringify({ name, email, company, service, budget, message }),
+      body: JSON.stringify({ name, email, company, service, budget, message, flags: guard.flags }),
     });
 
     const data = await response.json();

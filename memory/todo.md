@@ -1,5 +1,11 @@
 # Todo — stevetoti-website
 
+## 2026-09-30 — [Claude Code] Form bot defence
+
+- [x] Guard `/api/contact` + form; flags in email; anon insert policy dropped.
+- [ ] **Stephen:** add `stevetoti.com` + `www.stevetoti.com` to the shared Turnstile widget; then deploy + live probes.
+- [ ] Follow-up: the `contact-form` Edge Function is still callable with the anon key (server-side only today); add the Deno guard from the skill or a shared secret when Codex finishes the security branch.
+
 ## High priority
 - [ ] Decide payment provider(s) for training: Stripe Payment Links (USD tier
       via Global Digital Prime US entity), Paystack/Flutterwave for Ghana
