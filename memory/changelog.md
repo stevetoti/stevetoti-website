@@ -260,4 +260,7 @@ Production READY: dpl_9wLfwcoTNAF5XUcV49UH5iGoYabm from 8fcaa9e (Toti Room migra
 
 ## 2026-09-30 — [Claude Code] Tools page: community, Claude Code and language AI products
 - Added via data: BuildProfitAI (Stephen's free community; first, highlighted, "Free to join"), Claude Code (official link), and Stephen's own products under "Local Language AI" (Local Language Lab, Storian AI/Bislama, Akwaaba AI/Twi, Onukpa AI/Ga, Sena AI/Ewe with ref=rhrqsd links) badged "My company". Screenshots in public/images/tools/. Rows inserted hidden, published after the image deploy.
-- Open question to Stephen: whether EduSmartAssist and VisaReadyPro are his products and should be listed.
+- Open question to Stephen: whether EduSmartAssist and VisaReadyPro are his products and should be listed. — [Claude Code] 2026-09-30: confirmed; both added.
+
+## 2026-09-30 — [Claude Code] Tools page: VisaReadyPro and EduSmartAssist
+- Stephen confirmed both are his products. Added via data with official links (no referral links supplied), badged "My company": VisaReadyPro ("Visas & Travel") and EduSmartAssist ("Education"). Screenshots in public/images/tools/; rows published after the image deploy.
