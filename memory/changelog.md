@@ -257,3 +257,7 @@ Production READY: dpl_9wLfwcoTNAF5XUcV49UH5iGoYabm from 8fcaa9e (Toti Room migra
 ## 2026-09-30 — [Claude Code] Namecheap affiliate link updated
 - Data change only: namecheap affiliate_url → https://namecheap.pxf.io/c/2427860/4055573/5618 (Impact tracking link; currently lands on Namecheap's hosting birthday promo page). Live /go/namecheap verified.
 - Replaced with https://namecheap.pxf.io/P0bk3z (lands on Namecheap homepage with tracking) at Stephen's request; previous link went to a promo page.
+
+## 2026-09-30 — [Claude Code] Tools page: community, Claude Code and language AI products
+- Added via data: BuildProfitAI (Stephen's free community; first, highlighted, "Free to join"), Claude Code (official link), and Stephen's own products under "Local Language AI" (Local Language Lab, Storian AI/Bislama, Akwaaba AI/Twi, Onukpa AI/Ga, Sena AI/Ewe with ref=rhrqsd links) badged "My company". Screenshots in public/images/tools/. Rows inserted hidden, published after the image deploy.
+- Open question to Stephen: whether EduSmartAssist and VisaReadyPro are his products and should be listed.
