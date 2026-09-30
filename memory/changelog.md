@@ -16,9 +16,12 @@ Spam like name `iifQfOBmSAtHZBibzgBQ` / message `2990030907` was reaching the in
 - Shared-project policy: dropped `contact_submissions` "Allow public insert" (anon could
   insert rows directly; only the service-role Edge Function writes there).
 - Turnstile keys (shared PWD widget) added to Vercel production by stdin pipe.
-Committed on the current release branch `codex/production-security-2026-09-27` (production
-is deployed from it). Deploy + live probes follow once `stevetoti.com` and
-`www.stevetoti.com` are on the shared Turnstile widget.
+Committed on the release branch `codex/production-security-2026-09-27` (`21646d6`). Stephen added
+`stevetoti.com` + `www.stevetoti.com` to the shared widget; deployed READY
+`stevetoti-website-4lv5bfv5o` → www.stevetoti.com. Live: `/contact` renders the widget
+(Cloudflare challenge responses 200), honeypot → silent 200, digit-only message → 400,
+no CAPTCHA token → 400; `contact_submissions` has no anon insert policy left. Stephen's one
+real enquiry is the final inbox proof.
 
 ## 2026-08-30 — [Claude Code] SEO baseline: robots, sitemap, GA4, Search Console verification
 

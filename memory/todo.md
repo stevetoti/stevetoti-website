@@ -3,7 +3,8 @@
 ## 2026-09-30 — [Claude Code] Form bot defence
 
 - [x] Guard `/api/contact` + form; flags in email; anon insert policy dropped.
-- [ ] **Stephen:** add `stevetoti.com` + `www.stevetoti.com` to the shared Turnstile widget; then deploy + live probes.
+- [x] Hostnames added; deployed `stevetoti-website-4lv5bfv5o`; live probes pass. — [Claude Code] 2026-10-01
+- [ ] **Stephen:** send one real enquiry from https://www.stevetoti.com/contact and confirm the email arrives.
 - [ ] Follow-up: the `contact-form` Edge Function is still callable with the anon key (server-side only today); add the Deno guard from the skill or a shared secret when Codex finishes the security branch.
 
 ## High priority
