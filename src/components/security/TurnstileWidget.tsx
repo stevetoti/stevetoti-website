@@ -37,7 +37,9 @@ declare global {
   }
 }
 
-const SCRIPT_SRC = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+// Explicit mode: we render the widget ourselves. Without it Cloudflare also
+// auto-renders any ".cf-turnstile" element and errors on the missing sitekey.
+const SCRIPT_SRC = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
 
 export function TurnstileWidget({
   siteKey,
@@ -106,5 +108,5 @@ export function TurnstileWidget({
 
   if (!siteKey) return null;
 
-  return <div ref={containerRef} className="cf-turnstile" />;
+  return <div ref={containerRef} className="turnstile-widget min-h-[65px]" />;
 }

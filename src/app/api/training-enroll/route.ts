@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { guardPublicForm } from "@/lib/security/form-guard";
+import { clientIpFromHeaders } from "@/lib/security/turnstile";
+import { RATE_LIMITED_MESSAGE, withinFormLimits } from "@/lib/security/rate-limit";
 
 const TOTIROOM_URL = "https://rndegttgwtpkbjtvjgnc.supabase.co";
 
@@ -11,6 +14,9 @@ interface EnrolmentBody {
   package?: string;
   price?: string;
   region?: string;
+  website?: string;
+  form_started_at?: number;
+  turnstile_token?: string;
 }
 
 export async function POST(request: NextRequest) {
@@ -25,6 +31,27 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    // Bot defence (form-bot-defence skill): this form emails the inbox via the
+    // same contact-form function, so it gets the full guard and durable limits.
+    const ip = clientIpFromHeaders(request.headers);
+    const guard = await guardPublicForm({
+      honeypot: body.website,
+      formStartedAt: body.form_started_at,
+      turnstileToken: body.turnstile_token,
+      ip,
+      message: message || null,
+      name,
+    });
+    if (!guard.ok) {
+      if (guard.reason === "honeypot") return NextResponse.json({ success: true });
+      return NextResponse.json({ error: guard.message }, { status: 400 });
+    }
+    const allowed = await withinFormLimits("training", [
+      { kind: "ip", value: ip, limit: 5, windowSeconds: 3600 },
+      { kind: "email", value: email, limit: 3, windowSeconds: 3600 },
+    ]);
+    if (!allowed) return NextResponse.json({ error: RATE_LIMITED_MESSAGE }, { status: 429 });
 
     const composedMessage = [
       "🎓 TRAINING ENROLMENT REQUEST",
@@ -51,6 +78,7 @@ export async function POST(request: NextRequest) {
         service: "1-on-1 Training Enrolment",
         budget: price || "",
         message: composedMessage,
+        flags: guard.flags,
       }),
     });
 

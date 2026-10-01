@@ -1,79 +1,78 @@
 import { NextRequest, NextResponse } from "next/server";
-
-// TotiRoom Supabase REST API
-const TOTIROOM_URL = "https://rndegttgwtpkbjtvjgnc.supabase.co/rest/v1";
+import { checkBotSignals } from "@/lib/security/bot-signals";
+import { clientIpFromHeaders } from "@/lib/security/turnstile";
+import { RATE_LIMITED_MESSAGE, withinFormLimits } from "@/lib/security/rate-limit";
+import { restHeaders, serviceKey, supabaseUrl } from "@/lib/totiroom-db";
 
 interface LeadData {
-  visitorName: string;
-  visitorPhone: string;
-  callReason: string;
-  sessionId?: string;
-  source?: string;
+  visitorName?: unknown;
+  visitorPhone?: unknown;
+  callReason?: unknown;
+  sessionId?: unknown;
+  website?: string;
+  form_started_at?: number;
 }
 
-export async function POST(request: NextRequest) {
-  const supabaseAnonKey = process.env.SUPABASE_TOTIROOM_ANON_KEY;
+function text(value: unknown, max: number): string {
+  return typeof value === "string" ? value.trim().slice(0, max) : "";
+}
 
-  if (!supabaseAnonKey) {
-    console.error("SUPABASE_TOTIROOM_ANON_KEY not configured");
-    return NextResponse.json(
-      { error: "Service not configured" },
-      { status: 500 }
-    );
+// Lead details captured by the Toti chat widget before a video call.
+// No Turnstile here (it would interrupt the chat), so the cheap bot signals and
+// a durable per-IP limit run before anything is saved.
+export async function POST(request: NextRequest) {
+  const key = serviceKey();
+  if (!key) {
+    console.error("Lead capture unavailable: service key not configured");
+    return NextResponse.json({ error: "Service not configured" }, { status: 503 });
   }
 
   try {
-    const body = await request.json();
-    const { visitorName, visitorPhone, callReason, sessionId, source = "stevetoti-website" } = body as LeadData;
+    const body = (await request.json().catch(() => ({}))) as LeadData;
+    const visitorName = text(body.visitorName, 100);
+    const visitorPhone = text(body.visitorPhone, 40);
+    const callReason = text(body.callReason, 200);
+    const sessionId = text(body.sessionId, 100);
 
-    // Validate required fields
     if (!visitorName || !visitorPhone) {
-      return NextResponse.json(
-        { error: "Name and phone number are required" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Name and phone number are required" }, { status: 400 });
+    }
+    if (!/^[+\d][\d\s().-]{5,}$/.test(visitorPhone)) {
+      return NextResponse.json({ error: "Please enter a valid phone number" }, { status: 400 });
     }
 
-    // Insert into toti_chat_sessions
-    const response = await fetch(`${TOTIROOM_URL}/toti_chat_sessions`, {
+    const signals = checkBotSignals({ honeypot: body.website, formStartedAt: body.form_started_at });
+    if (!signals.ok) {
+      if (signals.reason === "honeypot") return NextResponse.json({ success: true });
+      return NextResponse.json({ error: signals.message }, { status: 400 });
+    }
+    const ip = clientIpFromHeaders(request.headers);
+    const allowed = await withinFormLimits("lead", [{ kind: "ip", value: ip, limit: 10, windowSeconds: 3600 }]);
+    if (!allowed) return NextResponse.json({ error: RATE_LIMITED_MESSAGE }, { status: 429 });
+
+    const response = await fetch(`${supabaseUrl()}/rest/v1/toti_chat_sessions`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${supabaseAnonKey}`,
-        "apikey": supabaseAnonKey,
-        "Prefer": "return=representation",
-      },
+      headers: { ...restHeaders(key), Prefer: "return=representation" },
       body: JSON.stringify({
         visitor_id: sessionId || `visitor-${Date.now()}`,
         visitor_name: visitorName,
         visitor_phone: visitorPhone,
         call_reason: callReason,
-        source,
+        source: "stevetoti-website",
         status: "video_started",
         created_at: new Date().toISOString(),
       }),
     });
 
     if (!response.ok) {
-      const error = await response.text();
-      console.error("Failed to save lead:", response.status, error);
-      return NextResponse.json(
-        { error: "Failed to save lead information" },
-        { status: response.status }
-      );
+      console.error("Failed to save lead:", response.status, await response.text());
+      return NextResponse.json({ error: "Failed to save lead information" }, { status: 502 });
     }
 
-    const data = await response.json();
-    
-    return NextResponse.json({ 
-      success: true,
-      sessionId: data[0]?.id || sessionId,
-    });
+    const data = (await response.json()) as { id?: string }[];
+    return NextResponse.json({ success: true, sessionId: data[0]?.id || sessionId });
   } catch (error) {
     console.error("Lead API error:", error);
-    return NextResponse.json(
-      { error: "Failed to process lead" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to process lead" }, { status: 500 });
   }
 }

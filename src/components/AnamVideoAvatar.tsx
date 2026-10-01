@@ -3,6 +3,7 @@
 import Image from "next/image";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { HoneypotField } from "@/components/security/FormBotFields";
 import {
   Video,
   X,
@@ -130,6 +131,12 @@ export default function AnamVideoAvatar() {
     reason: callReasons[0],
   });
   const [isSubmittingLead, setIsSubmittingLead] = useState(false);
+  // Bot signals for the lead form: hidden honeypot + when the form was shown.
+  const [leadHoneypot, setLeadHoneypot] = useState("");
+  const [leadFormShownAt, setLeadFormShownAt] = useState<number | null>(null);
+  useEffect(() => {
+    if (viewState === "lead-form") setLeadFormShownAt(Date.now());
+  }, [viewState]);
 
   const anamClientRef = useRef<AnamClient | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -461,6 +468,8 @@ export default function AnamVideoAvatar() {
           visitorPhone: leadForm.phone,
           callReason: leadForm.reason,
           sessionId,
+          website: leadHoneypot,
+          form_started_at: leadFormShownAt ?? undefined,
         }),
       });
 
@@ -726,6 +735,7 @@ export default function AnamVideoAvatar() {
                 </div>
 
                 <form onSubmit={handleLeadSubmit} className="space-y-4">
+                  <HoneypotField value={leadHoneypot} onChange={setLeadHoneypot} />
                   {/* Name Field */}
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">

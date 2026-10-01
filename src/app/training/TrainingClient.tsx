@@ -4,6 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import { TurnstileWidget } from "@/components/security/TurnstileWidget";
+import { HoneypotField, useFormBotFields } from "@/components/security/FormBotFields";
 import {
   ArrowRight,
   Award,
@@ -29,6 +31,8 @@ import {
   Wrench,
   X,
 } from "lucide-react";
+
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
 /* ---------------------------------- Data ---------------------------------- */
 
@@ -317,6 +321,9 @@ export default function TrainingClient() {
   });
   const [submitted, setSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const bot = useFormBotFields();
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [captchaAttempt, setCaptchaAttempt] = useState(0);
 
   const region = regions[activeRegion];
 
@@ -339,6 +346,10 @@ export default function TrainingClient() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedPackage) return;
+    if (TURNSTILE_SITE_KEY && !turnstileToken) {
+      alert("Please complete the human verification check above the button.");
+      return;
+    }
     setIsLoading(true);
 
     try {
@@ -350,6 +361,9 @@ export default function TrainingClient() {
           package: selectedPackage.name,
           price: selectedPackage.price,
           region: region.label,
+          website: bot.honeypot,
+          form_started_at: bot.formStartedAt ?? undefined,
+          turnstile_token: turnstileToken ?? undefined,
         }),
       });
 
@@ -362,9 +376,13 @@ export default function TrainingClient() {
       setFormData({ name: "", email: "", phone: "", paymentPlan: "full", message: "" });
     } catch (error) {
       console.error("Enrolment submission error:", error);
-      alert("Failed to submit. Please try again or email me directly at me@stevetoti.com");
+      const reason = error instanceof Error && error.message !== "Failed to submit enrolment" ? `${error.message}\n\n` : "";
+      alert(`${reason}If it keeps failing, email me directly at me@stevetoti.com`);
     } finally {
       setIsLoading(false);
+      // Turnstile tokens are single-use: re-issue one after every attempt.
+      setTurnstileToken(null);
+      setCaptchaAttempt((n) => n + 1);
     }
   };
 
@@ -977,6 +995,10 @@ export default function TrainingClient() {
                         className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-vibrantorange focus:outline-none focus:ring-1 focus:ring-vibrantorange transition-colors resize-none"
                       />
                     </div>
+                    <HoneypotField value={bot.honeypot} onChange={bot.setHoneypot} />
+                    {TURNSTILE_SITE_KEY && (
+                      <TurnstileWidget key={captchaAttempt} siteKey={TURNSTILE_SITE_KEY} onVerify={setTurnstileToken} theme="dark" />
+                    )}
                     <button
                       type="submit"
                       disabled={isLoading}

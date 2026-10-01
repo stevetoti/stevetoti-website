@@ -1,3 +1,5 @@
+import { anonKey, restHeaders, supabaseUrl } from "./totiroom-db";
+
 // Affiliate tools live in the Toti Room database (table: affiliate_tools).
 // Public reads use the anon key (RLS only exposes published rows);
 // admin writes and click logging use the service key on the server.
@@ -27,22 +29,7 @@ export type AffiliateToolInput = Omit<AffiliateTool, "id" | "created_at" | "upda
 export const TOOLS_STORAGE_BUCKET = "site-assets";
 export const TOOLS_STORAGE_PREFIX = "affiliate-tools";
 
-export function supabaseUrl(): string {
-  // The production value carries a trailing newline; trim so built URLs stay clean.
-  return (process.env.TOTIROOM_SUPABASE_URL || "https://rndegttgwtpkbjtvjgnc.supabase.co").trim().replace(/\/+$/, "");
-}
-
-function anonKey(): string | undefined {
-  return (process.env.SUPABASE_TOTIROOM_ANON_KEY || process.env.TOTIROOM_SUPABASE_ANON_KEY)?.trim() || undefined;
-}
-
-export function serviceKey(): string | undefined {
-  return (process.env.SUPABASE_TOTIROOM_SERVICE_KEY || process.env.TOTIROOM_SUPABASE_SERVICE_KEY)?.trim() || undefined;
-}
-
-export function restHeaders(key: string): Record<string, string> {
-  return { apikey: key, Authorization: `Bearer ${key}`, "Content-Type": "application/json" };
-}
+export { restHeaders, serviceKey, supabaseUrl } from "./totiroom-db";
 
 /** Published tools for the public /tools page, ordered for display. */
 export async function getPublishedTools(): Promise<AffiliateTool[]> {

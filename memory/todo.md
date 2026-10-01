@@ -46,3 +46,9 @@
 - [ ] Re-save `ADMIN_PASSWORD`, `TOTIROOM_SUPABASE_URL` and the Supabase keys in Vercel without the trailing newline (code tolerates it, but it's a trap).
 - [ ] Existing `/api/admin/data` PATCH/DELETE accept any table name and it reads `TOTIROOM_SUPABASE_SERVICE_KEY` (not set; prod has `SUPABASE_TOTIROOM_SERVICE_KEY`), so it silently falls back to the anon key. Review.
 - [ ] Stephen: paste Payoneer referral link (and a Codex/ChatGPT referral if one exists) in /admin/tools; both currently use the official site link.
+
+## 2026-10-02 — [Claude Code] Form defence follow-ups (hand to Codex / skill owner)
+- [ ] Drop anon INSERT policies the site no longer needs: `toti_chat_sessions` (lead now uses service key), `newsletter_subscribers` (if any). Check `toti_chat_messages` / chat-session route first.
+- [ ] Guard the `contact-form` and `send-notification` Edge Functions (shared secret or Deno form-guard) so they can't be called directly with the public anon key.
+- [ ] Newsletter double opt-in (confirmation email) before marking `active`.
+- [ ] Rate-limit `/api/anam/session` and `/api/chat` (paid AI calls) per IP.

@@ -3,28 +3,53 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Send, CheckCircle, Sparkles, Zap } from "lucide-react";
+import { TurnstileWidget } from "@/components/security/TurnstileWidget";
+import { HoneypotField, useFormBotFields } from "@/components/security/FormBotFields";
+
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
 export default function Newsletter() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+  const bot = useFormBotFields();
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [captchaAttempt, setCaptchaAttempt] = useState(0);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) return;
+    if (TURNSTILE_SITE_KEY && !turnstileToken) {
+      setStatus("error");
+      setErrorMessage("Please complete the human verification check below.");
+      return;
+    }
 
     setStatus("loading");
-    
-    // Simulate API call - in production, this would send to a backend/email service
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    // For now, we'll open the user's email client with a pre-filled message
-    window.location.href = `mailto:totinarh24@gmail.com?subject=Newsletter Signup&body=Please add me to your newsletter: ${email}`;
-    
-    setStatus("success");
-    setEmail("");
-    
-    // Reset status after 5 seconds
-    setTimeout(() => setStatus("idle"), 5000);
+    setErrorMessage("");
+    try {
+      const response = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          website: bot.honeypot,
+          form_started_at: bot.formStartedAt ?? undefined,
+          turnstile_token: turnstileToken ?? undefined,
+        }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || "Could not subscribe you just now. Please try again.");
+      setStatus("success");
+      setEmail("");
+    } catch (error) {
+      setStatus("error");
+      setErrorMessage(error instanceof Error ? error.message : "Could not subscribe you just now. Please try again.");
+    } finally {
+      // Turnstile tokens are single-use: re-issue one after every attempt.
+      setTurnstileToken(null);
+      setCaptchaAttempt((n) => n + 1);
+    }
   };
 
   return (
@@ -113,7 +138,7 @@ export default function Newsletter() {
                   </motion.div>
                   <h3 className="text-xl font-semibold text-white mb-2">You&apos;re In!</h3>
                   <p className="text-gray-400">
-                    Thanks for subscribing. Check your email for confirmation!
+                    Thanks for subscribing. You&apos;ll hear from me soon.
                   </p>
                 </motion.div>
               ) : (
@@ -123,8 +148,9 @@ export default function Newsletter() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   onSubmit={handleSubmit}
-                  className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto"
+                  className="flex flex-col sm:flex-row sm:flex-wrap gap-4 max-w-lg mx-auto"
                 >
+                  <HoneypotField value={bot.honeypot} onChange={bot.setHoneypot} />
                   <div className="flex-1 relative">
                     <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
                     <input
@@ -161,6 +187,16 @@ export default function Newsletter() {
                       </>
                     )}
                   </motion.button>
+                  {TURNSTILE_SITE_KEY && (
+                    <div className="w-full">
+                      <TurnstileWidget key={captchaAttempt} siteKey={TURNSTILE_SITE_KEY} onVerify={setTurnstileToken} theme="dark" />
+                    </div>
+                  )}
+                  {status === "error" && errorMessage && (
+                    <p role="alert" className="w-full text-center text-sm text-red-400">
+                      {errorMessage}
+                    </p>
+                  )}
                 </motion.form>
               )}
             </AnimatePresence>

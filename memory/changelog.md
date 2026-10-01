@@ -291,3 +291,14 @@ Production READY: dpl_9wLfwcoTNAF5XUcV49UH5iGoYabm from 8fcaa9e (Toti Room migra
 ## 2026-09-30 — [Claude Code] New automation image on /tools
 - Stephen disliked the AI section photo. Replaced section-ai.jpg with section-automation.jpg (Higgsfield/Recraft: owner relaxing while a holographic workflow completes email, chat, invoice and calendar tasks). Alternatives offered: abstract AI core with task cards; isometric gold robots.
 - [Claude Code] 2026-09-30: Stephen wanted a professional person, no earrings. Replaced with section-automation-pro.jpg (suited businessman, tablet, automation icons ticked off).
+
+## 2026-10-02 — [Claude Code] Bot defence extended to every public form
+Follow-up to the contact-form release (21646d6). Same form-bot-defence layers, plus durable limits:
+- **Durable rate limits** (`src/lib/security/rate-limit.ts`): reuses Toti Room's service-role-only RPC `toti_take_rate_limit` (no new migration); hashed keys `form:<form>:<ip|email>:<sha256>`; fails closed. Contact 5/h per IP + 3/h per email; training same; newsletter 5/h per IP + 3/day per email; lead 10/h per IP.
+- **Training enrolment** (`/api/training-enroll` + modal): full guard (honeypot, fill time, content sanity, Turnstile) + limits; flags forwarded; modal shows the server's message.
+- **Newsletter**: the homepage form only opened a `mailto:` (table had 0 rows ever) and `/api/newsletter` read an unset env var. Now posts to the guarded API, saves to `newsletter_subscribers` (source `stevetoti.com`) with the service key, same answer for existing addresses (no list enumeration), inline error message.
+- **Chat lead capture** (`/api/lead` + Toti widget): honeypot + time-since-form-shown + per-IP limit + phone/length validation; saves with the service key instead of anon; `source` no longer client-controlled. No Turnstile (would interrupt chat).
+- **`/api/booking-request` retired** (410): unused, emailed the owner with no checks.
+- **TurnstileWidget fix**: container had class `cf-turnstile`, so Cloudflare's implicit render also fired and logged "sitekey … got object"; script now loads with `?render=explicit`.
+- Shared `src/lib/totiroom-db.ts` (trimmed URL/keys) used by tools + forms.
+- Verified locally on a production build (Cloudflare always-pass test keys, local only): every rejection path (no token, fast submit, digit-only message, honeypot, bad email/phone), newsletter IP limit → 429 on the 6th, duplicate signup not duplicated, lead fast-submit rejected, booking 410; Playwright: newsletter UI success, training modal widget renders and passes, no console errors. Contact/training success paths not exercised to avoid emailing Stephen. Test rows deleted.
