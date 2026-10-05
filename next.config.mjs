@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  outputFileTracingIncludes: { "/api/video-guide/*": ["./private/video-guides/*.pdf"] },
   images: {
     // Tool images uploaded from /admin/tools live in Toti Room's public storage.
     remotePatterns: [

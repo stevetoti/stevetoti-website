@@ -4,10 +4,15 @@ import { clientIpFromHeaders } from "@/lib/security/turnstile";
 import { RATE_LIMITED_MESSAGE, withinFormLimits } from "@/lib/security/rate-limit";
 import { restHeaders, serviceKey, supabaseUrl } from "@/lib/totiroom-db";
 
+import { episodes } from "@/lib/video-library";
+import { guideDownloadUrl } from "@/lib/guide-access";
+
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const SUCCESS = { success: true, message: "You're on the list!" };
 
 interface NewsletterBody {
+  guide_slug?: unknown;
+  newsletter_consent?: unknown;
   email?: unknown;
   name?: unknown;
   website?: string;
@@ -24,6 +29,12 @@ export async function POST(request: NextRequest) {
     if (!EMAIL.test(email) || email.length > 254) {
       return NextResponse.json({ error: "Please enter a valid email address" }, { status: 400 });
     }
+
+    const guide = body.guide_slug === undefined ? undefined : episodes.find(e => e.slug === body.guide_slug);
+    if (body.guide_slug !== undefined && (!guide || !name || body.newsletter_consent !== true)) {
+      return NextResponse.json({ error: "Enter your name and confirm newsletter signup to receive this guide." }, { status: 400 });
+    }
+    const success = () => NextResponse.json(guide ? { ...SUCCESS, download_url: guideDownloadUrl(guide.slug) } : SUCCESS, { headers: { "Cache-Control": "no-store" } });
 
     // Bot defence (form-bot-defence skill): honeypot, fill time and Turnstile
     // before anything is stored; there is no free-text message to sanity-check.
@@ -58,21 +69,31 @@ export async function POST(request: NextRequest) {
       headers: restHeaders(key),
       cache: "no-store",
     });
-    if (existing.ok && ((await existing.json()) as unknown[]).length > 0) return NextResponse.json(SUCCESS);
+    if (!existing.ok) throw new Error("Subscriber lookup unavailable");
+    if (((await existing.json()) as unknown[]).length > 0) {
+      if (guide) {
+        const updated = await fetch(`${base}?email=eq.${encodeURIComponent(email)}`, {
+          method: "PATCH", headers: { ...restHeaders(key), Prefer: "return=minimal" },
+          body: JSON.stringify({ name, status: "active", source: `stevetoti.com/videos/${guide.slug};newsletter-consent-v1;${new Date().toISOString()}` }),
+        });
+        if (!updated.ok) throw new Error("Subscriber update unavailable");
+      }
+      return success();
+    }
 
     const response = await fetch(base, {
       method: "POST",
       headers: { ...restHeaders(key), Prefer: "return=minimal" },
-      body: JSON.stringify({ email, name: name || null, status: "active", source: "stevetoti.com" }),
+      body: JSON.stringify({ email, name: name || null, status: "active", source: guide ? `stevetoti.com/videos/${guide.slug};newsletter-consent-v1;${new Date().toISOString()}` : "stevetoti.com" }),
     });
     if (!response.ok) {
       const errorText = await response.text();
-      if (errorText.includes("23505")) return NextResponse.json(SUCCESS);
+      if (errorText.includes("23505")) return success();
       console.error("Newsletter signup error:", response.status, errorText);
       return NextResponse.json({ error: "Could not subscribe you just now. Please try again." }, { status: 500 });
     }
 
-    return NextResponse.json(SUCCESS);
+    return success();
   } catch (error) {
     console.error("Newsletter API error:", error);
     return NextResponse.json({ error: "Could not subscribe you just now. Please try again." }, { status: 500 });

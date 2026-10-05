@@ -9,6 +9,7 @@ function isOptimisable(src: string) {
 }
 
 export default function ToolCard({ tool }: { tool: AffiliateTool }) {
+  const badge = tool.badge?.toLowerCase() === "my company" ? "Featured" : tool.badge;
   const href = `/go/${tool.slug}`;
   const domain = displayDomain(tool.website_url);
   const linkProps = { href, target: "_blank", rel: "sponsored nofollow noopener" } as const;
@@ -35,13 +36,13 @@ export default function ToolCard({ tool }: { tool: AffiliateTool }) {
           </div>
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-gray-950/70 via-transparent to-transparent opacity-80" />
-        {tool.badge && (
+        {badge && (
           <span
             className={`absolute left-4 top-4 rounded-full px-3 py-1 text-xs font-semibold shadow-lg ${
-              tool.is_own_product ? "bg-brandgreen text-white" : "bg-vibrantorange text-gray-950"
+              "bg-vibrantorange text-gray-950"
             }`}
           >
-            {tool.badge}
+            {badge}
           </span>
         )}
         <span className="absolute bottom-4 right-4 flex items-center gap-1 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-gray-900 opacity-0 transition-opacity duration-300 group-hover:opacity-100">

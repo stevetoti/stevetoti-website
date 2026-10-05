@@ -315,3 +315,7 @@ Both uploads complete, currently private: Steve mD1FVvoMFnQ, BPAI yOcOc80GFo4. B
 
 ## 2026-10-05 — [Codex] Video library release verified
 Production READY dpl_Ec2oMf636E3NM3tKCrMvFhkHQb1T from cd14ee8, aliased www.stevetoti.com. /videos, both episode pages/images and exact PDF hashes verified live. JoggAI row published with official link; /go/jogg-ai302 and public tools HTML verified. Both linked YouTube videos public/processed/embeddable and unauthenticated oEmbed confirms correct titles/channels: Steve mD1FVvoMFnQ; BPAI yOcOc80GFo4. Both have English captions. BPAI custom thumbnail403 permission failure remains; public video uses generated thumbnail. No schema migrations.
+
+
+## 2026-10-05 — [Codex] Newsletter guide access and tool labels
+Added explicit name/email/unchecked newsletter consent form and signed guide downloads; moved PDFs out of public assets. Verification and release in progress.

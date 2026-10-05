@@ -44,3 +44,7 @@ Use typed local episode content for the first two lessons, reuse existing affili
 
 ## 2026-10-05 — [Codex] Video library release verified
 Release uses the existing website deployment project/account, existing affiliate_tools admin and redirects. JoggAI official URL was explicitly selected by Stephen pending affiliate approval; no invented tracking code. Episode pages reference the catalogue rather than duplicating affiliate URLs.
+
+
+## 2026-10-05 — [Codex] Newsletter guide access and tool labels
+User requested newsletter signup before guide downloads and neutral tool badges. Public My company badges display Featured; internal ownership and introductory ownership disclosure remain. Existing newsletter bot/rate guards remain enforced.

@@ -58,3 +58,7 @@
 
 ## 2026-10-05 — [Codex] Video library release verified
 [x] Finish validation, bind both uploaded IDs, deploy library/PDFs and publish JoggAI — [Codex] 2026-10-05. [ ] Replace JoggAI official destination in /admin/tools when Stephen supplies approved affiliate link. YouTube BPAI thumbnail permission follow-up tracked in BuildProfitAI memory.
+
+
+## 2026-10-05 — [Codex] Newsletter guide access and tool labels
+- [ ] Deploy newsletter guide access and neutral tools badges. — [Codex] 2026-10-05: build, type/lint and focused signup/signature tests passed.
