@@ -312,3 +312,6 @@ Locked npm ci succeeded after retry. Typecheck, lint and production build pass. 
 
 ### Release prepared — [Codex] 2026-10-05
 Both uploads complete, currently private: Steve mD1FVvoMFnQ, BPAI yOcOc80GFo4. Both captions uploaded; Steve thumbnail set, BPAI custom thumbnail rejected403 forbidden. Library binds these exact IDs; no duplicate uploads. Final build includes mobile/tablet nav fix and60s episode/tool revalidation. Production release and public visibility checks follow this commit.
+
+## 2026-10-05 — [Codex] Video library release verified
+Production READY dpl_Ec2oMf636E3NM3tKCrMvFhkHQb1T from cd14ee8, aliased www.stevetoti.com. /videos, both episode pages/images and exact PDF hashes verified live. JoggAI row published with official link; /go/jogg-ai302 and public tools HTML verified. Both linked YouTube videos public/processed/embeddable and unauthenticated oEmbed confirms correct titles/channels: Steve mD1FVvoMFnQ; BPAI yOcOc80GFo4. Both have English captions. BPAI custom thumbnail403 permission failure remains; public video uses generated thumbnail. No schema migrations.

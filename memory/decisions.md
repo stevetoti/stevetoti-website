@@ -41,3 +41,6 @@ Use Stephen's supplied original Toti PNG without image editing or generative enh
 
 ## 2026-10-05 — [Codex] Video library and guides
 Use typed local episode content for the first two lessons, reuse existing affiliate_tools slugs and /go redirects, and serve downloadable PDF companions from public/downloads/videos. Stephen explicitly authorises library release and YouTube publication of Steve v3 and BPAI v2; Vows drafts excluded. JoggAI uses official URL until affiliate approval.
+
+## 2026-10-05 — [Codex] Video library release verified
+Release uses the existing website deployment project/account, existing affiliate_tools admin and redirects. JoggAI official URL was explicitly selected by Stephen pending affiliate approval; no invented tracking code. Episode pages reference the catalogue rather than duplicating affiliate URLs.
