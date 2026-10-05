@@ -325,3 +325,5 @@ Production commit dcbde1e / deployment dpl_9tMeGpQBeo7nPexGs6XUACvkdsog is live.
 
 ## 2026-10-05 — [Codex] Embedded YouTube login loop
 Reproduced embedded bot/sign-in prompt previously; direct Steve watch page now played while signed out (player advanced to 0:02 with Pause control). Adding direct episode Watch on YouTube links below both embeds. No security/cookie changes or self-hosted video.
+
+[Codex] 2026-10-05: Build/type/lint passed. Released 1b284f6 and verified both live direct-watch buttons. Steve playback reached 0:52, BPAI 0:12, both signed out; paused after checks. Browser-specific embedded session cause remains unconfirmed.

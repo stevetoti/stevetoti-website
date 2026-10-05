@@ -64,4 +64,4 @@
 - [x] Deploy newsletter guide access and neutral tools badges. — [Codex] 2026-10-05: released dcbde1e, deployment dpl_9tMeGpQBeo7nPexGs6XUACvkdsog. Build/type/lint, focused signup tests and live signed PDFs/403/404 checks passed.
 
 ## 2026-10-05 — [Codex] Embedded YouTube login loop
-- [ ] Verify and release direct YouTube fallback links for both lessons.
+- [x] Verify and release direct YouTube fallback links for both lessons. — [Codex] 2026-10-05: 1b284f6 deployed, live links verified; both direct YouTube videos played signed out. Embedded loop not claimed resolved.
