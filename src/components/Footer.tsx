@@ -19,6 +19,7 @@ const footerLinks = {
     { href: "/training", label: "Training" },
     { href: "/portfolio", label: "Portfolio" },
     { href: "/tools", label: "Tools" },
+    { href: "/videos", label: "Videos" },
     { href: "/blog", label: "Blog" },
     { href: "/contact", label: "Contact" },
   ],

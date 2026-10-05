@@ -1,3 +1,4 @@
+import { episodes } from "@/lib/video-library";
 import type { MetadataRoute } from "next";
 
 const BASE_URL = "https://stevetoti.com";
@@ -8,6 +9,8 @@ const BASE_URL = "https://stevetoti.com";
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
   return [
+    { url: `${BASE_URL}/videos`, changeFrequency: "weekly", priority: 0.8 },
+    ...episodes.map(e => ({ url: `${BASE_URL}/videos/${e.slug}`, lastModified: new Date("2026-10-05"), changeFrequency: "monthly" as const, priority: 0.7 })),
     {
       url: `${BASE_URL}/`,
       lastModified: now,

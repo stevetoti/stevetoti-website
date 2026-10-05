@@ -303,3 +303,12 @@ Follow-up to the contact-form release (21646d6). Same form-bot-defence layers, p
 - Shared `src/lib/totiroom-db.ts` (trimmed URL/keys) used by tools + forms.
 - Verified locally on a production build (Cloudflare always-pass test keys, local only): every rejection path (no token, fast submit, digit-only message, honeypot, bad email/phone), newsletter IP limit → 429 on the 6th, duplicate signup not duplicated, lead fast-submit rejected, booking 410; Playwright: newsletter UI success, training modal widget renders and passes, no console errors. Contact/training success paths not exercised to avoid emailing Stephen. Test rows deleted.
 - Deployed READY dpl_FoueqstHn7Q8HxLfAe4atpz42GZi. Live probes on www.stevetoti.com: training/newsletter/contact refuse no-token and fake-token (400); training digit-only message 400; honeypots silent 200; lead fast-submit and bad phone 400; booking 410; explicit-render script in the /, /training and /contact bundles; real widget renders on newsletter and training with no Turnstile console errors. Real-human success paths still to be confirmed by Stephen.
+
+## 2026-10-05 — [Codex] Video library and guides
+Prepared /videos library and /videos/[slug] lesson pages, nav/footer/sitemap entries, two four-page PDF companions with working-sheet pages and real final-video stills. All PDF pages visually reviewed. JoggAI created hidden in existing tools catalogue with official URL at Stephen's request; no affiliate URL invented. Dependency install hit network reset and is retrying. Not deployed yet; YouTube IDs pending authorised upload.
+
+### Verification progress — [Codex] 2026-10-05
+Locked npm ci succeeded after retry. Typecheck, lint and production build pass. Local episode/image/PDF routes return200; downloaded PDFs match source hashes. Desktop library and mobile episode geometry reviewed, tablet nav breakpoint widened. Steve private upload mD1FVvoMFnQ complete with thumbnail and English captions, processing pending; BPAI upload still in progress. No public release yet.
+
+### Release prepared — [Codex] 2026-10-05
+Both uploads complete, currently private: Steve mD1FVvoMFnQ, BPAI yOcOc80GFo4. Both captions uploaded; Steve thumbnail set, BPAI custom thumbnail rejected403 forbidden. Library binds these exact IDs; no duplicate uploads. Final build includes mobile/tablet nav fix and60s episode/tool revalidation. Production release and public visibility checks follow this commit.

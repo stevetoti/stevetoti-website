@@ -12,6 +12,7 @@ const navLinks = [
   { href: "/training", label: "Training" },
   { href: "/portfolio", label: "Portfolio" },
   { href: "/tools", label: "Tools" },
+  { href: "/videos", label: "Videos" },
   { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },
 ];
@@ -90,7 +91,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-4 lg:space-x-6 xl:space-x-8 whitespace-nowrap">
+          <div className="hidden lg:flex items-center space-x-3 xl:space-x-6 whitespace-nowrap">
             {navLinks.map((link, index) => (
               <motion.div
                 key={link.href}
@@ -156,7 +157,7 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center space-x-4">
+          <div className="lg:hidden flex items-center space-x-4">
             <motion.button
               onClick={toggleTheme}
               whileTap={{ scale: 0.9 }}
@@ -195,7 +196,7 @@ export default function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden backdrop-blur-xl bg-gray-950/95 border-b border-white/10 overflow-hidden"
+            className="lg:hidden backdrop-blur-xl bg-gray-950/95 border-b border-white/10 overflow-hidden"
           >
             <div className="px-4 py-6 space-y-4">
               {navLinks.map((link, index) => (

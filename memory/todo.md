@@ -52,3 +52,6 @@
 - [ ] Guard the `contact-form` and `send-notification` Edge Functions (shared secret or Deno form-guard) so they can't be called directly with the public anon key.
 - [ ] Newsletter double opt-in (confirmation email) before marking `active`.
 - [ ] Rate-limit `/api/anam/session` and `/api/chat` (paid AI calls) per IP.
+
+## 2026-10-05 — [Codex] Video library and guides
+[ ] Finish locked dependency installation and type/lint/build validation; verify responsive library and PDF links. Upload approved Steve/BPAI masters, bind verified YouTube IDs, commit/push/deploy, then publish hidden JoggAI listing and verify live links.

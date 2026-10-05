@@ -38,3 +38,6 @@ Use Stephen's supplied original Toti PNG without image editing or generative enh
 **Context:** Stephen wants a public tools page with affiliate links he can keep adding to (Hostinger, Namecheap, DigiAssist AI first; Wise, Payoneer next).
 **Decision:** Store tools in Toti Room Supabase (`affiliate_tools`, `affiliate_clicks`), manage them from the existing password-protected `/admin/tools`, and route every outbound link through `/go/<slug>`.
 **Reason:** No redeploy to add a tool; stable short links survive affiliate-URL changes; first-party click stats. Admin reuses the site's existing auth and service-key pattern instead of adding a second admin in Toti Room. Anon RLS exposes only published tools.
+
+## 2026-10-05 — [Codex] Video library and guides
+Use typed local episode content for the first two lessons, reuse existing affiliate_tools slugs and /go redirects, and serve downloadable PDF companions from public/downloads/videos. Stephen explicitly authorises library release and YouTube publication of Steve v3 and BPAI v2; Vows drafts excluded. JoggAI uses official URL until affiliate approval.

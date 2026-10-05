@@ -1,0 +1,147 @@
+export interface VideoEpisode { slug: string; channel: string; title: string; duration: string; youtubeId: string | null; summary: string; image: string; guide: string; tools: string[]; chapters: string[][]; steps: string[][]; note: string; }
+export const episodes: VideoEpisode[] = [
+  {
+    "slug": "customer-questions-faq-video",
+    "channel": "BuildProfitAI",
+    "title": "Turn Customer Questions Into a Useful FAQ Video",
+    "duration": "3:20",
+    "youtubeId": "yOcOc80GFo4",
+    "summary": "Choose three real customer questions, confirm the answers and turn them into a short video your customers can use.",
+    "image": "/images/videos/bpai-faq.jpg",
+    "guide": "/downloads/videos/bpai-faq-guide.pdf",
+    "tools": [
+      "jogg-ai"
+    ],
+    "chapters": [
+      [
+        "0:00",
+        "What you will learn"
+      ],
+      [
+        "0:25",
+        "Choose customer questions"
+      ],
+      [
+        "0:45",
+        "Confirm the facts"
+      ],
+      [
+        "1:03",
+        "Give AI clear instructions"
+      ],
+      [
+        "1:27",
+        "Review a sample answer"
+      ],
+      [
+        "1:50",
+        "Check every claim"
+      ],
+      [
+        "2:16",
+        "Make the visuals clear"
+      ],
+      [
+        "2:37",
+        "Your next step"
+      ]
+    ],
+    "steps": [
+      [
+        "Choose three useful questions",
+        "Review your enquiries and pick questions that help a customer decide what to do next. Remove names, contact details and private information."
+      ],
+      [
+        "Confirm the answer sheet",
+        "Write one approved answer for each question. Ask the person responsible for your services, pricing or delivery to confirm it. Mark unknown details for review."
+      ],
+      [
+        "Draft within clear boundaries",
+        "Give your writing assistant only the approved answers. Request a forty-five-second draft in plain language. Explicitly forbid invented prices, timelines, guarantees or services."
+      ],
+      [
+        "Check every sentence",
+        "Compare the draft with the approved answer sheet. Read it aloud, remove jargon and make the next action clear."
+      ],
+      [
+        "Build and review the video",
+        "Show one question at a time, use relevant illustrations and legible captions, then check the result on a phone with and without sound."
+      ],
+      [
+        "Keep the answer current",
+        "Use the correct contact method and update the video when your policies change. Track observed viewing and enquiry results without promising a particular outcome."
+      ]
+    ],
+    "note": "The bicycle repair shop in this lesson is fictional. Its policies are examples, not promises for your business. JoggAI was used for the presenter production; the lesson's drafting process is not tied to a particular writing assistant."
+  },
+  {
+    "slug": "jogg-consistent-face-and-voice",
+    "channel": "Steve Toti",
+    "title": "Your Face, Your Voice: A Real Jogg Avatar Workflow",
+    "duration": "2:33",
+    "youtubeId": "mD1FVvoMFnQ",
+    "summary": "Inspect the real Jogg project behind a finished lesson, prepare clean narration and keep the presenter\u2019s face and voice consistent.",
+    "image": "/images/videos/steve-jogg.jpg",
+    "guide": "/downloads/videos/steve-jogg-guide.pdf",
+    "tools": [
+      "jogg-ai"
+    ],
+    "chapters": [
+      [
+        "0:00",
+        "What you will learn"
+      ],
+      [
+        "0:25",
+        "Prepare the narration"
+      ],
+      [
+        "0:46",
+        "Inspect the existing project"
+      ],
+      [
+        "1:07",
+        "Check the avatar and audio controls"
+      ],
+      [
+        "1:30",
+        "Review the finished example"
+      ],
+      [
+        "1:50",
+        "Check allowance and export"
+      ],
+      [
+        "2:18",
+        "Training and next steps"
+      ]
+    ],
+    "steps": [
+      [
+        "Finish the narration first",
+        "Approve the words, then listen for pronunciation, rushed sentences and awkward pauses. Fix the audio before producing the avatar performance."
+      ],
+      [
+        "Inspect the right project",
+        "The lesson opens an existing completed Jogg project with Edit as New. Check the project, timeline and narration file before editing. Avoid submitting another render when you only need to inspect the existing result."
+      ],
+      [
+        "Verify the face and voice",
+        "Compare the chosen avatar with your approved reference. A display name alone does not prove the right identity. Use a voice and likeness you are authorised to use."
+      ],
+      [
+        "Choose Upload Audio when appropriate",
+        "The filmed interface offered MP3 or WAV uploads up to twenty megabytes. Check the current on-screen limit before uploading and use a clean narration track."
+      ],
+      [
+        "Check the live allowance",
+        "Review the quote for the exact feature and export settings you selected. The lesson's account allowance does not establish what another plan or feature costs."
+      ],
+      [
+        "Review and retain the export",
+        "Watch at normal speed. Check mouth movements, pronunciation, pacing, readable captions and useful illustrations. Save the original project and finished file."
+      ]
+    ],
+    "note": "This is an inspection and setup walkthrough using an existing completed lesson. It does not demonstrate a fresh upload or generation submission. Interfaces and allowances may change; follow the live screen."
+  }
+];
