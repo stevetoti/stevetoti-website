@@ -61,4 +61,4 @@
 
 
 ## 2026-10-05 — [Codex] Newsletter guide access and tool labels
-- [ ] Deploy newsletter guide access and neutral tools badges. — [Codex] 2026-10-05: build, type/lint and focused signup/signature tests passed.
+- [x] Deploy newsletter guide access and neutral tools badges. — [Codex] 2026-10-05: released dcbde1e, deployment dpl_9tMeGpQBeo7nPexGs6XUACvkdsog. Build/type/lint, focused signup tests and live signed PDFs/403/404 checks passed.

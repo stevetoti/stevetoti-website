@@ -319,3 +319,6 @@ Production READY dpl_Ec2oMf636E3NM3tKCrMvFhkHQb1T from cd14ee8, aliased www.stev
 
 ## 2026-10-05 — [Codex] Newsletter guide access and tool labels
 Added explicit name/email/unchecked newsletter consent form and signed guide downloads; moved PDFs out of public assets. Verification and release in progress.
+
+### 2026-10-05 — [Codex] Release verified
+Production commit dcbde1e / deployment dpl_9tMeGpQBeo7nPexGs6XUACvkdsog is live. Browser confirms form and human verification. Both signed PDF responses are 200 with PDF bytes; unsigned route is 403 and old static PDF URL 404; Featured badge verified. New/returning subscriber writes and consent/bot/rate failures covered with mocked service tests in scripts/tests/video-guide.cjs. No live test contact added and no newsletter sent.
