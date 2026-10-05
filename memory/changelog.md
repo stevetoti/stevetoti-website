@@ -322,3 +322,6 @@ Added explicit name/email/unchecked newsletter consent form and signed guide dow
 
 ### 2026-10-05 — [Codex] Release verified
 Production commit dcbde1e / deployment dpl_9tMeGpQBeo7nPexGs6XUACvkdsog is live. Browser confirms form and human verification. Both signed PDF responses are 200 with PDF bytes; unsigned route is 403 and old static PDF URL 404; Featured badge verified. New/returning subscriber writes and consent/bot/rate failures covered with mocked service tests in scripts/tests/video-guide.cjs. No live test contact added and no newsletter sent.
+
+## 2026-10-05 — [Codex] Embedded YouTube login loop
+Reproduced embedded bot/sign-in prompt previously; direct Steve watch page now played while signed out (player advanced to 0:02 with Pause control). Adding direct episode Watch on YouTube links below both embeds. No security/cookie changes or self-hosted video.

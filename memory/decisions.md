@@ -48,3 +48,6 @@ Release uses the existing website deployment project/account, existing affiliate
 
 ## 2026-10-05 — [Codex] Newsletter guide access and tool labels
 User requested newsletter signup before guide downloads and neutral tool badges. Public My company badges display Featured; internal ownership and introductory ownership disclosure remain. Existing newsletter bot/rate guards remain enforced.
+
+## 2026-10-05 — [Codex] Embedded YouTube login loop
+Keep YouTube hosting and embeds. Provide a direct exact-video fallback for embedded sign-in loops; do not claim YouTube security challenges can be disabled or that a fallback fixes every browser.
