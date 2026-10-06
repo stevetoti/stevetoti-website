@@ -51,3 +51,8 @@ User requested newsletter signup before guide downloads and neutral tool badges.
 
 ## 2026-10-05 — [Codex] Embedded YouTube login loop
 Keep YouTube hosting and embeds. Provide a direct exact-video fallback for embedded sign-in loops; do not claim YouTube security challenges can be disabled or that a fallback fixes every browser.
+
+## 2026-10-06 — [Claude Code] /training redirects to BPAI
+- **Context:** BuildProfitAI is now the single home for Stephen's personal training (one USD price, PWD keeps Vanuatu organisations/government).
+- **Decision:** Temporary redirect `/training` → buildprofitai.com/training-center rather than deleting the page.
+- **Reason:** existing video outros and links keep working; easy to reverse. Note: video outro standard (BuildProfitAI CLAUDE.md) references stevetoti.com → Training + Toti chat; future outros should show the BPAI Training Centre instead.
