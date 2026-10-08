@@ -331,3 +331,8 @@ Reproduced embedded bot/sign-in prompt previously; direct Steve watch page now p
 ## 2026-10-06 — [Claude Code] Training moves to Build Profit AI
 - Stephen's direction: all personal training is now on the Build Profit AI Training Centre. `/training` now redirects (307, reversible) to https://www.buildprofitai.com/training-center; removed from sitemap. Nav/footer/tools links keep `/training` and follow the redirect. The old TrainingClient page/enrol API remain in source but are unreachable.
 - Deployed 5693795 → dpl_E8vqFfjKn6pNMdXQ8QdZ5zSfDEFZ. Verified live: stevetoti.com/training → www.stevetoti.com/training → 307 www.buildprofitai.com/training-center; home 200.
+
+## 2026-10-08 — [Codex] BPAI resource lesson
+Added approved BPAI resource lesson, actual YouTube ID fAVtILzwsgk, thumbnail and two-page PDF through existing newsletter-gated download route. No signup-contract changes. Release verification in progress.
+
+[Codex] 2026-10-08: Typecheck, ESLint, focused guide-access tests and production build passed. New lesson reuses established responsive layout and protected PDF flow.

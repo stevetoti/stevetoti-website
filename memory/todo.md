@@ -65,3 +65,6 @@
 
 ## 2026-10-05 — [Codex] Embedded YouTube login loop
 - [x] Verify and release direct YouTube fallback links for both lessons. — [Codex] 2026-10-05: 1b284f6 deployed, live links verified; both direct YouTube videos played signed out. Embedded loop not claimed resolved.
+
+## 2026-10-08 — [Codex] BPAI resource lesson
+- [ ] Verify and deploy new BPAI resource lesson and protected PDF; no new newsletter contact or email send needed.

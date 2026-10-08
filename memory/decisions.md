@@ -56,3 +56,6 @@ Keep YouTube hosting and embeds. Provide a direct exact-video fallback for embed
 - **Context:** BuildProfitAI is now the single home for Stephen's personal training (one USD price, PWD keeps Vanuatu organisations/government).
 - **Decision:** Temporary redirect `/training` → buildprofitai.com/training-center rather than deleting the page.
 - **Reason:** existing video outros and links keep working; easy to reverse. Note: video outro standard (BuildProfitAI CLAUDE.md) references stevetoti.com → Training + Toti chat; future outros should show the BPAI Training Centre instead.
+
+## 2026-10-08 — [Codex] BPAI resource lesson
+Reuse existing YouTube embed/direct-link and explicit newsletter-consent guide flow for the approved BPAI resource episode. Keep video hosted on YouTube.

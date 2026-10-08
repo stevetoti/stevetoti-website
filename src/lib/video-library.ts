@@ -1,5 +1,79 @@
 export interface VideoEpisode { slug: string; channel: string; title: string; duration: string; youtubeId: string | null; summary: string; image: string; guide: string; tools: string[]; chapters: string[][]; steps: string[][]; note: string; }
 export const episodes: VideoEpisode[] = [
+{
+  "slug": "give-every-video-a-useful-next-step",
+  "channel": "BuildProfitAI",
+  "title": "Give Every Video a Useful Next Step",
+  "duration": "2:34",
+  "youtubeId": "fAVtILzwsgk",
+  "summary": "Build a useful resource page around your video with clear written steps, chapters, a downloadable checklist and links to the tools viewers need.",
+  "image": "/images/videos/bpai-resource-checklist.jpg",
+  "guide": "/downloads/videos/bpai-resource-checklist.pdf",
+  "tools": [
+    "jogg-ai"
+  ],
+  "chapters": [
+    [
+      "0:00",
+      "Give every video a useful next step"
+    ],
+    [
+      "0:27",
+      "Choose a clear lesson outcome"
+    ],
+    [
+      "0:41",
+      "Video and a direct YouTube link"
+    ],
+    [
+      "0:58",
+      "Written steps people can revisit"
+    ],
+    [
+      "1:18",
+      "Chapters and guide signup"
+    ],
+    [
+      "1:47",
+      "Tools and clear disclosures"
+    ],
+    [
+      "2:00",
+      "A relevant next step"
+    ],
+    [
+      "2:12",
+      "Resources and recap"
+    ]
+  ],
+  "steps": [
+    [
+      "Choose one useful outcome",
+      "Describe what viewers should be able to do after watching. Use a clear title and a short summary that match the lesson."
+    ],
+    [
+      "Add the video and a direct viewing link",
+      "Use the published YouTube video on the lesson page. Include a direct Watch on YouTube link so viewers can open it outside the embedded player."
+    ],
+    [
+      "Write steps people can follow",
+      "Turn the lesson into concise instructions. Include the details a viewer needs to repeat the process without replaying every moment."
+    ],
+    [
+      "Add chapters and a practical guide",
+      "Match chapter timestamps to the final edit. Offer a downloadable checklist with clear name, email and newsletter-consent requirements before signup."
+    ],
+    [
+      "Link the tools and disclose commissions",
+      "Direct viewers to the tools directory. Keep links current and clearly explain when a purchase may earn a commission."
+    ],
+    [
+      "Review the next step",
+      "Check the page, video links, instructions and guide on a phone. Offer a relevant next step, such as training, without promising results."
+    ]
+  ],
+  "note": "The lesson shows genuine website captures edited with crops and pans. JoggAI was used for the authorised Toti presenter. It is a resource-page walkthrough, not a demonstration of a completed newsletter submission."
+},
   {
     "slug": "customer-questions-faq-video",
     "channel": "BuildProfitAI",
