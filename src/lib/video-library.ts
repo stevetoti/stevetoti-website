@@ -1,7 +1,8 @@
-export interface VideoEpisode { slug: string; channel: string; title: string; duration: string; youtubeId: string | null; summary: string; image: string; guide: string; tools: string[]; chapters: string[][]; steps: string[][]; note: string; }
+export interface VideoEpisode { slug: string; channel: string; title: string; duration: string; youtubeId: string | null; summary: string; image: string; guide: string; tools: string[]; chapters: string[][]; steps: string[][]; note: string; guideVersion?: string; }
 export const episodes: VideoEpisode[] = [
 {
   "slug": "give-every-video-a-useful-next-step",
+  "guideVersion": "8 October 2026",
   "channel": "BuildProfitAI",
   "title": "Give Every Video a Useful Next Step",
   "duration": "2:34",
