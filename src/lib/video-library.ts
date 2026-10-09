@@ -1,6 +1,85 @@
 export interface VideoEpisode { slug: string; channel: string; title: string; duration: string; youtubeId: string | null; summary: string; image: string; guide: string; tools: string[]; chapters: string[][]; steps: string[][]; note: string; guideVersion?: string; }
 export const episodes: VideoEpisode[] = [
 {
+  "slug": "check-ai-video-before-publishing",
+  "guideVersion": "9 October 2026",
+  "channel": "Steve Toti",
+  "title": "Check Your AI Video Before You Publish: A Real Before-and-After",
+  "duration": "2:34",
+  "youtubeId": "XI-E1ADYSSM",
+  "summary": "Follow a real website-pronunciation correction, then check spoken words, captions, visuals and links before publishing your own video.",
+  "image": "/images/videos/steve-video-review.jpg",
+  "guide": "/downloads/videos/steve-video-review-checklist.pdf",
+  "tools": [
+    "jogg-ai"
+  ],
+  "chapters": [
+    [
+      "0:00",
+      "Why a successful export can still be wrong"
+    ],
+    [
+      "0:25",
+      "Check the spoken words"
+    ],
+    [
+      "0:43",
+      "Original versus corrected audio"
+    ],
+    [
+      "0:51",
+      "Write explicit spoken separators"
+    ],
+    [
+      "1:01",
+      "Match captions to the final audio"
+    ],
+    [
+      "1:17",
+      "Choose a useful visual cutaway"
+    ],
+    [
+      "1:35",
+      "Follow the actual link"
+    ],
+    [
+      "1:51",
+      "Technical checks and audience checks"
+    ],
+    [
+      "2:07",
+      "Four checks before publication"
+    ],
+    [
+      "2:15",
+      "Tools and lessons"
+    ]
+  ],
+  "steps": [
+    [
+      "Listen to the spoken words",
+      "Check names, numbers and web addresses at normal speed. Write narration as you want it pronounced, for example Steve Toti dot com slash tools. Keep normal URL formatting on screen."
+    ],
+    [
+      "Compare captions with the final audio",
+      "Check the actual rendered captions, not just the script. When changing a spoken sentence, update its text and timing too."
+    ],
+    [
+      "Use a relevant visual during repairs",
+      "If replacement audio no longer matches mouth movements, show a useful real screenshot or demonstration while the corrected line plays. Label before-and-after comparisons clearly."
+    ],
+    [
+      "Follow the real link",
+      "Open the destination and check that it offers what the video promises. Review written instructions, guide access and any name, email or consent requirements on a phone."
+    ],
+    [
+      "Review the whole master",
+      "A successful export does not prove that the lesson is clear. Watch and listen to the complete edit, especially the opening, repairs and ending. Ask someone to explain the next step back to you."
+    ]
+  ],
+  "note": "The BEFORE excerpt intentionally preserves the rejected pronunciation error; the AFTER excerpt contains the corrected spoken address. Supporting visuals are real website captures edited as illustrations. JoggAI was used for the authorised Toti studio performance."
+},
+{
   "slug": "give-every-video-a-useful-next-step",
   "guideVersion": "8 October 2026",
   "channel": "BuildProfitAI",

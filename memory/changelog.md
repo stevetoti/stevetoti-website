@@ -336,3 +336,9 @@ Reproduced embedded bot/sign-in prompt previously; direct Steve watch page now p
 Added approved BPAI resource lesson, actual YouTube ID fAVtILzwsgk, thumbnail and two-page PDF through existing newsletter-gated download route. No signup-contract changes. Release verification in progress.
 
 [Codex] 2026-10-08: Typecheck, ESLint, focused guide-access tests and production build passed. New lesson reuses established responsive layout and protected PDF flow.
+
+## 2026-10-08 — [Codex] BPAI release verified live
+Production20f4daa / dpl_hY52Bo66D9uwqiJv91mXZGbT9xNM READY. Approved BPAI fAVtILzwsgk public/processed/embeddable; captions attached. Lesson and thumbnail200, protected PDF signed200 exact bytes, unsigned403. Existing consent/signup tests pass; no live contact/email created. Custom YouTube thumbnail403 remains, generated thumbnail in use.
+
+## 2026-10-10 — [Codex] Steve quality-check lesson
+Added user-approved Steve video XI-E1ADYSSM, matching private PDF, thumbnail, final-edit chapters and review instructions using existing newsletter-gated flow. Validation and release in progress.

@@ -68,3 +68,8 @@
 
 ## 2026-10-08 — [Codex] BPAI resource lesson
 - [ ] Verify and deploy new BPAI resource lesson and protected PDF; no new newsletter contact or email send needed.
+
+- [x] [Codex] 2026-10-08: Approved BPAI resource lesson and protected PDF deployed and verified; version date corrected to8October.
+
+## 2026-10-10 — [Codex] Steve quality-check lesson
+- [ ] Validate and release the approved Steve quality-check lesson and PDF.

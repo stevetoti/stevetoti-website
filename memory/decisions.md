@@ -59,3 +59,6 @@ Keep YouTube hosting and embeds. Provide a direct exact-video fallback for embed
 
 ## 2026-10-08 — [Codex] BPAI resource lesson
 Reuse existing YouTube embed/direct-link and explicit newsletter-consent guide flow for the approved BPAI resource episode. Keep video hosted on YouTube.
+
+## 2026-10-10 — [Codex] Steve quality-check lesson
+Reuse established lesson schema and protected guide flow; no signup/security changes. Approval covers this Steve master; Shorts retained separately.
