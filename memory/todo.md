@@ -83,3 +83,5 @@
 Added elementor-homepage-build with actual Steve YouTubeIDYQi-bVKshTA,17:59duration,matching7pageprivatePDF,thumbnail and realsteps. Existing guardedguide-download/consentflows preserved. Validation/productionreleasepending;YouTubestagedprivateuntilbothlibrarieslive.
 
 - [x] [Codex] 2026-10-14: Approved complete Elementor lesson/video/workbook live and verified. No publishing work remains for this episode.
+
+2026-10-15 — [Codex]: Release/verify approved Digi Assist lesson and protected workbook on the existing library; no new player or signup flow.

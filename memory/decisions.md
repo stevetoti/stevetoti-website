@@ -68,3 +68,5 @@ Use stable/go/wordpress and/go/elementor in the Elementor workbook/metadata; off
 
 ## 2026-10-14 — [Codex] Approved complete Elementor lesson
 Added elementor-homepage-build with actual Steve YouTubeIDYQi-bVKshTA,17:59duration,matching7pageprivatePDF,thumbnail and realsteps. Existing guardedguide-download/consentflows preserved. Validation/productionreleasepending;YouTubestagedprivateuntilbothlibrarieslive.
+
+2026-10-15 — [Codex]: Release/verify approved Digi Assist lesson and protected workbook on the existing library; no new player or signup flow.

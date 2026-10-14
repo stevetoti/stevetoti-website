@@ -1,6 +1,117 @@
 export interface VideoEpisode { slug: string; channel: string; title: string; duration: string; youtubeId: string | null; summary: string; image: string; guide: string; tools: string[]; chapters: string[][]; steps: string[][]; note: string; guideVersion?: string; }
 export const episodes: VideoEpisode[] = [
 {
+  "slug": "digiassist-website-build",
+  "channel": "BuildProfitAI",
+  "title": "Build a Website with Digi Assist AI: Plan, Edit and Publish",
+  "duration": "16:58",
+  "youtubeId": "uq8aQICCt7s",
+  "summary": "Plan, build, edit and publish Clear Desk Support with Digi Assist AI. Follow the real editor, improve images and buttons, test the visitor journey and see all ten pages in a complete scrolling preview.",
+  "image": "/images/videos/digiassist-website-build.jpg",
+  "guide": "/downloads/videos/digiassist-website-build.pdf",
+  "guideVersion": "15 October 2026",
+  "tools": [
+    "digiassistai"
+  ],
+  "chapters": [
+    [
+      "00:00",
+      "Build a website you understand"
+    ],
+    [
+      "00:43",
+      "Prepare the business brief"
+    ],
+    [
+      "01:26",
+      "Open the real planner"
+    ],
+    [
+      "02:17",
+      "Confirm the exact page plan"
+    ],
+    [
+      "03:14",
+      "Generate once and review"
+    ],
+    [
+      "03:51",
+      "Understand the real editor"
+    ],
+    [
+      "04:42",
+      "Improve the hero copy"
+    ],
+    [
+      "05:24",
+      "Image contrast and phone preview"
+    ],
+    [
+      "06:04",
+      "Give each button a real destination"
+    ],
+    [
+      "06:53",
+      "Build a clear four-link menu"
+    ],
+    [
+      "07:43",
+      "Review About and footer facts"
+    ],
+    [
+      "08:36",
+      "Replace empty FAQs"
+    ],
+    [
+      "09:28",
+      "Publish and test the journey"
+    ],
+    [
+      "10:16",
+      "Contact form: what we verified"
+    ],
+    [
+      "11:09",
+      "Complete website preview \u2014 all ten pages"
+    ],
+    [
+      "15:26",
+      "Practice and launch checklist"
+    ],
+    [
+      "16:13",
+      "Join our free worldwide community"
+    ]
+  ],
+  "steps": [
+    [
+      "Prepare the business brief",
+      "Define one offer, audience, purpose and page plan. Use a clearly fictional example without customer data."
+    ],
+    [
+      "Generate and inspect the real draft",
+      "Check your live allowance, confirm the plan, generate once and inspect the actual pages. This run created ten pages including linked service details."
+    ],
+    [
+      "Improve the homepage design",
+      "Edit the hero copy, use readable text over imagery, review the phone layout and point buttons to real page destinations."
+    ],
+    [
+      "Connect the visitor journey",
+      "Simplify navigation, correct homepage footer facts and links, fill useful FAQ answers, publish and test Home \u2192 Services \u2192 Contact."
+    ],
+    [
+      "Preview every created page",
+      "Watch the full-screen header-to-footer tour of all ten published pages, including the extra service details. Pause to inspect layout and content."
+    ],
+    [
+      "Complete the launch checks",
+      "Review every generated claim and supporting-page link. The lesson checks form presentation, but does not verify enquiry email delivery. Follow the seven-page workbook before trading."
+    ]
+  ],
+  "note": "Clear Desk Support is fictional. The complete tour uses labelled full-page captures of the actual published demo. Main navigation and visitor route were checked; supporting-page claims, all links and enquiry email delivery still need launch review. No customer or earnings results are claimed."
+},
+{
   "slug": "elementor-homepage-build",
   "channel": "Steve Toti",
   "title": "Build a Professional Elementor Homepage",
