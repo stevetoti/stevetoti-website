@@ -342,3 +342,12 @@ Production20f4daa / dpl_hY52Bo66D9uwqiJv91mXZGbT9xNM READY. Approved BPAI fAVtIL
 
 ## 2026-10-10 — [Codex] Steve quality-check lesson
 Added user-approved Steve video XI-E1ADYSSM, matching private PDF, thumbnail, final-edit chapters and review instructions using existing newsletter-gated flow. Validation and release in progress.
+
+## 2026-10-10 — [Codex] Steve lesson release verified
+8b0b332 / dpl_9SXkdyjT9Ado4xJDifCrVZ9rx1dE READY. /videos/check-ai-video-before-publishing and image200, signed PDF200 exact source bytes, unsigned403. YouTube XI-E1ADYSSM public/processed/embeddable with custom thumbnail and English captions. Typecheck/lint/build and guide-access tests pass. No live contact or email created.
+
+## 2026-10-14 — [Codex] Elementor lesson tool resources
+Added published affiliate_tools rows wordpress7f8cdc3d-ae54-40df-bea3-3736ac344149 and elementor297bb12d-6fbd-4cc1-824e-f93c6e02f115 through the existing Toti Room catalog. Category Website Builders, Tutorial tool badge, existing fallback card design. Official wordpress.org/elementor.com destinations until approved affiliate destinations are supplied; existing links untouched. Public tools cards verified after60s cache refresh, /go/wordpress and /go/elementor302verified with botUA so QA did not count clicks. No source-code/deployment change. Current expanded Elementor lesson605.83s and five-pagePDF remain in BuildProfitAI project awaiting YouTube approval; do not add a library entry without a real approved YouTube ID.
+
+## 2026-10-14 — [Codex] Approved complete Elementor lesson
+Added elementor-homepage-build with actual Steve YouTubeIDYQi-bVKshTA,17:59duration,matching7pageprivatePDF,thumbnail and realsteps. Existing guardedguide-download/consentflows preserved. Validation/productionreleasepending;YouTubestagedprivateuntilbothlibrarieslive.

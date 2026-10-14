@@ -62,3 +62,9 @@ Reuse existing YouTube embed/direct-link and explicit newsletter-consent guide f
 
 ## 2026-10-10 — [Codex] Steve quality-check lesson
 Reuse established lesson schema and protected guide flow; no signup/security changes. Approval covers this Steve master; Shorts retained separately.
+
+## 2026-10-14 — [Codex] WordPress/Elementor resource destinations
+Use stable/go/wordpress and/go/elementor in the Elementor workbook/metadata; official destinations currently. Preserve existingaffiliate destinations. Generic listings use Tutorial tool badge and existingfallbackart.
+
+## 2026-10-14 — [Codex] Approved complete Elementor lesson
+Added elementor-homepage-build with actual Steve YouTubeIDYQi-bVKshTA,17:59duration,matching7pageprivatePDF,thumbnail and realsteps. Existing guardedguide-download/consentflows preserved. Validation/productionreleasepending;YouTubestagedprivateuntilbothlibrarieslive.

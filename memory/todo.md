@@ -73,3 +73,11 @@
 
 ## 2026-10-10 — [Codex] Steve quality-check lesson
 - [ ] Validate and release the approved Steve quality-check lesson and PDF.
+
+- [x] [Codex] 2026-10-10: Approved Steve quality-check lesson and PDF deployed and verified.
+
+- [x] [Codex] 2026-10-14: Add WordPress and Elementor tool cards and verify public cards/redirects.
+- [ ] [Codex] 2026-10-14: After Stephen approves expanded Elementor master and a real YouTube ID exists, publish its library page with matching workbook using existing gated flow.
+
+## 2026-10-14 — [Codex] Approved complete Elementor lesson
+Added elementor-homepage-build with actual Steve YouTubeIDYQi-bVKshTA,17:59duration,matching7pageprivatePDF,thumbnail and realsteps. Existing guardedguide-download/consentflows preserved. Validation/productionreleasepending;YouTubestagedprivateuntilbothlibrarieslive.

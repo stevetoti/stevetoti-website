@@ -1,6 +1,166 @@
 export interface VideoEpisode { slug: string; channel: string; title: string; duration: string; youtubeId: string | null; summary: string; image: string; guide: string; tools: string[]; chapters: string[][]; steps: string[][]; note: string; guideVersion?: string; }
 export const episodes: VideoEpisode[] = [
 {
+  "slug": "elementor-homepage-build",
+  "channel": "Steve Toti",
+  "title": "Build a Professional Elementor Homepage",
+  "duration": "17:59",
+  "youtubeId": "YQi-bVKshTA",
+  "summary": "Build and publish a real homepage, then add a hero image, readable text, a call-to-action button and an embedded YouTube lesson. Follow the actual Elementor editor actions, mobile checks and live result.",
+  "image": "/images/videos/elementor-homepage-build.jpg",
+  "guide": "/downloads/videos/elementor-homepage-build.pdf",
+  "guideVersion": "14 October 2026",
+  "tools": [
+    "wordpress",
+    "elementor"
+  ],
+  "chapters": [
+    [
+      "00:00",
+      "Build and publish an Elementor homepage"
+    ],
+    [
+      "00:27",
+      "Start With A Clear Offer"
+    ],
+    [
+      "00:58",
+      "Find The Official Elementor Plugin"
+    ],
+    [
+      "01:36",
+      "Create A Page And Choose Canvas"
+    ],
+    [
+      "02:12",
+      "Build The Hero Container"
+    ],
+    [
+      "02:49",
+      "Choose A Simple Colour Palette"
+    ],
+    [
+      "03:17",
+      "Add The Main Heading"
+    ],
+    [
+      "03:54",
+      "Explain The Offer"
+    ],
+    [
+      "04:27",
+      "Create The Services Button"
+    ],
+    [
+      "05:03",
+      "Build And Link The Services Section"
+    ],
+    [
+      "05:38",
+      "Explain Each Service"
+    ],
+    [
+      "06:16",
+      "Give Visitors A Useful Next Step"
+    ],
+    [
+      "06:52",
+      "Adjust The Mobile Layout"
+    ],
+    [
+      "07:30",
+      "Improve Spacing Between Elements"
+    ],
+    [
+      "08:07",
+      "Learn From A Design Reference"
+    ],
+    [
+      "08:48",
+      "Upload The Hero Image"
+    ],
+    [
+      "09:29",
+      "Prepare Useful Web Images"
+    ],
+    [
+      "10:09",
+      "Fit The Background"
+    ],
+    [
+      "10:46",
+      "Add A Readable Overlay"
+    ],
+    [
+      "11:25",
+      "Give The Hero Room"
+    ],
+    [
+      "12:01",
+      "Style The Editable Headline"
+    ],
+    [
+      "12:39",
+      "Make The Paragraph Readable"
+    ],
+    [
+      "13:17",
+      "Style And Test The Button"
+    ],
+    [
+      "13:56",
+      "Add The Youtube Section"
+    ],
+    [
+      "14:38",
+      "Configure The Player"
+    ],
+    [
+      "15:15",
+      "Check Mobile And Publish"
+    ],
+    [
+      "15:59",
+      "Publish and set the homepage"
+    ],
+    [
+      "16:37",
+      "Test the upgraded live result"
+    ],
+    [
+      "17:11",
+      "Join our free worldwide community"
+    ]
+  ],
+  "steps": [
+    [
+      "Prepare and create the page",
+      "Prepare a clear fictional business offer and create a real Elementor Canvas page."
+    ],
+    [
+      "Build editable sections",
+      "Build the hero, services and next-step sections with editable containers, headings, paragraphs and buttons."
+    ],
+    [
+      "Add the hero image and overlay",
+      "Upload an authorised hero image and configure Cover, No repeat, Center center and a readable navy overlay."
+    ],
+    [
+      "Style and test the action",
+      "Style the headline, supporting text and gold services button; test its section link."
+    ],
+    [
+      "Embed the YouTube lesson",
+      "Add an H2 and Atomic YouTube widget with the public video URL; review autoplay, controls, lazy loading and privacy settings."
+    ],
+    [
+      "Check mobile, publish and test",
+      "Adjust mobile typography and spacing, publish the homepage and test links and video playback as a visitor."
+    ]
+  ],
+  "note": "Clear Desk Support is a fictional training business. Elementor4.2.4 was already installed; this lesson shows plugin discovery and the real build with its free Atomic elements. Pacific Wave Digital is the visual reference. The hero is illustrative, not a photograph of a real Clear Desk team. The seven-page workbook matches the approved17:59edit."
+},
+{
   "slug": "check-ai-video-before-publishing",
   "guideVersion": "9 October 2026",
   "channel": "Steve Toti",
