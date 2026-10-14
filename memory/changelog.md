@@ -351,3 +351,6 @@ Added published affiliate_tools rows wordpress7f8cdc3d-ae54-40df-bea3-3736ac3441
 
 ## 2026-10-14 — [Codex] Approved complete Elementor lesson
 Added elementor-homepage-build with actual Steve YouTubeIDYQi-bVKshTA,17:59duration,matching7pageprivatePDF,thumbnail and realsteps. Existing guardedguide-download/consentflows preserved. Validation/productionreleasepending;YouTubestagedprivateuntilbothlibrarieslive.
+
+## 2026-10-14 — [Codex] Primary lesson player loading
+Livepersonalembedstayedblankdespitevisibleiframe/publicprocessedYouTube;communityplayerwithsameIDplays. Removedlazyloadingfromtheprimarylessoniframe,matchingtheworkingcommunityplayer'snormalinitialload. SameYouTubehosting/privacy/referrer/permissions/directlinkpreserved. ValidatinganddeployingbeforefinalplaybackQA.
