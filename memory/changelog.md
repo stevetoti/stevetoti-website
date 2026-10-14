@@ -369,3 +369,6 @@ Localtype/lint/guide/buildchecks pass and connectedVercel preview READY. Product
 
 ## 2026-10-15 — [Codex] Verified BPAI upload recovered
 Stephen completed phoneverification; YouTube longUploadsStatusallowed. Re-uploaded the sameapproved16:58master after confirmeddurationremoval; newIDyzfvQ8m4ZJk. Replaced removedID on matchedlibraryentry. ExistingprotectedPDF/thumbnail/stepsunchanged; productionrelease and livechecksnext.
+
+## 2026-10-15 — [Codex] Digi Assist public library release verified
+Productionlesson/videos/digiassist-website-build serves recoveredpublicprocessedYouTubeIDyzfvQ8m4ZJk,16:58,customthumbnailandEnglishcaptions. Page/index/thumbnail/PDF200; exactprivateworkbookSHA2569a283d55eb46158b979fbb5482c54f0fe2979436983b212c61ff1e9cfb46bbcf; directPDF404. No newsletter QA subscription. Actualcommunitymemberdownloadmatches and communityiframeplays(currentTime5.715902,pausedfalse,readyState4). PersonalIABiframeinitiallyloadedcontrolsbutthenblankonrepeatedreloads; correctsamepublicembedURL/attributesanddirectYouTubefallbackpresent. No speculativeplayercodechange; diagnoseintermittentbrowserloadingseparately. Sources/receipts in BuildProfitAI/video-engine/studio/bpai-digiassist-website-2026-10-15/.
