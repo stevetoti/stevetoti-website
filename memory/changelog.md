@@ -357,3 +357,6 @@ Livepersonalembedstayedblankdespitevisibleiframe/publicprocessedYouTube;communit
 
 ## 2026-10-14 — [Codex] Optional chat load failure contained
 FreshliveverificationcaughtChunkLoadErrorforAnamwidgetdynamicimports(2122/1356),whichcrashedthewholelessonpageunderintermittentbrowsernetworkfailuresdespiteassetsHTTP200. DynamicloadernowcatchesfailureandrendersaContactStevelink;successfulchatloadunchanged. Lesson/video/signupremainavailableindependentlyofoptionalwidgetloading. SameYouTubehosting,privacyandsignedPDFguards.
+
+## 2026-10-14 — [Codex] Complete Elementor release verified
+Production code 2872faf / dpl_GEkK3RNSqmYeCeFMdPuwv1WxGLLX READY, aliased to the existing public domain. /videos and /videos/elementor-homepage-build200; same public/processed YouTube YQi-bVKshTA with English captions serving. Seven-page workbook protected download200 and exact SHA256 bcc36cb27c5b084cde2a3ac090658fdb852eba7b1799d9d5d3653f78d1791a73; direct PDF404. No QA newsletter subscription. Actual community member browser download matched source, community playback and personal playback(currentTime46.011s,pausedfalse) verified. Typecheck/lint/build/guide tests passed. Player loading matched, optional personal chat import failures contained, community guest guide form available during auth initialization.
