@@ -85,3 +85,7 @@ Added elementor-homepage-build with actual Steve YouTubeIDYQi-bVKshTA,17:59durat
 - [x] [Codex] 2026-10-14: Approved complete Elementor lesson/video/workbook live and verified. No publishing work remains for this episode.
 
 2026-10-15 — [Codex]: Release/verify approved Digi Assist lesson and protected workbook on the existing library; no new player or signup flow.
+
+- [ ] Replace removed DigiAssistYouTubeIDuq8aQICCt7s after BPAI phone verification and guardedrecovery; deploy/verify correctepisode andmatchedprivatePDF. — [Codex]2026-10-15: productionheld, previewREADY, all localchecks pass.
+
+— [Codex]2026-10-15: phoneverificationcomplete; recoveredvideoyzfvQ8m4ZJk replaces removedupload; verifyproductionrelease below.

@@ -5,7 +5,7 @@ export const episodes: VideoEpisode[] = [
   "channel": "BuildProfitAI",
   "title": "Build a Website with Digi Assist AI: Plan, Edit and Publish",
   "duration": "16:58",
-  "youtubeId": "uq8aQICCt7s",
+  "youtubeId": "yzfvQ8m4ZJk",
   "summary": "Plan, build, edit and publish Clear Desk Support with Digi Assist AI. Follow the real editor, improve images and buttons, test the visitor journey and see all ten pages in a complete scrolling preview.",
   "image": "/images/videos/digiassist-website-build.jpg",
   "guide": "/downloads/videos/digiassist-website-build.pdf",

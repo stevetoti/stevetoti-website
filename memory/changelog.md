@@ -363,3 +363,9 @@ Production code 2872faf / dpl_GEkK3RNSqmYeCeFMdPuwv1WxGLLX READY, aliased to the
 
 ## 2026-10-15 — [Codex] Approved Digi Assist AI website lesson
 Added digiassist-website-build with the hash-approved16:58BPAI master, matching seven-page protected workbook and thumbnail. Same YouTubeIDuq8aQICCt7s on both libraries. All10pages previewed; real launch boundaries retained. Existing email/name/consent and member download flows preserved. Production release/verification pending.
+
+## 2026-10-15 — [Codex] Digi Assist production release held
+Localtype/lint/guide/buildchecks pass and connectedVercel preview READY. Productiondomain unchanged. YouTube removeduq8aQICCt7s for exceeding BPAI unverified15-minute limit; rootepisode youtube-duration-rejection.json records proof. Await userphoneverification; then re-upload the approvedmaster once through guardedrecovery, replace the deletedYouTubeID here, validate/commit/push and deployproduction usingVercelconnector. Do not promote the currentpreview with removedID. Protectedpreviewinspectionwasblockedbyautomaticapprovalreview; noaccessbypassmade.
+
+## 2026-10-15 — [Codex] Verified BPAI upload recovered
+Stephen completed phoneverification; YouTube longUploadsStatusallowed. Re-uploaded the sameapproved16:58master after confirmeddurationremoval; newIDyzfvQ8m4ZJk. Replaced removedID on matchedlibraryentry. ExistingprotectedPDF/thumbnail/stepsunchanged; productionrelease and livechecksnext.
