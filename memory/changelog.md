@@ -354,3 +354,6 @@ Added elementor-homepage-build with actual Steve YouTubeIDYQi-bVKshTA,17:59durat
 
 ## 2026-10-14 — [Codex] Primary lesson player loading
 Livepersonalembedstayedblankdespitevisibleiframe/publicprocessedYouTube;communityplayerwithsameIDplays. Removedlazyloadingfromtheprimarylessoniframe,matchingtheworkingcommunityplayer'snormalinitialload. SameYouTubehosting/privacy/referrer/permissions/directlinkpreserved. ValidatinganddeployingbeforefinalplaybackQA.
+
+## 2026-10-14 — [Codex] Optional chat load failure contained
+FreshliveverificationcaughtChunkLoadErrorforAnamwidgetdynamicimports(2122/1356),whichcrashedthewholelessonpageunderintermittentbrowsernetworkfailuresdespiteassetsHTTP200. DynamicloadernowcatchesfailureandrendersaContactStevelink;successfulchatloadunchanged. Lesson/video/signupremainavailableindependentlyofoptionalwidgetloading. SameYouTubehosting,privacyandsignedPDFguards.
