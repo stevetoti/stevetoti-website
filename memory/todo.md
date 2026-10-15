@@ -92,3 +92,6 @@ Added elementor-homepage-build with actual Steve YouTubeIDYQi-bVKshTA,17:59durat
 
 ## 2026-10-16 — [Codex] Recoverable YouTube lesson player
 Stephen authorises fixing personal library playback. Replaced automatic iframe loading with an explicit thumbnail/Play lesson action, official YouTube API readiness/error monitoring, bounded loading state and Reload video control. Playback stays on YouTube; privacy-enhanced host and direct fallback retained. No signup or guide-flow changes. Browser/deployed acceptance pending.
+
+- [x] Fix blank personal lesson player; deploy and verify real guest playback, Reload video and cold reload. — [Codex]2026-10-16:e058cfd/dpl_3Ew1oQbk8ghTVSEsKHqyGhDaEwDA.
+- [ ] Finish optional phone/second-lesson playback acceptance once CUAbrowserconnectionrecovers. — [Codex]2026-10-16: primarylessonplay/retry/coldreloadpassed; nofakepassforblockedchecks.

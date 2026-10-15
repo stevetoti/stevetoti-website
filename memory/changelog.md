@@ -375,3 +375,7 @@ Productionlesson/videos/digiassist-website-build serves recoveredpublicprocessed
 
 ## 2026-10-16 — [Codex] Recoverable YouTube lesson player
 Stephen authorises fixing personal library playback. Replaced automatic iframe loading with an explicit thumbnail/Play lesson action, official YouTube API readiness/error monitoring, bounded loading state and Reload video control. Playback stays on YouTube; privacy-enhanced host and direct fallback retained. No signup or guide-flow changes. Browser/deployed acceptance pending.
+
+## 2026-10-16 — [Codex] Player production acceptance
+Releasee058cfd/dpl_3Ew1oQbk8ghTVSEsKHqyGhDaEwDA isREADY/aliased. ActualguestDigiAssistplay136.110864s, Reloadvideo36.761593s andcoldpagereload112.002215s allpausedfalse/readyState4/noerror. ScreenshotandacceptancematrixatBuildProfitAI/memory/stevetoti-player-fixed.png andplayer-fix-acceptance-2026-10-16.md. OfficialYouTubeAPIloadernetworkfailure/retry/timeouttests,existingguardedguidetests,types/lint/buildpass. No localvideohosting,videoID/signup/guidechanges.
+Phoneviewportoverridehadnoeffect(actual1280px); local390pxharnessserverworkedafterpermissionbutCUAcouldnotopenlocalhost. SecondElementorposter/PlayactionexercisedbutfinaladvancingtimeobservationinterruptedbyCUAconnectionfailure. ThesechecksremainBLOCKED, notPASS. Coredesktopplay/retry/coldreloadpassed. TemporarylocalhostserverstoppedbyitsownverifiedPID. SteveandBPAIproductionautomationsconfirmedACTIVE, schedules unchanged.
