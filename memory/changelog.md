@@ -372,3 +372,6 @@ Stephen completed phoneverification; YouTube longUploadsStatusallowed. Re-upload
 
 ## 2026-10-15 — [Codex] Digi Assist public library release verified
 Productionlesson/videos/digiassist-website-build serves recoveredpublicprocessedYouTubeIDyzfvQ8m4ZJk,16:58,customthumbnailandEnglishcaptions. Page/index/thumbnail/PDF200; exactprivateworkbookSHA2569a283d55eb46158b979fbb5482c54f0fe2979436983b212c61ff1e9cfb46bbcf; directPDF404. No newsletter QA subscription. Actualcommunitymemberdownloadmatches and communityiframeplays(currentTime5.715902,pausedfalse,readyState4). PersonalIABiframeinitiallyloadedcontrolsbutthenblankonrepeatedreloads; correctsamepublicembedURL/attributesanddirectYouTubefallbackpresent. No speculativeplayercodechange; diagnoseintermittentbrowserloadingseparately. Sources/receipts in BuildProfitAI/video-engine/studio/bpai-digiassist-website-2026-10-15/.
+
+## 2026-10-16 — [Codex] Recoverable YouTube lesson player
+Stephen authorises fixing personal library playback. Replaced automatic iframe loading with an explicit thumbnail/Play lesson action, official YouTube API readiness/error monitoring, bounded loading state and Reload video control. Playback stays on YouTube; privacy-enhanced host and direct fallback retained. No signup or guide-flow changes. Browser/deployed acceptance pending.

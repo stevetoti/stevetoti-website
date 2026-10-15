@@ -89,3 +89,6 @@ Added elementor-homepage-build with actual Steve YouTubeIDYQi-bVKshTA,17:59durat
 - [x] Replace removed DigiAssistYouTubeIDuq8aQICCt7s after BPAI phone verification and guardedrecovery; deploy/verify correctepisode andmatchedprivatePDF. — [Codex]2026-10-15: releasedyzfvQ8m4ZJk; downloadsverified; personalembeddedloadingfollowupnoted. — [Codex]2026-10-15: productionheld, previewREADY, all localchecks pass.
 
 — [Codex]2026-10-15: phoneverificationcomplete; recoveredvideoyzfvQ8m4ZJk replaces removedupload; verifyproductionrelease below.
+
+## 2026-10-16 — [Codex] Recoverable YouTube lesson player
+Stephen authorises fixing personal library playback. Replaced automatic iframe loading with an explicit thumbnail/Play lesson action, official YouTube API readiness/error monitoring, bounded loading state and Reload video control. Playback stays on YouTube; privacy-enhanced host and direct fallback retained. No signup or guide-flow changes. Browser/deployed acceptance pending.

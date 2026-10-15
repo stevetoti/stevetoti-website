@@ -70,3 +70,6 @@ Use stable/go/wordpress and/go/elementor in the Elementor workbook/metadata; off
 Added elementor-homepage-build with actual Steve YouTubeIDYQi-bVKshTA,17:59duration,matching7pageprivatePDF,thumbnail and realsteps. Existing guardedguide-download/consentflows preserved. Validation/productionreleasepending;YouTubestagedprivateuntilbothlibrarieslive.
 
 2026-10-15 — [Codex]: Release/verify approved Digi Assist lesson and protected workbook on the existing library; no new player or signup flow.
+
+## 2026-10-16 — [Codex] Recoverable YouTube lesson player
+Stephen authorises fixing personal library playback. Replaced automatic iframe loading with an explicit thumbnail/Play lesson action, official YouTube API readiness/error monitoring, bounded loading state and Reload video control. Playback stays on YouTube; privacy-enhanced host and direct fallback retained. No signup or guide-flow changes. Browser/deployed acceptance pending.
