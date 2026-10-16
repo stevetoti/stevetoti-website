@@ -1,6 +1,105 @@
 export interface VideoEpisode { slug: string; channel: string; title: string; duration: string; youtubeId: string | null; summary: string; image: string; guide: string; tools: string[]; chapters: string[][]; steps: string[][]; note: string; guideVersion?: string; }
 export const episodes: VideoEpisode[] = [
 {
+  "slug": "claude-website-copy",
+  "channel": "Steve Toti",
+  "title": "Write Website Copy with Claude: Real Draft and Human Corrections",
+  "duration": "12:23",
+  "youtubeId": "FhhOj_XZpHs",
+  "summary": "Follow a real Claude homepage-copy workshop: prepare business facts, review the first draft, catch unsupported promises and improve the hero, services and enquiry button.",
+  "image": "/images/videos/claude-website-copy.jpg",
+  "guide": "/downloads/videos/claude-website-copy.pdf",
+  "guideVersion": "16 October 2026",
+  "tools": [
+    "claude"
+  ],
+  "chapters": [
+    [
+      "0:00",
+      "A promise you never approved"
+    ],
+    [
+      "1:14",
+      "Start with the weak draft"
+    ],
+    [
+      "1:54",
+      "Write the fact sheet"
+    ],
+    [
+      "3:12",
+      "Show the exact prompt"
+    ],
+    [
+      "4:28",
+      "Read the actual critique"
+    ],
+    [
+      "5:05",
+      "Catch the hidden promise"
+    ],
+    [
+      "5:43",
+      "Give a targeted correction"
+    ],
+    [
+      "6:21",
+      "Review the corrected hero"
+    ],
+    [
+      "8:14",
+      "Map the copy to page blocks"
+    ],
+    [
+      "8:51",
+      "Give the button a destination"
+    ],
+    [
+      "10:00",
+      "Copy approval is not a form test"
+    ],
+    [
+      "10:36",
+      "Try the process on one page"
+    ],
+    [
+      "11:12",
+      "Use your companion workbook"
+    ],
+    [
+      "11:41",
+      "Join our free worldwide community"
+    ]
+  ],
+  "steps": [
+    [
+      "Prepare your fact sheet",
+      "Define the audience, offer, services and facts you can support. Clear Desk Support is a fictional training example."
+    ],
+    [
+      "Write a specific prompt",
+      "Give Claude the business facts, page structure and boundaries. Ask for useful copy without invented promises."
+    ],
+    [
+      "Review the actual draft",
+      "Check each claim against the fact sheet. The lesson catches unsupported wording in the real first response."
+    ],
+    [
+      "Give a targeted correction",
+      "Explain exactly what is wrong and review the corrected hero before accepting it."
+    ],
+    [
+      "Map copy to page blocks",
+      "Prepare the headline, service sections and a button with a clear destination."
+    ],
+    [
+      "Test separately before launch",
+      "Copy approval does not verify website functionality or enquiry delivery. Use the six-page workbook to complete your review."
+    ]
+  ],
+  "note": "Clear Desk Support is fictional. This is a real copy-drafting and review lesson, not a new website build. Actual browser captures are enlarged for teaching. Website functionality and form delivery need separate testing."
+},
+{
   "slug": "digiassist-website-build",
   "channel": "BuildProfitAI",
   "title": "Build a Website with Digi Assist AI: Plan, Edit and Publish",

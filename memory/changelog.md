@@ -379,3 +379,6 @@ Stephen authorises fixing personal library playback. Replaced automatic iframe l
 ## 2026-10-16 — [Codex] Player production acceptance
 Releasee058cfd/dpl_3Ew1oQbk8ghTVSEsKHqyGhDaEwDA isREADY/aliased. ActualguestDigiAssistplay136.110864s, Reloadvideo36.761593s andcoldpagereload112.002215s allpausedfalse/readyState4/noerror. ScreenshotandacceptancematrixatBuildProfitAI/memory/stevetoti-player-fixed.png andplayer-fix-acceptance-2026-10-16.md. OfficialYouTubeAPIloadernetworkfailure/retry/timeouttests,existingguardedguidetests,types/lint/buildpass. No localvideohosting,videoID/signup/guidechanges.
 Phoneviewportoverridehadnoeffect(actual1280px); local390pxharnessserverworkedafterpermissionbutCUAcouldnotopenlocalhost. SecondElementorposter/PlayactionexercisedbutfinaladvancingtimeobservationinterruptedbyCUAconnectionfailure. ThesechecksremainBLOCKED, notPASS. Coredesktopplay/retry/coldreloadpassed. TemporarylocalhostserverstoppedbyitsownverifiedPID. SteveandBPAIproductionautomationsconfirmedACTIVE, schedules unchanged.
+
+## 2026-10-16 — [Codex] Approved Claude website-copy lesson
+Added claude-website-copy with approved 12:23 Steve Toti lesson FhhOj_XZpHs, thumbnail and matching six-page protected workbook. Existing playback and consent/download flows retained. Release checks in progress.
