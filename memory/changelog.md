@@ -385,3 +385,6 @@ Added claude-website-copy with approved 12:23 Steve Toti lesson FhhOj_XZpHs, thu
 
 ## 2026-10-16 — [Codex] Claude lesson production verified
 /videos/claude-website-copy live with FhhOj_XZpHs, index and thumbnail HTTP200, protected six-page workbook SHA256 a39887761c954ae1052d9fed1594656962d8b50af52eea6ea70d4ee816b35106. Production build READY; focused download/catalogue tests pass. Browser controls unavailable for extra playback check. YouTube public/processed/embeddable and English captions serving. Existing consent and player preserved.
+
+## 2026-10-16 — [Codex] Approved Digi Assist AI store lesson
+Added digiassist-online-store with BPAI video ErMnUna9T1E and matching eight-page protected workbook. Player and newsletter consent unchanged. Release checks pending.

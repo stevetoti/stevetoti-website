@@ -1,6 +1,121 @@
 export interface VideoEpisode { slug: string; channel: string; title: string; duration: string; youtubeId: string | null; summary: string; image: string; guide: string; tools: string[]; chapters: string[][]; steps: string[][]; note: string; guideVersion?: string; }
 export const episodes: VideoEpisode[] = [
 {
+  "slug": "digiassist-online-store",
+  "title": "Build an Online Store with Digi Assist AI: Products, Design and Basket Checks",
+  "channel": "BuildProfitAI",
+  "summary": "Build a three-product training store step by step: product setup, prices and units, hero design, FAQ, mobile preview and basket arithmetic. See every finished page in a full top-to-bottom tour.",
+  "duration": "13:43",
+  "youtubeId": "ErMnUna9T1E",
+  "image": "/images/videos/digiassist-online-store.jpg",
+  "guide": "/downloads/videos/digiassist-online-store.pdf",
+  "steps": [
+    [
+      "Plan a coherent catalogue",
+      "Define the customer, three related products and exactly what each price buys. Clear Desk Essentials is a fictional training example."
+    ],
+    [
+      "Create categories and product records",
+      "Save the store identity and category, then set clear names, descriptions, GHS prices, units, SKUs and sample stock."
+    ],
+    [
+      "Use accurate product artwork",
+      "Upload labelled demonstration artwork and explain what is included. The cable clips price buys a set of three; the pen holder excludes pens."
+    ],
+    [
+      "Design the storefront",
+      "Build a readable hero banner with a clear button, then add useful FAQ answers and footer details. Inspect the builder mobile preview."
+    ],
+    [
+      "Preview every page",
+      "Follow the complete header-to-footer tour of Home, Shop, the category and all three product pages."
+    ],
+    [
+      "Test before taking orders",
+      "Check basket arithmetic and the opening checkout form. No payment or customer order was submitted; payment processing, messages, stock deduction and delivery remain untested. The demo products were returned to Draft and payment methods switched off after capture."
+    ]
+  ],
+  "tools": [
+    "digiassistai"
+  ],
+  "guideVersion": "16 October 2026",
+  "chapters": [
+    [
+      "0:00",
+      "Build a real three-product store"
+    ],
+    [
+      "0:49",
+      "Plan a coherent catalogue"
+    ],
+    [
+      "1:34",
+      "Save the store identity"
+    ],
+    [
+      "2:18",
+      "Create the category and first item"
+    ],
+    [
+      "3:04",
+      "Set price, unit and stock"
+    ],
+    [
+      "3:51",
+      "Upload an accurate product image"
+    ],
+    [
+      "4:35",
+      "Add the holder and clips"
+    ],
+    [
+      "5:16",
+      "Draft, active and published"
+    ],
+    [
+      "5:55",
+      "Design the hero banner"
+    ],
+    [
+      "6:46",
+      "Add useful FAQ and footer text"
+    ],
+    [
+      "7:29",
+      "Understand the publish prerequisite"
+    ],
+    [
+      "8:11",
+      "Inspect the builder mobile preview"
+    ],
+    [
+      "8:52",
+      "Follow the visitor route"
+    ],
+    [
+      "9:34",
+      "Verify the basket arithmetic"
+    ],
+    [
+      "10:18",
+      "See the complete finished pages"
+    ],
+    [
+      "10:49",
+      "Complete top-to-bottom store tour"
+    ],
+    [
+      "12:13",
+      "Record what passed and remains untested"
+    ],
+    [
+      "12:55",
+      "Join our free worldwide community"
+    ]
+  ],
+  "note": "Fictional training shop with example prices, stock and artwork. No order or payment was submitted. Payment processing, confirmations, stock deduction and delivery remain untested. Products were returned to Draft and payment methods switched off after recording. Full-page tours animate actual browser captures and are labelled."
+},
+{
   "slug": "claude-website-copy",
   "channel": "Steve Toti",
   "title": "Write Website Copy with Claude: Real Draft and Human Corrections",
