@@ -382,3 +382,6 @@ Phoneviewportoverridehadnoeffect(actual1280px); local390pxharnessserverworkedaft
 
 ## 2026-10-16 — [Codex] Approved Claude website-copy lesson
 Added claude-website-copy with approved 12:23 Steve Toti lesson FhhOj_XZpHs, thumbnail and matching six-page protected workbook. Existing playback and consent/download flows retained. Release checks in progress.
+
+## 2026-10-16 — [Codex] Claude lesson production verified
+/videos/claude-website-copy live with FhhOj_XZpHs, index and thumbnail HTTP200, protected six-page workbook SHA256 a39887761c954ae1052d9fed1594656962d8b50af52eea6ea70d4ee816b35106. Production build READY; focused download/catalogue tests pass. Browser controls unavailable for extra playback check. YouTube public/processed/embeddable and English captions serving. Existing consent and player preserved.
